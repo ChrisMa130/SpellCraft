@@ -1,0 +1,17 @@
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\bin\ARM\Debug\Assembly-CSharp-firstpass.dll
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\bin\ARM\Debug\Assembly-CSharp-firstpass.pdb
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\bin\ARM\Debug\Assembly-CSharp-firstpass.pri
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\Assembly-CSharp-firstpass.csprojResolveAssemblyReference.cache
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\Assembly-CSharp-firstpass.dll
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\Assembly-CSharp-firstpass.pdb
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\priconfig.xml
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\priconfig.xml.intermediate
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\layout.resfiles
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\layout.resfiles.intermediate
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\resources.resfiles
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\resources.resfiles.intermediate
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\pri.resfiles
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\pri.resfiles.intermediate
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\qualifiers.txt
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\qualifiers.txt.intermediate
+D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\MultipleQualifiersPerDimensionFound.txt
