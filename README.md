@@ -1,2 +1,2 @@
 # SpellCraft
-Next-Gen AR Multiplayer Game
+Don't build inside the repo!
