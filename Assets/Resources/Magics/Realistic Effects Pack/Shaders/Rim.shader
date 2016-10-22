@@ -1,4 +1,4 @@
-Shader "Effects/Rim" {
+﻿Shader "Effects/Rim" {
 	Properties {
 	_Color ("Rim Color", Color) = (0.5,0.5,0.5,0.5)
 	_FPOW("FPOW Fresnel", Float) = 5.0

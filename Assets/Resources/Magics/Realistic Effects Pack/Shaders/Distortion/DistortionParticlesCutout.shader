@@ -6,20 +6,22 @@ Properties {
         _BumpMap ("Normalmap", 2D) = "bump" {}
 		_ColorStrength ("Color Strength", Float) = 1
 		_BumpAmt ("Distortion", Float) = 10
-		_InvFade ("Soft Particles Factor", Float) = 1.0
+		_InvFade ("Soft Particles Factor", Range(0,10)) = 1.0
 }
 
 Category {
 
-	Tags { "Queue"="Transparent"  "IgnoreProjector"="True"  "RenderType"="Transparent" }
+	Tags { "Queue"="Transparent"  "IgnoreProjector"="True"  "RenderType"="Opaque" }
 	Blend SrcAlpha OneMinusSrcAlpha
 	Cull Off 
+	Lighting Off 
 	ZWrite Off 
 	Fog { Mode Off}
 
 	SubShader {
 		GrabPass {							
-			Name "_GrabTexture"
+			Name "BASE"
+			Tags { "LightMode" = "Always" }
  		}
 		Pass {
 			Name "BASE"
@@ -60,6 +62,7 @@ sampler2D _GrabTexture;
 float4 _GrabTexture_TexelSize;
 fixed4 _TintColor;
 
+
 float4 _BumpMap_ST;
 float4 _MainTex_ST;
 float4 _CutOut_ST;
@@ -97,19 +100,22 @@ half4 frag( v2f i ) : COLOR
 		float sceneZ = LinearEyeDepth (UNITY_SAMPLE_DEPTH(tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.projPos))));
 		float partZ = i.projPos.z;
 		float fade = saturate (_InvFade * (sceneZ-partZ));
-		i.color.a *= fade*fade;
+		i.color.a *= fade;
 	}
 	#endif
 
+	// calculate perturbed coordinates
 	half2 bump = UnpackNormal(tex2D( _BumpMap, i.uvbump )).rg;
-	float2 offset = bump * _BumpAmt * _GrabTexture_TexelSize.xy * i.color.a;
+	float2 offset = bump * _BumpAmt * _GrabTexture_TexelSize.xy;
 	i.uvgrab.xy = offset * i.uvgrab.z + i.uvgrab.xy;
 	
 	half4 col = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(i.uvgrab));
-	half4 tex = tex2D(_MainTex, i.uvmain);
-	half cut = tex2D(_CutOut, i.uvcutout).a;
-	half4 emission = col * i.color + tex * _ColorStrength * _TintColor * i.color * i.color.a;
-    emission.a = _TintColor.a * cut;
+	//half4 tint = tex2D( _MainTex, i.uvmain );
+	//return col * tint;
+	fixed4 tex = tex2D(_MainTex, i.uvmain) * i.color;
+	fixed4 cut = tex2D(_CutOut, i.uvcutout) * i.color;
+	fixed4 emission = col * i.color + tex * _ColorStrength * _TintColor;
+    emission.a = _TintColor.a * i.color.a * (cut.a);
 	return emission;
 }
 ENDCG

@@ -25,7 +25,7 @@ function Start () {
 function LateUpdate () {
     if (target && (Input.GetMouseButton(0) || Input.GetMouseButton(1))) {
         var pos = Input.mousePosition;
-        if (pos.x < 350 && Screen.height - pos.y < 250) return;
+        if (pos.x < 250 && Screen.height - pos.y < 250) return;
 		#if UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6 
 		    Screen.lockCursor = true;
         #else

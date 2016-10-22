@@ -15,3 +15,4 @@ D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debu
 D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\qualifiers.txt
 D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\qualifiers.txt.intermediate
 D:\Github\Hololens\Learning\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\MultipleQualifiersPerDimensionFound.txt
+C:\Users\Xotic\Documents\Github\SpellCraft\UWP\Assembly-CSharp-firstpass\obj\ARM\Debug\ARM\Debug\Assembly-CSharp-firstpass.csprojResolveAssemblyReference.cache

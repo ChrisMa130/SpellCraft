@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -92,7 +92,7 @@ public class EffectSettings : MonoBehaviour
   
 
   public event EventHandler<CollisionInfo> CollisionEnter;
-  public event EventHandler<EventArgs> EffectDeactivated;
+  public event EventHandler EffectDeactivated;
 
   private GameObject[] active_key = new GameObject[100];
   private float[] active_value = new float[100];
