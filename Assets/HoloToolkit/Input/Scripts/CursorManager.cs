@@ -38,7 +38,7 @@ public partial class CursorManager : Singleton<CursorManager>
     {
         if (GazeManager.Instance == null || CursorOnHolograms == null || CursorOffHolograms == null)
         {
-            return;
+			return;
         }
 
         if (GazeManager.Instance.Hit)
