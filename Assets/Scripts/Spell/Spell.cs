@@ -26,11 +26,15 @@ public class Spell : MonoBehaviour {
 		this.spellEffect = spellEffect;
 	}*/
 
+	public float getDamage() {
+		return this.damage;
+	}
+
 	// reduce Player health on collision, and destroy spell instance
-	void OnCollisionEnter(Collider collision) {
+	void OnCollisionEnter(Collision collision) {
 		// reduce player health
-		collision.gameObject.GetComponents<Player>().ReduceHealth(damage);
-		Destroy (gameObject);
+		collision.gameObject.GetComponent<Player>().ReduceHealth(getDamage());
+		//Destroy (gameObject); Not needed, will get rid of explosion animation.
 	}
 
 	// destroy spell after hitting room boundary
