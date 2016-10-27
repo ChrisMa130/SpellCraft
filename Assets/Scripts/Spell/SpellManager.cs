@@ -15,14 +15,14 @@ public class SpellManager : MonoBehaviour {
 	
 	}
 
-	public void castSpell(String spellName) {
+	public void castSpell(int spellName) {
 		// check spell existence
 
 		// check and reduce mp 
 		// if not enough mp show message
 
 		Vector3 offset = Camera.main.transform.forward * 0.5f;
-		GameObject spell = Instantiate (Spells [index], Camera.main.transform.position + offset, Camera.main.transform.rotation) as GameObject;
+		GameObject spell = Instantiate (SpellBook [spellName], Camera.main.transform.position + offset, Camera.main.transform.rotation) as GameObject;
 		spell.GetComponent<EffectSettings> ().Target = GameObject.Find ("BasicCursor");
 	}
 }

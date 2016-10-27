@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class Player : MonoBehaviour {
@@ -19,7 +20,8 @@ public class Player : MonoBehaviour {
 		// single player mode
 		if (singlePlayer) {
 			if (healthPoint <= 0) {
-				Application.loadedLevel (LoseScene);
+				SceneManager.LoadScene (0);
+				//Application.loadedLevel(null);
 				Destroy (gameObject);
 			}
 		} 
@@ -30,12 +32,13 @@ public class Player : MonoBehaviour {
 					gameStarted = false;
 
 					//network code here
-
-					Application.LoadLevel (LoseScene);
+					SceneManager.LoadScene(0);
+					//Application.LoadLevel ();
 					Destroy (gameObject);
 				}
 			} else {
-				Application.LoadLevel (WinScene);
+				SceneManager.LoadScene (0);
+				//Application.LoadLevel (null);
 				Destroy (gameObject);
 			}
 		}
@@ -43,7 +46,7 @@ public class Player : MonoBehaviour {
 
 	// subtract health from spell damage (call by Spell)
 	public void ReduceHealth(float damage) {
-		healthPoint -= damgage;
+		healthPoint -= damage;
 	}
 
 	// decrease mp from spell cost

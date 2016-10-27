@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class SpellManager : MonoBehaviour {
+public class SpellManager_prototype : MonoBehaviour {
 	public GameObject[] Spells;
 
 	// Use this for initialization
