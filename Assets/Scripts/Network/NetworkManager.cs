@@ -5,8 +5,8 @@ public class NetworkManager : MonoBehaviour {
 
 	private bool isSinglePlayer = false;
 	private bool gameStarted = false;
-	private int IPPlayer1 = null;
-	private int IPPlayer2 = null; // should be the same as player1
+	private int IPPlayer1;
+	private int IPPlayer2; // should be the same as player1
 	private float timer1 = 0;
 	private float timer2 = 0;
 	private float playTimer = 0;
