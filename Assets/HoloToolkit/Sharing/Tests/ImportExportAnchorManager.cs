@@ -39,6 +39,9 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
         Importing
     }
 
+    // GET RID OF IT WHEN FINISHED
+    public int join_count = 0;
+
     ImportExportState currentState = ImportExportState.Start;
 
     public string StateName
@@ -126,6 +129,8 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
         currentState = ImportExportState.AnchorStore_Initializing;
         WorldAnchorStore.GetAsync(AnchorStoreReady);
 
+		SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
+
         //Wait for a notification that the sharing manager has been initialized (connected to sever)
         SharingStage.Instance.SharingManagerConnected += SharingManagerConnected;
     }
@@ -156,7 +161,7 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
 
         // We will register for session joined to indicate when the sharing service
         // is ready for us to make room related requests.
-        SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
+        //SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
     }
 
     /// <summary>
@@ -220,6 +225,8 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
         // We don't need to get this event anymore.
         SharingSessionTracker.Instance.SessionJoined -= Instance_SessionJoined;
 
+        // DELETE WHEN DONE
+        join_count++;
         // We still wait to wait a few seconds for everything to settle.
         Invoke("MarkSharingServiceReady", 5);
     }
