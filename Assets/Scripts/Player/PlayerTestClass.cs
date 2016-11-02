@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿// Test class for the player monobehaviour. Unity does not support direct
+// unit testing of MonoBehaviours and so requires the code duplication
+// seen here. The game logic is fundamentally the same as the
+// player class used in the game.
 
-public class Player : MonoBehaviour
-{
+public class PlayerTestClass {
 
     private int MAX_HEALTH = 100;
     private int MAX_MAGIC = 10;
@@ -12,48 +14,44 @@ public class Player : MonoBehaviour
 
     private int health;
     private int magic;
-
+	
     // Instantiates an object of type Player.
     // This is the data model that represents the current state of a player
     // within the game world. It tracks the health and magic points of the
     // player and reports those as requested to the appropriate game objects.
     // Representation invariant: A player must always have 0 < health <= 100
     //                           A player must always have 0 <= magic <= 10
-    void Start()
+	public PlayerTestClass ()
     {
         health = MAX_HEALTH;
         magic = MAX_MAGIC;
     }
 
-    void Update() { }
-
-    // Modify health by spell. If a spell is of the healing type, then the
+	// Modify health by spell. If a spell is of the healing type, then the
     // argument passed to this will be a negative value, resulting in a
     // health increase.
     // Parameters- damage: the amount of damage done. Negative for healing
     // Returns- current health as an integer
-    public int modifyHealth(int damage)
-    {
+	public int modifyHealth(int damage) {
         this.health -= damage;
         if (this.health < 0)
         {
             this.health = 0;
-        }
-        else if (this.health > MAX_HEALTH)
+        } else if (this.health > MAX_HEALTH)
         {
             this.health = MAX_HEALTH;
         }
         return this.health;
-    }
+	}
 
-    // Modify mana by orbs or casting of spells. If the mana is being
+	// Modify mana by orbs or casting of spells. If the mana is being
     // increased, the argument is negative.
     // Parameters- magicPoints: the amount by which magic is changing. Negative
     //                          for orbs, indicating an increase
     // Returns- current magic as an integer. If for some reason this is called
     //          and the player does not have sufficient magic points to cast
     //          the requested spell, this will instead return -1.
-    public int modifyMagic(int magicPoints)
+	public int modifyMagic(int magicPoints)
     {
         if (magicPoints > magic)
         {
