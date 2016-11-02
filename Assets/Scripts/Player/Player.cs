@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using HoloToolkit.Unity;
+using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Singleton<Player>
 {
-
-    private int MAX_HEALTH = 100;
-    private int MAX_MAGIC = 10;
+    public int MAX_HEALTH = 100;
+    public int MIN_HEALTH = 0;
+    public int MAX_MAGIC = 10;
 
     // Looks like these are no longer needed. Review with team.
     //private bool gameStarted = false;  
@@ -12,7 +13,7 @@ public class Player : MonoBehaviour
 
     private int health;
     private int magic;
-
+    public bool alive;
     // Instantiates an object of type Player.
     // This is the data model that represents the current state of a player
     // within the game world. It tracks the health and magic points of the
@@ -23,6 +24,14 @@ public class Player : MonoBehaviour
     {
         health = MAX_HEALTH;
         magic = MAX_MAGIC;
+        alive = true;
+    }
+
+    public Player()
+    {
+        health = MAX_HEALTH;
+        magic = MAX_MAGIC;
+        alive = true;
     }
 
     void Update() { }
@@ -35,9 +44,13 @@ public class Player : MonoBehaviour
     public int modifyHealth(int damage)
     {
         this.health -= damage;
-        if (this.health < 0)
+        if (this.health < MIN_HEALTH)
         {
-            this.health = 0;
+            this.health = MIN_HEALTH;
+            this.alive = false;
+            // Some kind of death happens now
+            // Needs GameStateManager to display a 'defeated' scene to player
+            // disconnect player there as well?
         }
         else if (this.health > MAX_HEALTH)
         {

@@ -1,13 +1,21 @@
-﻿using NSubstitute;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using UnityEngine;
 
 public class PlayerTest {
 
     [Test]
+    public void TestPlayerCtor()
+    {
+        Player player = new Player();
+        Assert.AreEqual(100, player.getHealth());
+        Assert.AreEqual(10, player.getMagic());
+        Assert.IsTrue(player.alive);
+    }
+
+    [Test]
     public void HealthCanNotGoBelowZero() {
-        PlayerTestClass player = new PlayerTestClass();
+        Player player = new Player();
         int health = player.getHealth();
-        Assert.AreEqual(100, health);
         health = player.modifyHealth(100);
         Assert.AreEqual(health, 0);
         health = player.modifyHealth(1);
@@ -18,9 +26,8 @@ public class PlayerTest {
     [Test]
     public void HealthCanNotGoOverHundred()
     {
-        PlayerTestClass player = new PlayerTestClass();
+        Player player = new Player();    
         int health = player.getHealth();
-        Assert.AreEqual(health, 100);
         health = player.modifyHealth(-1);
         Assert.AreEqual(health, 100);
         Assert.AreEqual(player.getHealth(), 100);
@@ -29,9 +36,8 @@ public class PlayerTest {
     [Test]
     public void TestNoDamage()
     {
-        PlayerTestClass player = new PlayerTestClass();
+        Player player = new Player();
         int health = player.getHealth();
-        Assert.AreEqual(health, 100);
         health = player.modifyHealth(0);
         Assert.AreEqual(health, 100);
         Assert.AreEqual(player.getHealth(), 100);
@@ -40,20 +46,29 @@ public class PlayerTest {
     [Test]
     public void TestNormalDamage()
     {
-        PlayerTestClass player = new PlayerTestClass();
+        Player player = new Player();
         int health = player.getHealth();
-        Assert.AreEqual(health, 100);
         health = player.modifyHealth(20);
         Assert.AreEqual(health, 80);
         Assert.AreEqual(player.getHealth(), 80);
     }
 
     [Test]
+    public void TestDamageTwice()
+    {
+        Player player = new Player();
+        int health = player.getHealth();
+        player.modifyHealth(20);
+        player.modifyHealth(30);
+        health = player.getHealth();
+        Assert.AreEqual(health, 50);
+    }
+
+    [Test]
     public void TestMagicCanNotGoBelowZero()
     {
-        PlayerTestClass player = new PlayerTestClass();
+        Player player = new Player();
         int magic = player.getMagic();
-        Assert.AreEqual(magic, 10);
         magic = player.modifyMagic(10);
         Assert.AreEqual(magic, 0);
         Assert.AreEqual(player.getMagic(), 0);
@@ -65,11 +80,31 @@ public class PlayerTest {
     [Test]
     public void TestMagicCanNotGoOverTen()
     {
-        PlayerTestClass player = new PlayerTestClass();
+        Player player = new Player();
         int magic = player.getMagic();
-        Assert.AreEqual(magic, 10);
         magic = player.modifyMagic(-1);
         Assert.AreEqual(magic, 10);
         Assert.AreEqual(player.getMagic(), 10);
+    }
+
+    [Test]
+    public void TestMagicNormalCast()
+    {
+        Player player = new Player();
+        int magic = player.getMagic();
+        player.modifyMagic(1);
+        magic = player.getMagic();
+        Assert.AreEqual(magic, 9);
+    }
+
+    [Test]
+    public void TestMagicCastTwo()
+    {
+        Player player = new Player();
+        int magic = player.getMagic();
+        player.modifyMagic(1);
+        player.modifyMagic(1);
+        magic = player.getMagic();
+        Assert.AreEqual(magic, 8);
     }
 }
