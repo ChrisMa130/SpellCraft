@@ -25,4 +25,29 @@ public class PlayerTest {
         Assert.AreEqual(health, 100);
         Assert.AreEqual(player.getHealth(), 100);
     }
+
+    [Test]
+    public void TestNoDamage()
+    {
+        PlayerTestClass player = new PlayerTestClass();
+        int health = player.getHealth();
+        Assert.AreEqual(health, 100);
+        health = player.modifyHealth(0);
+        Assert.AreEqual(health, 100);
+        Assert.AreEqual(player.getHealth(), 100);
+    }
+
+    [Test]
+    public void TestMagicCanNotGoBelowZero()
+    {
+        PlayerTestClass player = new PlayerTestClass();
+        int magic = player.getMagic();
+        Assert.AreEqual(magic, 10);
+        magic = player.modifyMagic(10);
+        Assert.AreEqual(magic, 0);
+        Assert.AreEqual(player.getMagic(), 0);
+        magic = player.modifyMagic(-2);
+        Assert.AreEqual(magic, -1);
+        Assert.AreEqual(player.getMagic(), 0);
+    }
 }
