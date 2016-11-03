@@ -641,7 +641,7 @@ GameObject:
   - 114: {fileID: 1130733694}
   - 114: {fileID: 1130733697}
   m_Layer: 0
-  m_Name: Manager
+  m_Name: InputManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -903,7 +903,7 @@ GameObject:
   - 114: {fileID: 1805257174}
   - 114: {fileID: 1805257173}
   m_Layer: 0
-  m_Name: SpellManager
+  m_Name: Anchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
