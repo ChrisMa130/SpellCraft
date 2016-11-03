@@ -635,7 +635,7 @@ MonoBehaviour:
     Response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1805257173}
+        - m_Target: {fileID: 0}
           m_MethodName: CastSpell
           m_Mode: 3
           m_Arguments:
@@ -653,7 +653,7 @@ MonoBehaviour:
     Response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1805257173}
+        - m_Target: {fileID: 0}
           m_MethodName: CastSpell
           m_Mode: 3
           m_Arguments:
@@ -671,7 +671,7 @@ MonoBehaviour:
     Response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1805257173}
+        - m_Target: {fileID: 0}
           m_MethodName: CastSpell
           m_Mode: 3
           m_Arguments:
@@ -689,7 +689,7 @@ MonoBehaviour:
     Response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1805257173}
+        - m_Target: {fileID: 0}
           m_MethodName: CastSpell
           m_Mode: 3
           m_Arguments:
@@ -870,8 +870,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1805257172}
-  - 114: {fileID: 1805257173}
   - 114: {fileID: 1805257174}
+  - 114: {fileID: 1805257173}
   m_Layer: 0
   m_Name: SpellManager
   m_TagString: Untagged
@@ -900,7 +900,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1805257171}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae36932c11c95ed4196997316431e35d, type: 3}
+  m_Script: {fileID: 11500000, guid: fb908f8f20a97d1439ee15c9af5f4c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Spells:
