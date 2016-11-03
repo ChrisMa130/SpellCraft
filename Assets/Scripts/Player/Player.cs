@@ -1,61 +1,96 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using System.Collections;
+﻿using HoloToolkit.Unity;
+using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : Singleton<Player>
+{
+    public int MAX_HEALTH = 100;
+    public int MIN_HEALTH = 0;
+    public int MAX_MAGIC = 10;
 
-	private float healthPoint = 10f;
-	private float magicPoint = 10f;
+    // Looks like these are no longer needed. Review with team.
+    //private bool gameStarted = false;  
+    //private bool singlePlayer = false;
 
-	private bool gameStarted = false;  // once network connected, set to true
-	private bool singlePlayer = false;
+    private int health;
+    private int magic;
+    public bool alive;
+    // Instantiates an object of type Player.
+    // This is the data model that represents the current state of a player
+    // within the game world. It tracks the health and magic points of the
+    // player and reports those as requested to the appropriate game objects.
+    // Representation invariant: A player must always have 0 < health <= 100
+    //                           A player must always have 0 <= magic <= 10
+    void Start()
+    {
+        health = MAX_HEALTH;
+        magic = MAX_MAGIC;
+        alive = true;
+    }
 
-	// Use this for initialization
-	void Start () {
-		// set single player and gamestarted to true if on single player mode
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		// single player mode
-		if (singlePlayer) {
-			if (healthPoint <= 0) {
-				SceneManager.LoadScene (0);
-				//Application.loadedLevel(null);
-				Destroy (gameObject);
-			}
-		} 
-		// multiplayer mode
-		else {
-			if (gameStarted) {
-				if (healthPoint <= 0) {
-					gameStarted = false;
+    public Player()
+    {
+        health = MAX_HEALTH;
+        magic = MAX_MAGIC;
+        alive = true;
+    }
 
-					//network code here
-					SceneManager.LoadScene(0);
-					//Application.LoadLevel ();
-					Destroy (gameObject);
-				}
-			} else {
-				SceneManager.LoadScene (0);
-				//Application.LoadLevel (null);
-				Destroy (gameObject);
-			}
-		}
-	}
+    void Update() { }
 
-	// subtract health from spell damage (call by Spell)
-	public void ReduceHealth(float damage) {
-		healthPoint -= damage;
-	}
+    // Modify health by spell. If a spell is of the healing type, then the
+    // argument passed to this will be a negative value, resulting in a
+    // health increase.
+    // Parameters- damage: the amount of damage done. Negative for healing
+    // Returns- current health as an integer
+    public int modifyHealth(int damage)
+    {
+        this.health -= damage;
+        if (this.health < MIN_HEALTH)
+        {
+            this.health = MIN_HEALTH;
+            this.alive = false;
+            // Some kind of death happens now
+            // Needs GameStateManager to display a 'defeated' scene to player
+            // disconnect player there as well?
+        }
+        else if (this.health > MAX_HEALTH)
+        {
+            this.health = MAX_HEALTH;
+        }
+        return this.health;
+    }
 
-	// decrease mp from spell cost
-	public void ReduceMagic(float mp) {
-		magicPoint -= mp;
-	}
+    // Modify mana by orbs or casting of spells. If the mana is being
+    // increased, the argument is negative.
+    // Parameters- magicPoints: the amount by which magic is changing. Negative
+    //                          for orbs, indicating an increase
+    // Returns- current magic as an integer. If for some reason this is called
+    //          and the player does not have sufficient magic points to cast
+    //          the requested spell, this will instead return -1.
+    public int modifyMagic(int magicPoints)
+    {
+        if (magicPoints > magic)
+        {
+            return -1;
+        }
+        magic -= magicPoints;
+        if (magic > MAX_MAGIC)
+        {
+            magic = MAX_MAGIC;
+        }
+        return this.magic;
+    }
 
-	// increase magic from orbs (call by Orb)
-	public void GainMP(float mp) {
-		magicPoint += mp;
-	}
+    // Returns the current health of the player.
+    // Returns: health as an integer
+    public int getHealth()
+    {
+        return this.health;
+    }
+
+    // Returns the current magic points of the player.
+    // Returns: magic points as an integer
+    public int getMagic()
+    {
+        return this.magic;
+    }
 }
