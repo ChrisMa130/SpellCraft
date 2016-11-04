@@ -21,7 +21,7 @@ public class LocalPlayerManager : Singleton<LocalPlayerManager>
             Quaternion headRotation = Quaternion.Inverse(this.transform.rotation) * headTransform.rotation;
             int playerHealth = Player.Instance.getHealth();
             CustomMessages.Instance.SendHeadTransform(headPosition, headRotation);
-            CustomMessages.Instance.UpdatePlayerHealth(playerHealth);
+            CustomMessages.Instance.UpdatePlayerHealth(headPosition, playerHealth);
         }
     }
 }

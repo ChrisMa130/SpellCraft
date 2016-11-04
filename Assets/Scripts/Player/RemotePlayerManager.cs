@@ -14,8 +14,8 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
     {
         public long UserID;
         public GameObject HeadObject;
-        public int playerHealth;
         public Vector3 headObjectPositionOffset;
+        public int playerHealth;
         public bool Active;
         public bool Anchored;
     }
@@ -127,6 +127,7 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
 
         RemoteHeadInfo headInfo = GetRemoteHeadInfo(userID);
         headInfo.playerHealth = msg.ReadInt32();
+        Vector3 remoteHeadPosition = customMessages.ReadVector3(msg);
 
         // Configure the remote user's head sprite
         if (headInfo.HeadObject != null)
