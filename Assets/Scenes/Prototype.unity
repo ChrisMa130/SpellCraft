@@ -305,6 +305,7 @@ GameObject:
   - 136: {fileID: 779350290}
   - 114: {fileID: 779350289}
   - 114: {fileID: 779350291}
+  - 114: {fileID: 779350292}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -392,7 +393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f82fb976ea6eed4793b2bef76906d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_HEALTH: 51
+  MAX_HEALTH: 100
   MIN_HEALTH: 0
   MAX_MAGIC: 10
   alive: 1
@@ -418,6 +419,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dcc456ee6d625274792e05bd51e069f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &779350292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 779350283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 893994d95b70cd149863e276601e8f9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &880479451
@@ -978,6 +990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bea4ead241274242ad117fd38954b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
 --- !u!1 &1805257171
 GameObject:
   m_ObjectHideFlags: 0
