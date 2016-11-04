@@ -39,6 +39,7 @@ public class CustomMessages : Singleton<CustomMessages> {
 		HeadTransform = MessageID.UserMessageIDStart,
 		SpellMessage,
 		LocationMessage,
+        PlayerHealth,
         SendHeadTransform,
         StageTransform,
         Max 
@@ -285,4 +286,20 @@ public class CustomMessages : Singleton<CustomMessages> {
 		}
 	}
 
+    public void UpdatePlayerHealth(int playerHealth)
+    {
+        if (this.serverConnection != null && this.serverConnection.IsConnected())
+        {
+            // Create an outgoin network message to contain all the info we want to send
+            NetworkOutMessage msg = CreateMessage((byte)TestMessageID.PlayerHealth);
+            msg.Write(playerHealth);
+
+            // Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
+            this.serverConnection.Broadcast(
+                msg,
+                MessagePriority.Immediate,
+                MessageReliability.Reliable,
+                MessageChannel.Avatar);
+        }
+    }
 }
