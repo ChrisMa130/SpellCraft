@@ -38,16 +38,15 @@ public class CustomMessages : Singleton<CustomMessages> {
 	{
 		HeadTransform = MessageID.UserMessageIDStart,
 		SpellMessage,
-		LocationMessage
+		LocationMessage,
         PlayerHealth,
-	SendHeadTransform,
-	StageTransform,
-	SendOrb, // or spawned up
-	PlayerHit,
-	OrbPickedUp,
-	PlayerStatus,
-	DeathMessage,
-	PlayerHealth,
+        SendHeadTransform,
+        StageTransform,
+        SendOrb, // or spawned up
+        PlayerHit,
+        OrbPickedUp,
+        PlayerStatus,
+        DeathMessage,
         /*
         Stuff like: PlayerHit, OrbPickedUp, PlayerStatus(send's hp and mana?) etc..          
           
@@ -118,7 +117,7 @@ public class CustomMessages : Singleton<CustomMessages> {
     void Start() {
         SharingStage.Instance.SharingManagerConnected += SharingManagerConnected;
         ctime = CurrentTimeMillis();
-        timeoutTimer = ctime += TIMEOUT;
+        timer1 = ctime += TIMEOUT;
         //SharingStage.Instance.
     }
 
@@ -145,7 +144,7 @@ public class CustomMessages : Singleton<CustomMessages> {
         // ctime not zero: we check timeout.
         // first update ctime.
         ctime = CurrentTimeMillis();
-        if (ctime > timeoutTimer)
+        if (ctime > timer1)
         {
             // We timed out.
             // Do stuff:
@@ -371,7 +370,7 @@ public class CustomMessages : Singleton<CustomMessages> {
 
     void OnMessageReceived(NetworkConnection connection, NetworkInMessage msg)
     {
-        timeoutTimer = ctime += TIMEOUT;
+        timer1 = ctime += TIMEOUT;
 
         byte messageType = msg.ReadByte();
         MessageCallback messageHandler = MessageHandlers[(TestMessageID)messageType];
@@ -414,25 +413,5 @@ public class CustomMessages : Singleton<CustomMessages> {
     public Quaternion ReadQuaternion(NetworkInMessage msg)
     {
         return new Quaternion(msg.ReadFloat(), msg.ReadFloat(), msg.ReadFloat(), msg.ReadFloat());
-    }
-
-
-
-    public void UpdatePlayerHealth(Vector3 headPosition, int playerHealth)
-    {
-        if (this.serverConnection != null && this.serverConnection.IsConnected())
-        {
-            // Create an outgoin network message to contain all the info we want to send
-            NetworkOutMessage msg = CreateMessage((byte)TestMessageID.PlayerHealth);
-            AppendVector3(msg, headPosition);
-            msg.Write(playerHealth);
-
-            // Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
-            this.serverConnection.Broadcast(
-                msg,
-                MessagePriority.Immediate,
-                MessageReliability.Reliable,
-                MessageChannel.Avatar);
-        }
     }
 }
