@@ -13,7 +13,7 @@ public class Spell : MonoBehaviour {
 	}
 
 	// get damage of spell
-	public float getMPCost() {
+	public int getMPCost() {
 		return this.mpCost;
 	}
 

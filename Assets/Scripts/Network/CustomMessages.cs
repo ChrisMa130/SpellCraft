@@ -8,18 +8,17 @@ using UnityEngine;
 /// <summary>
 /// This class handles networking for users.
 /// </summary>
-public class CustomMessages : Singleton<CustomMessages>
-{
+public class CustomMessages : Singleton<CustomMessages> {
 
     // TIMEOUT default value = 5000 milliseconds
     private const long TIMEOUT = 5000;
 
     private bool isSinglePlayer = false;
     private bool gameStarted = false;
-    //private IPAddress IPPlayer1 = null;
-    //private IPAddress IPPlayer2 = null; // should be the same as player1
-    private long timeoutTimer = 0; // timeouts, are they needed?
-                                   //private long timer2 = 0;
+    private IPAddress IPPlayer1 = null;
+    private IPAddress IPPlayer2 = null; // should be the same as player1
+    private long timer1 = 0; // timeouts, are they needed?
+    private long timer2 = 0;
     private float playTimer = 0;
 
     // Timing stuff:
@@ -36,18 +35,19 @@ public class CustomMessages : Singleton<CustomMessages>
 
     // MessageType (first byte of message received: describes that kind of message we have).
     public enum TestMessageID : byte
-    {
-        HeadTransform = MessageID.UserMessageIDStart,
-        SpellMessage,
-        LocationMessage,
-        SendHeadTransform,
-        StageTransform,
-        SendOrb, // or spawned up
-        PlayerHit,
-        OrbPickedUp,
-        PlayerStatus,
-        DeathMessage,
+	{
+		HeadTransform = MessageID.UserMessageIDStart,
+		SpellMessage,
+		LocationMessage
         PlayerHealth,
+	SendHeadTransform,
+	StageTransform,
+	SendOrb, // or spawned up
+	PlayerHit,
+	OrbPickedUp,
+	PlayerStatus,
+	DeathMessage,
+	PlayerHealth,
         /*
         Stuff like: PlayerHit, OrbPickedUp, PlayerStatus(send's hp and mana?) etc..          
           
@@ -115,8 +115,7 @@ public class CustomMessages : Singleton<CustomMessages>
     NetworkConnection serverConnection;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         SharingStage.Instance.SharingManagerConnected += SharingManagerConnected;
         ctime = CurrentTimeMillis();
         timeoutTimer = ctime += TIMEOUT;
@@ -418,4 +417,22 @@ public class CustomMessages : Singleton<CustomMessages>
     }
 
 
+
+    public void UpdatePlayerHealth(Vector3 headPosition, int playerHealth)
+    {
+        if (this.serverConnection != null && this.serverConnection.IsConnected())
+        {
+            // Create an outgoin network message to contain all the info we want to send
+            NetworkOutMessage msg = CreateMessage((byte)TestMessageID.PlayerHealth);
+            AppendVector3(msg, headPosition);
+            msg.Write(playerHealth);
+
+            // Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
+            this.serverConnection.Broadcast(
+                msg,
+                MessagePriority.Immediate,
+                MessageReliability.Reliable,
+                MessageChannel.Avatar);
+        }
+    }
 }
