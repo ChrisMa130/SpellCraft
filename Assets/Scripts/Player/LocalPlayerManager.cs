@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using HoloToolkit.Unity;
-using HoloToolkit.Sharing;
 
 /// <summary>
 /// Manages local player state.

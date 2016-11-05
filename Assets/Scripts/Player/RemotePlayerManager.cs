@@ -126,9 +126,10 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
         long userID = msg.ReadInt64();
 
         RemoteHeadInfo headInfo = GetRemoteHeadInfo(userID);
-        headInfo.playerHealth = msg.ReadInt32();
+        
         Vector3 remoteHeadPosition = customMessages.ReadVector3(msg);
 
+        headInfo.playerHealth = msg.ReadInt32();
         // Configure the remote user's head sprite
         if (headInfo.HeadObject != null)
         {
@@ -139,6 +140,7 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
         headInfo.HeadObject.GetComponent<HealthDisplayBehavior>().setHealth(headInfo.playerHealth);
         headInfo.headObjectPositionOffset = headInfo.HeadObject.transform.localPosition;
         headInfo.HeadObject.transform.parent = this.transform;
+        headInfo.HeadObject.GetComponent<SpriteRenderer>().enabled = true;
         headInfo.Active = true;
     }
 
