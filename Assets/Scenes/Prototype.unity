@@ -306,7 +306,7 @@ GameObject:
   - 114: {fileID: 779350289}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Player
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -391,10 +391,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f82fb976ea6eed4793b2bef76906d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_HEALTH: 100
-  MIN_HEALTH: 0
-  MAX_MAGIC: 10
-  alive: 1
 --- !u!136 &779350290
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -624,7 +620,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1039386997}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0006edc78970b2f46941ea7d604c75e1, type: 3}
   m_Name: 
@@ -642,7 +638,7 @@ GameObject:
   - 114: {fileID: 1130733697}
   m_Layer: 0
   m_Name: InputManager
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -661,11 +657,11 @@ MonoBehaviour:
   RecognizerStart: 0
   KeywordsAndResponses:
   - Keyword: incendio
-    KeyCode: 0
+    KeyCode: 32
     Response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1805257173}
           m_MethodName: CastSpell
           m_Mode: 3
           m_Arguments:
@@ -684,12 +680,12 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 0}
-          m_MethodName: CastSpell
-          m_Mode: 3
+          m_MethodName: 
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
+            m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: red
             m_BoolArgument: 0
@@ -902,6 +898,7 @@ GameObject:
   - 4: {fileID: 1805257172}
   - 114: {fileID: 1805257174}
   - 114: {fileID: 1805257173}
+  - 114: {fileID: 1805257175}
   m_Layer: 0
   m_Name: Anchor
   m_TagString: Untagged
@@ -950,6 +947,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   join_count: 0
+--- !u!114 &1805257175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1805257171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b47de7221ec097e47970748a570af720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Orbs: []
+  nextIndex: 0
+  sampleOrb: {fileID: 1000011915976636, guid: 59e476987f313134c915bbf8ff8bf5b5, type: 2}
 --- !u!1001 &2079041612
 Prefab:
   m_ObjectHideFlags: 0

@@ -10,11 +10,11 @@ public class PickUpManager : MonoBehaviour
 
     public List<GameObject> Orbs;
     public int nextIndex;
-    public GameObject[] sampleOrb;
+    public GameObject sampleOrb;
 
     private bool isPrimary;
 
-    private const float SPAWN_TIME = 5.0f; // 15 seconds
+    private const float SPAWN_TIME = 5.0f; // 5 seconds
     private static float tillOrbSpawnTime;
 
     // Use this for initialization
@@ -53,7 +53,7 @@ public class PickUpManager : MonoBehaviour
     //TODO
     private Vector3 calculateOrbLocation()
     {
-        return new Vector3(0,0,nextIndex);
+        return new Vector3(0,0,nextIndex + 3);
     }
 
     // todo fix and and adapt from ProcessRemoteSpell
@@ -86,7 +86,7 @@ public class PickUpManager : MonoBehaviour
 
     public void GenerateOrb(Vector3 loc, int index)
     {
-        GameObject spawnedOrb = Instantiate(sampleOrb[0], loc, Quaternion.identity) as GameObject;
+        GameObject spawnedOrb = Instantiate(sampleOrb, loc, Quaternion.identity) as GameObject;
         spawnedOrb.transform.parent = this.transform;
         spawnedOrb.GetComponent<MeshRenderer>().enabled = true;
         spawnedOrb.GetComponent<Orb>().SetIndex(index);

@@ -4,11 +4,11 @@ using System.Collections;
 public class Spell : MonoBehaviour {
 
 	private string spellName = null;
-	private float damage = 0f;
-	private float mpCost = 0f;
+	private int damage = 0;
+	private int mpCost = 0;
 
 	// get damage of spell
-	public float getDamage() {
+	public int getDamage() {
 		return this.damage;
 	}
 
@@ -20,6 +20,6 @@ public class Spell : MonoBehaviour {
 	// reduce Player health on collision, and destroy spell instance
 	void OnTriggerEnter(Collider collision) {
 		// reduce player health
-		collision.gameObject.GetComponent<Player>().ReduceHealth(getDamage());
+		collision.gameObject.GetComponent<Player>().modifyHealth(this.getDamage());
 	}
 }
