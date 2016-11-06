@@ -20,8 +20,7 @@ public class Orb : MonoBehaviour {
 
 	// Use this for initialization
 	public void Start () {
-
-	
+        Debug.Log("Starting orb debug");	
 	}
 	
 	// Update is called once per frame
@@ -30,12 +29,10 @@ public class Orb : MonoBehaviour {
 	}
 
 	// increase mp for player with collide
-	void onTriggerEnter(Collider collision) {
+	void OnTriggerEnter(Collider collision) {
         if (collision.tag.Equals("MainCamera"))
         {
             collision.gameObject.GetComponent<Player>().modifyMagic(MAGIC_STORED);
-
-
 
             CustomMessages.Instance.SendOrbPickedUpMessage(index);
             Destroy(gameObject);

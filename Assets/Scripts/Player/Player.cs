@@ -23,7 +23,7 @@ public class Player : Singleton<Player>
     void Start()
     {
         health = MAX_HEALTH;
-        magic = MAX_MAGIC;
+        magic = 3;
         alive = true;
     }
 
@@ -68,11 +68,12 @@ public class Player : Singleton<Player>
     //          the requested spell, this will instead return -1.
     public int modifyMagic(int magicPoints)
     {
+        
         if (magicPoints > magic)
         {
             return -1;
         }
-        magic -= magicPoints;
+        magic += magicPoints;
         if (magic > MAX_MAGIC)
         {
             magic = MAX_MAGIC;
@@ -93,4 +94,5 @@ public class Player : Singleton<Player>
     {
         return this.magic;
     }
+
 }
