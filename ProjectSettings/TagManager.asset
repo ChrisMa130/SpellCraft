@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - UIManager
+  - IP_Field
   layers:
   - Default
   - TransparentFX
