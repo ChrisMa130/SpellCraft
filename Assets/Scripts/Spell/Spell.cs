@@ -20,6 +20,6 @@ public class Spell : MonoBehaviour {
 	// reduce Player health on collision, and destroy spell instance
 	void OnTriggerEnter(Collider collision) {
 		// reduce player health
-		collision.gameObject.GetComponent<Player>().modifyHealth(getDamage());
+		collision.gameObject.GetComponent<Player>().modifyHealth(this.getDamage());
 	}
 }

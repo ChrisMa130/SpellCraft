@@ -10,16 +10,16 @@ using UnityEngine;
 /// </summary>
 public class CustomMessages : Singleton<CustomMessages> {
 
-	// TIMEOUT default value = 5000 milliseconds
-	private const long TIMEOUT = 5000;  
+    // TIMEOUT default value = 5000 milliseconds
+    private const long TIMEOUT = 5000;
 
-	private bool isSinglePlayer = false;
-	private bool gameStarted = false;
-	private IPAddress IPPlayer1 = null;
-	private IPAddress IPPlayer2 = null; // should be the same as player1
-	private long timer1 = 0; // timeouts, are they needed?
-	private long timer2 = 0;
-	private float playTimer = 0;
+    private bool isSinglePlayer = false;
+    private bool gameStarted = false;
+    private IPAddress IPPlayer1 = null;
+    private IPAddress IPPlayer2 = null; // should be the same as player1
+    private long timer1 = 0; // timeouts, are they needed?
+    private long timer2 = 0;
+    private float playTimer = 0;
 
     // Timing stuff:
     private static long ctime = 0; // ctime will represent the current time.
@@ -42,8 +42,23 @@ public class CustomMessages : Singleton<CustomMessages> {
         PlayerHealth,
         SendHeadTransform,
         StageTransform,
-        Max 
-	}
+        SendOrb, // or spawned up
+        PlayerHit,
+        OrbPickedUp,
+        PlayerStatus,
+        DeathMessage,
+        /*
+        Stuff like: PlayerHit, OrbPickedUp, PlayerStatus(send's hp and mana?) etc..          
+          
+         
+         */
+        Max
+    }
+
+    public ClientRole isPrimary()
+    {
+        return SharingStage.Instance.ClientRole;
+    }
 
     public enum UserMessageChannels
     {
@@ -66,20 +81,25 @@ public class CustomMessages : Singleton<CustomMessages> {
 
     // The SharingStage ? 
     //private static SharingStage ss = SharingStage.Instance;
-	//private static NetworkConnection network = ss.Manager.GetServerConnection();
+    //private static NetworkConnection network = ss.Manager.GetServerConnection();
 
     /// <summary>
     /// See projectilelauncher.cs in academy 240 start function.
     /// </summary>
     /// <param name="msg"></param>
     public delegate void MessageCallback(NetworkInMessage msg);
-	private Dictionary<TestMessageID, MessageCallback> _MessageHandlers = new Dictionary<TestMessageID, MessageCallback>();
-	public Dictionary<TestMessageID, MessageCallback> MessageHandlers
+    private Dictionary<TestMessageID, MessageCallback> _MessageHandlers = new Dictionary<TestMessageID, MessageCallback>();
+    public Dictionary<TestMessageID, MessageCallback> MessageHandlers
     {
         get
         {
             return _MessageHandlers;
         }
+    }
+
+    public void addCallBack(TestMessageID mid, MessageCallback callback)
+    {
+        _MessageHandlers[mid] = callback;
     }
 
     /// <summary>
@@ -94,8 +114,61 @@ public class CustomMessages : Singleton<CustomMessages> {
     NetworkConnection serverConnection;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         SharingStage.Instance.SharingManagerConnected += SharingManagerConnected;
+        ctime = CurrentTimeMillis();
+        timer1 = ctime += TIMEOUT;
+        //SharingStage.Instance.
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (LocalUserHasLowestUserId())
+        {
+            SharingStage.Instance.ClientRole = HoloToolkit.Sharing.ClientRole.Primary;
+        }
+        else
+        {
+            SharingStage.Instance.ClientRole = HoloToolkit.Sharing.ClientRole.Secondary;
+        }
+
+        /*if (ctime == 0)
+        {
+            // initiliaze ctime, then set timers to be ctime + timeout.
+            ctime = CurrentTimeMillis();
+            timeoutTimer = ctime += TIMEOUT;
+            timeoutTimer = ctime += TIMEOUT;
+            return;
+        }*/
+        // ctime not zero: we check timeout.
+        // first update ctime.
+        ctime = CurrentTimeMillis();
+        if (ctime > timer1)
+        {
+            // We timed out.
+            // Do stuff:
+        }
+        /* if (ctime > timer2)
+         {
+             // player two timed out.
+             // Do stuff:
+         }*/
+    }
+
+    // IMPORTANT FUNCTION!!!
+    bool LocalUserHasLowestUserId()
+    {
+        long localUserId = CustomMessages.Instance.localUserID;
+        foreach (long userid in SharingSessionTracker.Instance.UserIds)
+        {
+            if (userid < localUserId)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void SharingManagerConnected(object sender, System.EventArgs e)
@@ -117,7 +190,7 @@ public class CustomMessages : Singleton<CustomMessages> {
         // Cache the local user ID
         this.localUserID = SharingStage.Instance.Manager.GetLocalUser().GetID();
 
-		for (byte index = (byte)TestMessageID.HeadTransform; index < (byte)TestMessageID.Max; index++)
+        for (byte index = (byte)TestMessageID.HeadTransform; index < (byte)TestMessageID.Max; index++)
         {
             if (MessageHandlers.ContainsKey((TestMessageID)index) == false)
             {
@@ -159,56 +232,129 @@ public class CustomMessages : Singleton<CustomMessages> {
         }
     }
 
-    public void setSinglePlayer(bool sp) {
-		this.isSinglePlayer = sp;
-	}
+    public void SendOrbPickedUpMessage(int index)
+    {
+        if (this.serverConnection != null && this.serverConnection.IsConnected())
+        {
+            // Create an outgoing network message to contain all the info we want to send
+            NetworkOutMessage msg = CreateMessage((byte)TestMessageID.OrbPickedUp);
 
-	public void setGameStarted(bool gs) {
-		this.gameStarted = gs;
-	}
-		
-	// Update is called once per frame
-	void Update () {
-		if (ctime == 0) {
-			// initiliaze ctime, then set timers to be ctime + timeout.
-			ctime = CurrentTimeMillis();
-			timer1 = ctime += TIMEOUT;
-			timer2 = ctime += TIMEOUT;
-			return;
-		}
-		// ctime not zero: we check timeout.
-		// first update ctime.
-		ctime = CurrentTimeMillis();
-		if (ctime > timer1) {
-			// player one timed out.
-			// Do stuff:
-		}
-		if (ctime > timer2) {
-			// player two timed out.
-			// Do stuff:
-		}
-	}
+            msg.Write(index);
+            // Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
+            this.serverConnection.Broadcast(
+                msg,
+                MessagePriority.Immediate,
+                MessageReliability.Reliable,
+                MessageChannel.Avatar);
+        }
+    }
 
+    public void SendDeathMessage()
+    {
+        if (this.serverConnection != null && this.serverConnection.IsConnected())
+        {
+            NetworkOutMessage msg = CreateMessage((byte)TestMessageID.DeathMessage);
+            this.serverConnection.Broadcast(
+                msg,
+                MessagePriority.Immediate,
+                MessageReliability.Reliable,
+                MessageChannel.Avatar);
+        }
+    }
+
+    public void SendOrb(Vector3 position, int index)
+    {
+        // If we are connected to a session, broadcast our head info
+        if (this.serverConnection != null && this.serverConnection.IsConnected())
+        {
+            // Create an outgoing network message to contain all the info we want to send
+            NetworkOutMessage msg = CreateMessage((byte)TestMessageID.SendOrb);
+
+            // HAVE HERE SPELL ID? OR AFTER APPENDTRANSFORM. OR SPELLMESSAGE = incendio, SPELLMESSAGE + 1 = icebeam etc etc.
+
+            AppendVector3(msg, position);
+            msg.Write(index);
+            // Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
+            this.serverConnection.Broadcast(
+                msg,
+                MessagePriority.Immediate,
+                MessageReliability.Reliable,
+                MessageChannel.Avatar);
+        }
+    }
+
+    public void setSinglePlayer(bool sp)
+    {
+        this.isSinglePlayer = sp;
+    }
+
+    public void setGameStarted(bool gs)
+    {
+        this.gameStarted = gs;
+    }
+
+
+    /*
 	public void resetTimerPlayerOne(){
 		timer1 = ctime += TIMEOUT;
 	}
 
 	public void resetTimerPlayerTwo(){
 		timer2 = ctime += TIMEOUT;
-	}
+	}*/
 
-	public void requestLocation(){
+    public void requestLocation()
+    {
 
-	}
+    }
 
-	void timeOut(){
+    void timeOut()
+    {
 
-	}
+    }
 
     void gameOver()
     {
 
     }
+
+    public void SendHeadTransform(Vector3 position, Quaternion rotation)
+    {
+        // If we are connected to a session, broadcast our head info
+        if (this.serverConnection != null && this.serverConnection.IsConnected())
+        {
+            // Create an outgoing network message to contain all the info we want to send
+            NetworkOutMessage msg = CreateMessage((byte)TestMessageID.HeadTransform);
+
+            AppendTransform(msg, position, rotation);
+
+            // Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
+            this.serverConnection.Broadcast(
+                msg,
+                MessagePriority.Immediate,
+                MessageReliability.UnreliableSequenced,
+                MessageChannel.Avatar);
+        }
+    }
+
+    public void UpdatePlayerHealth(Vector3 headPosition, int playerHealth)
+    {
+        if (this.serverConnection != null && this.serverConnection.IsConnected())
+        {
+            // Create an outgoin network message to contain all the info we want to send
+            NetworkOutMessage msg = CreateMessage((byte)TestMessageID.PlayerHealth);
+            AppendVector3(msg, headPosition);
+            msg.Write(playerHealth);
+
+            // Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
+            this.serverConnection.Broadcast(
+                msg,
+                MessagePriority.Immediate,
+                MessageReliability.Reliable,
+                MessageChannel.Avatar);
+        }
+    }
+
 
     void OnDestroy()
     {
@@ -224,6 +370,8 @@ public class CustomMessages : Singleton<CustomMessages> {
 
     void OnMessageReceived(NetworkConnection connection, NetworkInMessage msg)
     {
+        timer1 = ctime += TIMEOUT;
+
         byte messageType = msg.ReadByte();
         MessageCallback messageHandler = MessageHandlers[(TestMessageID)messageType];
 
@@ -265,42 +413,5 @@ public class CustomMessages : Singleton<CustomMessages> {
     public Quaternion ReadQuaternion(NetworkInMessage msg)
     {
         return new Quaternion(msg.ReadFloat(), msg.ReadFloat(), msg.ReadFloat(), msg.ReadFloat());
-    }
-
-	public void SendHeadTransform(Vector3 position, Quaternion rotation)
-	{
-		// If we are connected to a session, broadcast our head info
-		if (this.serverConnection != null && this.serverConnection.IsConnected())
-		{
-			// Create an outgoing network message to contain all the info we want to send
-			NetworkOutMessage msg = CreateMessage((byte)TestMessageID.HeadTransform);
-
-			AppendTransform(msg, position, rotation);
-
-			// Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
-			this.serverConnection.Broadcast(
-				msg,
-				MessagePriority.Immediate,
-				MessageReliability.UnreliableSequenced,
-				MessageChannel.Avatar);
-		}
-	}
-
-    public void UpdatePlayerHealth(Vector3 headPosition, int playerHealth)
-    {
-        if (this.serverConnection != null && this.serverConnection.IsConnected())
-        {
-            // Create an outgoin network message to contain all the info we want to send
-            NetworkOutMessage msg = CreateMessage((byte)TestMessageID.PlayerHealth);
-            AppendVector3(msg, headPosition);
-            msg.Write(playerHealth);
-
-            // Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
-            this.serverConnection.Broadcast(
-                msg,
-                MessagePriority.Immediate,
-                MessageReliability.Reliable,
-                MessageChannel.Avatar);
-        }
     }
 }
