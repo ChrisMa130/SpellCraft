@@ -106,6 +106,10 @@ namespace HoloToolkit.Sharing
             return retval;
         }
 
+		void test() {
+
+		}
+
         void Update()
         {
             // Get an instance of the SessionManager if one does not exist.

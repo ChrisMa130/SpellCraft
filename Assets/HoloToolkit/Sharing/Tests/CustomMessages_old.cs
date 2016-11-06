@@ -6,7 +6,7 @@ using HoloToolkit.Unity;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CustomMessages : Singleton<CustomMessages>
+public class CustomMessages_old : Singleton<CustomMessages_old>
 {
     /// <summary>
     /// Message enum containing our information bytes to share.
