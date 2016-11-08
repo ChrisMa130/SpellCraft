@@ -210,7 +210,7 @@ public class CustomMessages : Singleton<CustomMessages> {
         return msg;
     }
 
-    public void SendSpell(Vector3 position, Vector3 direction)
+    public void SendSpell(Vector3 position, Vector3 direction, int spellIndex)
     {
         // If we are connected to a session, broadcast our head info
         if (this.serverConnection != null && this.serverConnection.IsConnected())
@@ -222,6 +222,7 @@ public class CustomMessages : Singleton<CustomMessages> {
 
             AppendVector3(msg, position);
             AppendVector3(msg, direction);
+            msg.Write(spellIndex);
 
             // Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
             this.serverConnection.Broadcast(

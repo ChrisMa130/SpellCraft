@@ -17,13 +17,13 @@ public class SpellManager_prototype : MonoBehaviour {
 	}
 
 	public void CastSpell(int index) {
-        SpawnProjectile(0);
+        SpawnProjectile(CustomMessages.Instance.localUserID, index);
 		//GameObject spell = Instantiate (Spells [index], Camera.main.transform.position + offset, Camera.main.transform.rotation) as GameObject;
 		//spell.GetComponent<EffectSettings> ().Target = GameObject.Find ("BasicCursor");
         //Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
     }
 
-    void SpawnProjectile(long UserId)
+    void SpawnProjectile(long UserId, int spellIndex)
     {
 		Vector3 offset = Camera.main.transform.forward * 0.5f;
 		Vector3 pos = Camera.main.transform.position + offset;
@@ -34,7 +34,7 @@ public class SpellManager_prototype : MonoBehaviour {
 		ShootProjectile(pos, dir, UserId);
 
         Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
-        CustomMessages.Instance.SendSpell(anchor.InverseTransformPoint(pos), anchor.InverseTransformDirection(dir));
+        CustomMessages.Instance.SendSpell(anchor.InverseTransformPoint(pos), anchor.InverseTransformDirection(dir), spellIndex);
     }
 
     /// <summary>

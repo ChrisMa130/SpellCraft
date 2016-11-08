@@ -13,7 +13,7 @@ using HoloToolkit.Sharing;
 public class SpellManager : MonoBehaviour {
 
 	public GameObject[] Spells;
-    public String spellWord;
+    public string spellWord;
 
 	// Use this for initialization
 	void Start () {
@@ -27,7 +27,7 @@ public class SpellManager : MonoBehaviour {
 
 	public void CastSpell(int spellIndex) {
         SpawnProjectile(0, spellIndex);
-		//GameObject spell = Instantiate (Spells [index], Camera.main.transform.position + offset, Camera.main.transform.rotation) as GameObject;
+		//GameObject spell = Instantiate (Spells [spellIndex], Camera.main.transform.position + offset, Camera.main.transform.rotation) as GameObject;
 		//spell.GetComponent<EffectSettings> ().Target = GameObject.Find ("BasicCursor");
         //Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
     }
@@ -43,7 +43,7 @@ public class SpellManager : MonoBehaviour {
 		ShootProjectile(pos, dir, UserId, spellIndex);
 
         Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
-        CustomMessages.Instance.SendSpell(anchor.InverseTransformPoint(pos), anchor.InverseTransformDirection(dir));
+        CustomMessages.Instance.SendSpell(anchor.InverseTransformPoint(pos), anchor.InverseTransformDirection(dir), spellIndex);
     }
 
     /// <summary>
@@ -83,7 +83,8 @@ public class SpellManager : MonoBehaviour {
 
         Vector3 remoteProjectileDirection = CustomMessages.Instance.ReadVector3(msg);
 
+        int spellIndex = msg.ReadInt32();
         Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
-        ShootProjectile(anchor.TransformPoint(remoteProjectilePosition), anchor.TransformDirection(remoteProjectileDirection), userID);
+        ShootProjectile(anchor.TransformPoint(remoteProjectilePosition), anchor.TransformDirection(remoteProjectileDirection), userID, spellIndex);
     }
 }
