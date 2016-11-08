@@ -1,22 +1,24 @@
 public class HeavySpell : Monobehavior, Spell {
 	// stats of the heavy spell
-	private string spellName = "Heavy Spell";
-	private float damage = 50f;
-	private float mpCost = 10f;
+	private string spellName = "confringo";
+	private int damage = 50;
+	private int mpCost = 10;
 
 	// get damage of spell
-	public float getDamage() {
+	public int getDamage() {
 		return this.damage;
 	}
 
 	// get damage of spell
-	public float getMPCost() {
+	public int getMPCost() {
 		return this.mpCost;
 	}
 
 	// reduce Player health on collision, and destroy spell instance
-	private void OnCollisionEnter(Collider collision) {
-		// reduce player health
-		collision.gameObject.GetComponent<Player>().ReduceHealth(getDamage());
+	public void OnCollisionEnter(Collision other) {
+		if (other.collier.tag.Equals("MainComera")){}
+			// reduce player health
+			other.gameObject.GetComponent<Player>().ModifyHealth(this.getDamage());
+		}
 	}
 }
