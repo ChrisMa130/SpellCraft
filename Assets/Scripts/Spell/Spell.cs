@@ -1,25 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Spell : MonoBehaviour {
-
-	private string spellName = null;
-	private int damage = 0;
-	private int mpCost = 0;
+public interface Spell : MonoBehaviour {
 
 	// get damage of spell
-	public int getDamage() {
-		return this.damage;
-	}
+	int getDamage() {}
 
 	// get damage of spell
-	public int getMPCost() {
-		return this.mpCost;
-	}
+	int getMPCost() {}
 
 	// reduce Player health on collision, and destroy spell instance
-	void OnTriggerEnter(Collider collision) {
-		// reduce player health
-		collision.gameObject.GetComponent<Player>().modifyHealth(this.getDamage());
-	}
+	void OnCollisionEnter(Collider collision) {}
 }

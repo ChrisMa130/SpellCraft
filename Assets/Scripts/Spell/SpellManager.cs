@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/*
+ * 0:Firebolt1 medium spell
+ * 1:ElectricBall1 light spell
+ * 2:DarknessMissile
+ * 3:FirePhoenix heavy spell
+ */
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using HoloToolkit.Sharing;
@@ -6,6 +13,7 @@ using HoloToolkit.Sharing;
 public class SpellManager : MonoBehaviour {
 
 	public GameObject[] Spells;
+    public String spellWord;
 
 	// Use this for initialization
 	void Start () {
@@ -17,14 +25,14 @@ public class SpellManager : MonoBehaviour {
 	
 	}
 
-	public void CastSpell(int index) {
-        SpawnProjectile(0);
+	public void CastSpell(int spellIndex) {
+        SpawnProjectile(0, spellIndex);
 		//GameObject spell = Instantiate (Spells [index], Camera.main.transform.position + offset, Camera.main.transform.rotation) as GameObject;
 		//spell.GetComponent<EffectSettings> ().Target = GameObject.Find ("BasicCursor");
         //Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
     }
 
-    void SpawnProjectile(long UserId)
+    void SpawnProjectile(long UserId, int spellIndex)
     {
 		Vector3 offset = Camera.main.transform.forward * 0.5f;
 		Vector3 pos = Camera.main.transform.position + offset;
@@ -32,7 +40,7 @@ public class SpellManager : MonoBehaviour {
 		Vector3 dir = curpos - pos;
 		dir.Normalize ();
 		dir = dir * 2f;
-		ShootProjectile(pos, dir, UserId);
+		ShootProjectile(pos, dir, UserId, spellIndex);
 
         Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
         CustomMessages.Instance.SendSpell(anchor.InverseTransformPoint(pos), anchor.InverseTransformDirection(dir));
@@ -44,10 +52,10 @@ public class SpellManager : MonoBehaviour {
     /// <param name="start">Position to shoot from</param>
     /// <param name="direction">Rotation to shoot toward</param>
     /// <param name="radius">Size of destruction when colliding.</param>
-    void ShootProjectile(Vector3 start, Vector3 direction, long OwningUser)
+    void ShootProjectile(Vector3 start, Vector3 direction, long OwningUser, int spellIndex)
     {
-        // Just fireball. So spells[0]
-		GameObject spawnedProjectile = (GameObject)Instantiate(Spells[0]) as GameObject;
+        // create a GameObject with the appropriate graphics for the spell being cast
+		GameObject spawnedProjectile = (GameObject)Instantiate(Spells[spellIndex]) as GameObject;
         spawnedProjectile.transform.parent = this.transform;
         spawnedProjectile.transform.position = start;
         EffectSettings settings = spawnedProjectile.GetComponent<EffectSettings>();
