@@ -1,8 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections.Generic;
+using HoloToolkit.Sharing;
+using HoloToolkit.Unity;
 
 namespace HoloToolkit.Sharing
 {
-    public class GameStateManager : MonoBehaviour
+    public class GameStateManager : Singleton<GameStateManager>
     {
 
         public GameObject player;
@@ -10,7 +13,7 @@ namespace HoloToolkit.Sharing
         public bool gameStarted;
 
         // define possible game states
-        public enum GameStatus
+        private enum GameStatus
         {
             Start,
             Waiting,
@@ -19,7 +22,7 @@ namespace HoloToolkit.Sharing
             End
         }
 
-        public GameStatus currentState = GameStatus.Start;
+        private GameStatus currentState = GameStatus.Start;
 
         // store corresponding Scenes/UI for each game state
         public GameObject waitingCanvas;
@@ -38,7 +41,7 @@ namespace HoloToolkit.Sharing
 
             // Player is the "Main Camera"
             if (player == null)
-                player = GameObject.FindWithTag("Main Camera");
+                player = GameObject.FindWithTag("MainCamera");
 
             // set game-over canvases as inactive
             waitingCanvas.SetActive(true);
