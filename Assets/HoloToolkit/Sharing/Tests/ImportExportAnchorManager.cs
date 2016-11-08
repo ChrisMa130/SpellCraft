@@ -41,6 +41,8 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
 
     private ImportExportState currentState = ImportExportState.Start;
 
+    public int join_count;
+
     public string StateName
     {
         get
