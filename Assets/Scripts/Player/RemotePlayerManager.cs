@@ -20,6 +20,7 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
         public bool Anchored;
     }
 
+    public GameObject HealthIcon;
     /// <summary>
     /// Keep a list of the remote heads
     /// </summary>
@@ -38,7 +39,6 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
     void Start()
     {
         customMessages = CustomMessages.Instance;
-
         customMessages.MessageHandlers[CustomMessages.TestMessageID.HeadTransform] = this.UpdateHeadTransform;
         customMessages.MessageHandlers[CustomMessages.TestMessageID.PlayerHealth] = this.UpdatePlayerHealth;
         SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
@@ -84,9 +84,14 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
             headInfo = new RemoteHeadInfo();
             headInfo.UserID = userID;
 
+            headInfo.HeadObject = Instantiate(HealthIcon);
+            headInfo.HeadObject.GetComponent<HealthDisplayBehavior>().setHealth(headInfo.playerHealth);
+            headInfo.headObjectPositionOffset = headInfo.HeadObject.transform.localPosition;
+            headInfo.HeadObject.transform.parent = this.transform;
+            headInfo.Active = true;
+
             this.remoteHeads.Add(userID, headInfo);
         }
-
         return headInfo;
     }
 
@@ -116,10 +121,11 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
             headInfo.HeadObject.transform.localRotation = headRot;
 
         }
-
-        headInfo.Anchored = (msg.ReadByte() > 0);
     }
 
+    /*
+     * Updates other players' health in the game world.
+     */
     void UpdatePlayerHealth(NetworkInMessage msg)
     {
         // Parse the message
@@ -131,17 +137,8 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
 
         headInfo.playerHealth = msg.ReadInt32();
         // Configure the remote user's head sprite
-        if (headInfo.HeadObject != null)
-        {
-            Destroy(headInfo.HeadObject);
-        }
 
-        headInfo.HeadObject = Instantiate(GameObject.FindGameObjectWithTag("HealthDisplay"));
         headInfo.HeadObject.GetComponent<HealthDisplayBehavior>().setHealth(headInfo.playerHealth);
-        headInfo.headObjectPositionOffset = headInfo.HeadObject.transform.localPosition;
-        headInfo.HeadObject.transform.parent = this.transform;
-        headInfo.HeadObject.GetComponent<SpriteRenderer>().enabled = true;
-        headInfo.Active = true;
     }
 
     /// <summary>
