@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using HoloToolkit.Sharing;
 using HoloToolkit.Unity;
+using System;
 
 namespace HoloToolkit.Sharing
 {
@@ -11,9 +12,10 @@ namespace HoloToolkit.Sharing
         public GameObject player;
         public GameObject Anchor;
         public bool gameStarted;
+        private int numPlayerAlive;
 
         // define possible game states
-        private enum GameStatus
+        public enum GameStatus
         {
             Start,
             Waiting,
@@ -22,7 +24,7 @@ namespace HoloToolkit.Sharing
             End
         }
 
-        private GameStatus currentState = GameStatus.Start;
+        public GameStatus currentState = GameStatus.Start;
 
         // store corresponding Scenes/UI for each game state
         public GameObject waitingCanvas;
@@ -33,6 +35,7 @@ namespace HoloToolkit.Sharing
 
         void Start()
         {
+            CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.DeathMessage] = this.ProcessDeathMessage;
             Anchor.GetComponent<PickUpManager>().enabled = false;
             Anchor.GetComponent<SpellManager>().enabled = false;
 
@@ -46,13 +49,16 @@ namespace HoloToolkit.Sharing
             if (player == null)
                 player = GameObject.FindWithTag("MainCamera");
 
+            /*
             // set game-over canvases as inactive
             waitingCanvas.SetActive(true);
             inGameCanvas.SetActive(false);
             winnerCanvas.SetActive(false);
             loserCanvas.SetActive(false);
             restartButton.SetActive(false);
+            */
         }
+
 
         void Update()
         {
@@ -70,8 +76,10 @@ namespace HoloToolkit.Sharing
                     Debug.Log("State: Waiting");
                     if (gameStarted)
                     {
-                        waitingCanvas.SetActive(false);
-                        inGameCanvas.SetActive(true);
+                        numPlayerAlive = SharingStage.Instance.Manager.GetSessionManager().GetCurrentSession().GetUserCount();
+                        Debug.Log(numPlayerAlive);
+                        //waitingCanvas.SetActive(false);
+                        //inGameCanvas.SetActive(true);
                     }
                     break;
 
@@ -87,27 +95,23 @@ namespace HoloToolkit.Sharing
                     Anchor.GetComponent<PickUpManager>().enabled = true;
                     Anchor.GetComponent<SpellManager>().enabled = true;
 
-                    
-
                     // Player is alive
                     if (player.GetComponent<Player>().alive)
                     {
-                        /*
                         // all other player died
-                        if () {
-                            inGameCanvas.SetActive(false);
-                            winnerCanvas.SetActive(true);
+                        if (numPlayerAlive == 1) {
+                            //inGameCanvas.SetActive(false);
+                            //winnerCanvas.SetActive(true);
                             currentState = GameStatus.End;
                         }
-                        */
                     }
-
                     // Player is dead
                     else
                     {
-                        inGameCanvas.SetActive(false);
-                        loserCanvas.SetActive(true);
+                        //inGameCanvas.SetActive(false);
+                        //loserCanvas.SetActive(true);
                         CustomMessages.Instance.SendDeathMessage();
+                        numPlayerAlive--;
                         currentState = GameStatus.Loses;
                     }
                     break;
@@ -115,19 +119,30 @@ namespace HoloToolkit.Sharing
                 // Player lost and waiting for other players to finish.
                 case GameStatus.Loses:
                     Debug.Log("State: Loses");
-                    /*
-                    if ( ) { // all other players finished
+
+                    // Disable Spell and Pick up Manager
+                    Anchor.GetComponent<PickUpManager>().enabled = false;
+                    Anchor.GetComponent<SpellManager>().enabled = false;
+
+                    // all other players loses besides one winner
+                    if (numPlayerAlive == 1) {  
                         currentState = GameStatus.End;
                     }
-                    */
                     break;
 
                 // All players are finished. Prompt for restart.
                 case GameStatus.End:
                     Debug.Log("State: End");
-                    restartButton.SetActive(true);
+                    //restartButton.SetActive(true);
                     break;
             }
+        }
+
+        // update number of players still alive/playing
+        private void ProcessDeathMessage(NetworkInMessage msg)
+        {
+            long userID = msg.ReadInt64();
+            numPlayerAlive -= 1;
         }
     }
 }
