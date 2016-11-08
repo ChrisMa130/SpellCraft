@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HoloToolkit.Sharing;
 using HoloToolkit.Unity;
 
+
 public class PickUpManager : Singleton<PickUpManager>
 {
 
