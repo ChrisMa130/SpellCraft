@@ -9,7 +9,7 @@ namespace HoloToolkit.Sharing
     {
 
         public GameObject player;
-        public GameObject manager;
+        public GameObject Anchor;
         public bool gameStarted;
 
         // define possible game states
@@ -31,13 +31,16 @@ namespace HoloToolkit.Sharing
         public GameObject loserCanvas;
         public GameObject restartButton;
 
-        void start()
+        void Start()
         {
+            Anchor.GetComponent<PickUpManager>().enabled = false;
+            Anchor.GetComponent<SpellManager>().enabled = false;
+
             gameStarted = false;
 
             // Manager need to have tag "Manager"
-            if (manager == null)
-                manager = GameObject.FindWithTag("Manager");
+            if (Anchor == null)
+                Anchor = GameObject.FindWithTag("Anchor");
 
             // Player is the "Main Camera"
             if (player == null)
@@ -51,7 +54,7 @@ namespace HoloToolkit.Sharing
             restartButton.SetActive(false);
         }
 
-        void update()
+        void Update()
         {
             switch (currentState)
             {
@@ -64,6 +67,7 @@ namespace HoloToolkit.Sharing
                  ***** need a seperate button script
                  */
                 case GameStatus.Waiting:
+                    Debug.Log("State: Waiting");
                     if (gameStarted)
                     {
                         waitingCanvas.SetActive(false);
@@ -77,16 +81,17 @@ namespace HoloToolkit.Sharing
                     time, then this player won.
                  **/
                 case GameStatus.Playing:
+                    Debug.Log("State: Playing");
+
+                    // Activate PickUpManager to enable spawning of orbs
+                    Anchor.GetComponent<PickUpManager>().enabled = true;
+                    Anchor.GetComponent<SpellManager>().enabled = true;
+
+                    
 
                     // Player is alive
                     if (player.GetComponent<Player>().alive)
                     {
-                        /* Looks like PickUpManager will take care of spawning
-                        if (isPrimary())	{
-                            PrepareOrbs();
-                        }		
-                        */
-
                         /*
                         // all other player died
                         if () {
@@ -109,6 +114,7 @@ namespace HoloToolkit.Sharing
 
                 // Player lost and waiting for other players to finish.
                 case GameStatus.Loses:
+                    Debug.Log("State: Loses");
                     /*
                     if ( ) { // all other players finished
                         currentState = GameStatus.End;
@@ -118,32 +124,10 @@ namespace HoloToolkit.Sharing
 
                 // All players are finished. Prompt for restart.
                 case GameStatus.End:
+                    Debug.Log("State: End");
                     restartButton.SetActive(true);
                     break;
             }
-        }
-
-        public bool isPrimary()
-        {
-            return SharingStage.Instance.ClientRole == ClientRole.Primary;
-        }
-
-        // call spawning method in OrbManager
-        void PrepareOrbs()
-        {
-            if (isPrimary())
-            {
-                PickUpManager.Instance.enabled = true;
-            } else
-            {
-                PickUpManager.Instance.enabled = false; 
-            }
-        }
-
-        // call UIManager to switch to In-Game Scene
-        void StartGame()
-        {
-
         }
     }
 }

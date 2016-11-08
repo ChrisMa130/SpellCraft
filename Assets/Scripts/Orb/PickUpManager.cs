@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HoloToolkit.Sharing;
 using HoloToolkit.Unity;
 
+
 public class PickUpManager : Singleton<PickUpManager>
 {
 
@@ -18,6 +19,7 @@ public class PickUpManager : Singleton<PickUpManager>
     // Use this for initialization
     void Start()
     {
+        Debug.Log("starting");
         tillOrbSpawnTime = SPAWN_TIME;
         Orbs = new List<GameObject>();
         nextIndex = 0;
@@ -28,6 +30,7 @@ public class PickUpManager : Singleton<PickUpManager>
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("updating");
         // check if game started before generating orbs
         //isPrimary = CustomMessages.
         if (true)
