@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using HoloToolkit.Sharing;
-using UnityEngine.Assertions;
-using System;
+using HoloToolkit.Unity;
 
-public class PickUpManager : MonoBehaviour
+public class PickUpManager : Singleton<PickUpManager>
 {
 
     public List<GameObject> Orbs;

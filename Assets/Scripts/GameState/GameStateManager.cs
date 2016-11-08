@@ -1,124 +1,146 @@
 using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 
-public class GameStateManager : MonoBehaviour {
-	
-	public GameObject player;
-	public GameObject manager;
-	public bool gameStarted;
+namespace HoloToolkit.Sharing
+{
+    public class GameStateManager : MonoBehaviour
+    {
 
-	// define possible game states
-	public enum GameStatus 
-	{
-		Start,
-		Waiting,
-		Playing,
-		Loses,
-		End
-	}
+        public GameObject player;
+        public GameObject manager;
+        public bool gameStarted;
 
-	public GameStatus currentState = GameStatus.Start;
+        // define possible game states
+        public enum GameStatus
+        {
+            Start,
+            Waiting,
+            Playing,
+            Loses,
+            End
+        }
 
-	// store corresponding Scenes/UI for each game state
-	public GameObject waitingCanvas;
-	public GameObject inGameCanvas;
-	public GameObject winnerCanvas; 
-	public GameObject loserCanvas;
-	public GameObject restartButton;
+        public GameStatus currentState = GameStatus.Start;
 
-	void start() {
-		gameStarted = false;
+        // store corresponding Scenes/UI for each game state
+        public GameObject waitingCanvas;
+        public GameObject inGameCanvas;
+        public GameObject winnerCanvas;
+        public GameObject loserCanvas;
+        public GameObject restartButton;
 
-		// Manager need to have tag "Manager"
-		if (manager == null)
-			manager = GameObject.FindWithTag("Manager");
+        void start()
+        {
+            gameStarted = false;
 
-		// Player is the "Main Camera"
-		if (player == null)
-			player = GameObject.FindWithTag("Main Camera") 
+            // Manager need to have tag "Manager"
+            if (manager == null)
+                manager = GameObject.FindWithTag("Manager");
 
-		// set game-over canvases as inactive
-		waitingCanvas.SetActive(true);
-		inGameCanvas.SetActive(false);
-		winnerCanvas.SetActive(false);
-		loserCanvas.SetActive(false);
-		restartButton.SetActive(false);
+            // Player is the "Main Camera"
+            if (player == null)
+                player = GameObject.FindWithTag("Main Camera");
 
-		// set current status to waiting (for multi-player connections)
-		currentState = GameStatus.Waiting;
-	}
+            // set game-over canvases as inactive
+            waitingCanvas.SetActive(true);
+            inGameCanvas.SetActive(false);
+            winnerCanvas.SetActive(false);
+            loserCanvas.SetActive(false);
+            restartButton.SetActive(false);
+        }
 
-	void update() {
-		switch(currentState)
-		{
-			/** Waiting: waiting for one of more players to connect.
-			 ***** player should click "Start" button to switch state to playing
-			 ***** need a seperate button script
-			 */
-			case GameStatus.Waiting:
-				if (gameStarted) {
-					waitingCanvas.SetActive(false);
-					inGameCanvas.SetActive(true);
-				}
-				break;
+        void update()
+        {
+            switch (currentState)
+            {
+                // Start: do nothing
+                case GameStatus.Start:
+                    break;
 
-			/** Playing: game started. While player is alive, simultaneously 
-				check on all players' life status. If player is not alive,
-				swtich game state to Loses. If all other player died ahead of 
-				time, then this player won.
-			 **/
-			case GameStatus.Playing:
+                /** Waiting: waiting for one of more players to connect.
+                 ***** player should click "Start" button to switch state to playing
+                 ***** need a seperate button script
+                 */
+                case GameStatus.Waiting:
+                    if (gameStarted)
+                    {
+                        waitingCanvas.SetActive(false);
+                        inGameCanvas.SetActive(true);
+                    }
+                    break;
 
-				// Player is alive
-				if (player.GetComponent<Player>().alive){
-					/* Looks like PickUpManager will take care of spawning
-					if (isPrimary())	{
-						PrepareOrbs();
-					}		
-					*/
+                /** Playing: game started. While player is alive, simultaneously 
+                    check on all players' life status. If player is not alive,
+                    swtich game state to Loses. If all other player died ahead of 
+                    time, then this player won.
+                 **/
+                case GameStatus.Playing:
 
-					// all other player died
-					if () {
-						inGameCanvas.SetActive(false);
-						winnerCanvas.SetActive(true);
-						currentState = GameStatus.End;
-					}
-				}
+                    // Player is alive
+                    if (player.GetComponent<Player>().alive)
+                    {
+                        /* Looks like PickUpManager will take care of spawning
+                        if (isPrimary())	{
+                            PrepareOrbs();
+                        }		
+                        */
 
-				// Player is dead
-				else {
-					inGameCanvas.SetActive(false);
-					loserCanvas.SetActive(true);
-					CustomMessages.Instance.SendDeathMessage();
-					currentState = GameStatus.Loses;
-				}
-				break;
+                        /*
+                        // all other player died
+                        if () {
+                            inGameCanvas.SetActive(false);
+                            winnerCanvas.SetActive(true);
+                            currentState = GameStatus.End;
+                        }
+                        */
+                    }
 
-			// Player lost and waiting for other players to finish.
-			case GameStatus.Loses:
-				if ( /* all players are finished */ ) {
-					currentState = GameStatus.End;
-				}
-				break;
+                    // Player is dead
+                    else
+                    {
+                        inGameCanvas.SetActive(false);
+                        loserCanvas.SetActive(true);
+                        CustomMessages.Instance.SendDeathMessage();
+                        currentState = GameStatus.Loses;
+                    }
+                    break;
 
-			// All players are finished. Prompt for restart.
-			case GameStatus.End:
-				restartButton.SetActive(true);
-				break;
-		}
-	}
+                // Player lost and waiting for other players to finish.
+                case GameStatus.Loses:
+                    /*
+                    if ( ) { // all other players finished
+                        currentState = GameStatus.End;
+                    }
+                    */
+                    break;
 
-	void isPrimary(){
-		Manager.GetComponent<CustomMessages>().isPrimary();
-	}
+                // All players are finished. Prompt for restart.
+                case GameStatus.End:
+                    restartButton.SetActive(true);
+                    break;
+            }
+        }
 
-	// call spawning method in OrbManager
-	void PrepareOrbs() {
-		// might not need this method
-	}
+        public bool isPrimary()
+        {
+            return SharingStage.Instance.ClientRole == ClientRole.Primary;
+        }
 
-	// call UIManager to switch to In-Game Scene
-	void StartGame() {
-		
-	}
+        // call spawning method in OrbManager
+        void PrepareOrbs()
+        {
+            if (isPrimary())
+            {
+                PickUpManager.Instance.enabled = true;
+            } else
+            {
+                PickUpManager.Instance.enabled = false; 
+            }
+        }
+
+        // call UIManager to switch to In-Game Scene
+        void StartGame()
+        {
+
+        }
+    }
+}
