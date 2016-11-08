@@ -216,14 +216,17 @@ namespace HoloToolkit.Unity
         /// <param name="eventName">The name associated with the AudioEvent.</param>
         public void StopEvent(string eventName)
         {
-            //if there's a default fade out time specified in the event, use it
-            for (int i = activeEvents.Count - 1; i >= 0; i--)
-            {
-                if (activeEvents[i].audioEvent.name == eventName)
-                {
-                    StopEvent(eventName, activeEvents[i].audioEvent.fadeOutTime);
-                }
-            }
+            StopEvent(eventName, gameObject);
+        }
+
+        /// <summary>
+        /// Stops an AudioEvent.
+        /// </summary>
+        /// <param name="eventName">The name associated with the AudioEvent.</param>
+        /// <param name="fadeTime">The amount of time in seconds to completely fade out the sound.</param>
+        public void StopEvent(string eventName, float fadeTime)
+        {
+            StopEvent(eventName, gameObject, fadeTime);
         }
 
         /// <summary>
@@ -243,19 +246,9 @@ namespace HoloToolkit.Unity
             {
                 if (activeEvents[i].audioEvent.name == eventName && activeEvents[i].AudioEmitter == emitter)
                 {
-                    StopEvent(activeEvents[i].audioEvent.name, emitter, activeEvents[i].audioEvent.fadeOutTime);
+                    StopEvent(activeEvents[i]);
                 }
             }
-        }
-
-        /// <summary>
-        /// Stops an AudioEvent.
-        /// </summary>
-        /// <param name="eventName">The name associated with the AudioEvent.</param>
-        /// <param name="fadeTime">The amount of time in seconds to completely fade out the sound.</param>
-        public void StopEvent(string eventName, float fadeTime)
-        {
-            StopEvent(eventName, gameObject, fadeTime);
         }
 
         /// <summary>
@@ -275,8 +268,8 @@ namespace HoloToolkit.Unity
             for (int i = activeEvents.Count - 1; i >= 0; i--)
             {
                 ActiveEvent activeEvent = activeEvents[i];
-
-                if (activeEvent.audioEvent.name == eventName && activeEvent.AudioEmitter == emitter)
+                if (activeEvent.audioEvent.name == eventName &&
+                    activeEvent.AudioEmitter == emitter)
                 {
                     StartCoroutine(StopEventWithFadeCoroutine(activeEvent, fadeTime));
                 }

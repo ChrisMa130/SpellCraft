@@ -1,15 +1,16 @@
-﻿using HoloToolkit.Unity;
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace HoloToolkit.Sharing
 {
-    public class SharingStage : Singleton<SharingStage>
+    public class SharingStage : MonoBehaviour
     {
         /// <summary>
         /// SharingManagerConnected event notifies when the sharing manager is created and connected.
         /// </summary>
         public event EventHandler SharingManagerConnected;
+
+        public static SharingStage Instance = null;
 
         /// <summary>
         /// Set whether this app should be a Primary or Secondary client.
@@ -47,32 +48,21 @@ namespace HoloToolkit.Sharing
         /// Provides callbacks when server is discovered or lost.
         /// </summary>
         private DiscoveryClientAdapter discoveryClientAdapter;
-
-        /// <summary>
-        /// Provides callbacks for when we connect to a server.
-        /// </summary>
-        private NetworkConnectionAdapter networkConnectionAdapter = null;
-
-        private NetworkConnection networkConnection = null;
     
         private float pingIntervalCurrent = 0;
         private bool isTryingToFindServer = false;
 
         private void Awake()
         {
+            Instance = this;
+
             this.logWriter = new ConsoleLogWriter();
 
             if (AutoDiscoverServer)
             {
                 AutoDiscoverInit();
             }
-
-            networkConnectionAdapter = new NetworkConnectionAdapter();
-        }
-
-        private void Start()
-        {
-            if (!AutoDiscoverServer)
+            else
             {
                 Connect();
             }
@@ -80,6 +70,8 @@ namespace HoloToolkit.Sharing
 
         protected void OnDestroy()
         {
+            Instance = null;
+
             if (this.discoveryClient != null)
             {
                 discoveryClient.RemoveListener(discoveryClientAdapter);
@@ -90,19 +82,6 @@ namespace HoloToolkit.Sharing
                 {
                     discoveryClientAdapter.Dispose();
                     discoveryClientAdapter = null;
-                }
-            }
-
-            if (this.networkConnection != null)
-            {
-                networkConnection.RemoveListener((byte)MessageID.StatusOnly, networkConnectionAdapter);
-                networkConnection.Dispose();
-                networkConnection = null;
-
-                if (networkConnectionAdapter != null)
-                {
-                    networkConnectionAdapter.Dispose();
-                    networkConnectionAdapter = null;
                 }
             }
 
@@ -154,16 +133,8 @@ namespace HoloToolkit.Sharing
 
             this.sharingMgr = SharingManager.Create(config);
 
-            //set up callbacks so that we know when we've connected successfully
-            this.networkConnection = sharingMgr.GetServerConnection();
-            this.networkConnectionAdapter = new NetworkConnectionAdapter();
-            networkConnectionAdapter.ConnectedCallback += NetworkConnectionAdapter_ConnectedCallback;
-            networkConnection.AddListener((byte)MessageID.StatusOnly, networkConnectionAdapter);
-        }
-
-        private void NetworkConnectionAdapter_ConnectedCallback(NetworkConnection obj)
-        {
-            SendConnectedNotification();
+            //delay sending notification so everything is initialized properly
+            Invoke("SendConnectedNotification", 1);
         }
 
         private void SendConnectedNotification()
