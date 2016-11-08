@@ -39,7 +39,8 @@ public class PickUpManager : Singleton<PickUpManager>
                 Vector3 orbLocation = calculateOrbLocation();
                 // broadcast orb to others
                 GenerateOrb(orbLocation, nextIndex);
-                CustomMessages.Instance.SendOrb(orbLocation, nextIndex);
+                Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
+                CustomMessages.Instance.SendOrb(anchor.InverseTransformPoint(orbLocation), nextIndex);
                 nextIndex++;
                 //create orb for primary
                 tillOrbSpawnTime = SPAWN_TIME;
