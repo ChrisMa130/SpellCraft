@@ -13,7 +13,7 @@ public class DebugScript : MonoBehaviour {
         anchorPos = gameObject.transform.FindChild("AnchorPos").GetComponent<Text>();
         anchorState = gameObject.transform.FindChild("AnchorState").GetComponent<Text>();
         Join_Count = gameObject.transform.FindChild("Join_Count").GetComponent<Text>();
-        manager = GameObject.Find("SpellManager");
+        manager = GameObject.Find("Anchor");
     }
 
 	// Update is called once per frame
