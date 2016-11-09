@@ -26,37 +26,24 @@ namespace HoloToolkit.Sharing
 
         public GameStatus currentState = GameStatus.Start;
 
-        // store corresponding Scenes/UI for each game state
-        public GameObject waitingCanvas;
-        public GameObject inGameCanvas;
-        public GameObject winnerCanvas;
-        public GameObject loserCanvas;
-        public GameObject restartButton;
 
         void Start()
         {
             CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.DeathMessage] = this.ProcessDeathMessage;
-            Anchor.GetComponent<PickUpManager>().enabled = false;
-            Anchor.GetComponent<SpellManager>().enabled = false;
 
             gameStarted = false;
 
-            // Manager need to have tag "Manager"
+            // Anchor need to have tag "Anchor"
             if (Anchor == null)
                 Anchor = GameObject.FindWithTag("Anchor");
 
             // Player is the "Main Camera"
             if (player == null)
                 player = GameObject.FindWithTag("MainCamera");
-
-            /*
-            // set game-over canvases as inactive
-            waitingCanvas.SetActive(true);
-            inGameCanvas.SetActive(false);
-            winnerCanvas.SetActive(false);
-            loserCanvas.SetActive(false);
-            restartButton.SetActive(false);
-            */
+            
+            // Disable Orb and Spell activities before game starts
+            Anchor.GetComponent<PickUpManager>().enabled = false;
+            Anchor.GetComponent<SpellManager>().enabled = false;
         }
 
 
@@ -68,9 +55,8 @@ namespace HoloToolkit.Sharing
                 case GameStatus.Start:
                     break;
 
-                /** Waiting: waiting for one of more players to connect.
-                 ***** player should click "Start" button to switch state to playing
-                 ***** need a seperate button script
+                /* Waiting: waiting for one of more players to connect. 
+                   Player should click "Start" button to switch state to playing
                  */
                 case GameStatus.Waiting:
                     Debug.Log("State: Waiting");
@@ -78,16 +64,14 @@ namespace HoloToolkit.Sharing
                     {
                         numPlayerAlive = SharingStage.Instance.Manager.GetSessionManager().GetCurrentSession().GetUserCount();
                         Debug.Log(numPlayerAlive);
-                        //waitingCanvas.SetActive(false);
-                        //inGameCanvas.SetActive(true);
                     }
                     break;
 
-                /** Playing: game started. While player is alive, simultaneously 
-                    check on all players' life status. If player is not alive,
-                    swtich game state to Loses. If all other player died ahead of 
-                    time, then this player won.
-                 **/
+                /* Playing: game started. While player is alive, simultaneously 
+                   check on all players' life status. If player is not alive,
+                   swtich game state to Loses. If all other player died ahead of 
+                   time, then this player won.
+                 */
                 case GameStatus.Playing:
                     Debug.Log("State: Playing");
 
@@ -100,19 +84,17 @@ namespace HoloToolkit.Sharing
                     {
                         // all other player died
                         if (numPlayerAlive == 1) {
-                            //inGameCanvas.SetActive(false);
-                            //winnerCanvas.SetActive(true);
                             currentState = GameStatus.End;
+                            /* UI_GameManager.handleWin() */
                         }
                     }
                     // Player is dead
                     else
                     {
-                        //inGameCanvas.SetActive(false);
-                        //loserCanvas.SetActive(true);
                         CustomMessages.Instance.SendDeathMessage();
                         numPlayerAlive--;
                         currentState = GameStatus.Loses;
+                        /* UI_GameManager.handleLose() */
                     }
                     break;
 
@@ -133,7 +115,6 @@ namespace HoloToolkit.Sharing
                 // All players are finished. Prompt for restart.
                 case GameStatus.End:
                     Debug.Log("State: End");
-                    //restartButton.SetActive(true);
                     break;
             }
         }
