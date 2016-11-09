@@ -108,9 +108,10 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
 
         Quaternion headRot = customMessages.ReadQuaternion(msg);
 
+        // If head info does not exist for this userID, a new one will be created
+        // with the call to GetRemoteHeadInfo.
         RemoteHeadInfo headInfo = GetRemoteHeadInfo(userID);
         
-
         if (headInfo.HeadObject != null)
         {
             // If we don't have our anchor established, don't draw the remote head.
@@ -120,7 +121,17 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
 
             headInfo.HeadObject.transform.localRotation = headRot;
 
+            /* Our code for testing */
+            Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
+            Vector3 remoteHealthDisplayPos = anchor.TransformPoint(headPos);
+
+            GameObject healthDisplay = headInfo.HeadObject;
+            healthDisplay.transform.parent = this.transform;
+            healthDisplay.transform.position = remoteHealthDisplayPos;
+
         }
+
+        headInfo.Anchored = (msg.ReadByte() > 0);
     }
 
     /*
@@ -132,12 +143,9 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
         long userID = msg.ReadInt64();
 
         RemoteHeadInfo headInfo = GetRemoteHeadInfo(userID);
-        
-        Vector3 remoteHeadPosition = customMessages.ReadVector3(msg);
 
         headInfo.playerHealth = msg.ReadInt32();
         // Configure the remote user's head sprite
-
         headInfo.HeadObject.GetComponent<HealthDisplayBehavior>().setHealth(headInfo.playerHealth);
     }
 

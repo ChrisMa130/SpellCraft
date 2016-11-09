@@ -15,12 +15,17 @@ public class LocalPlayerManager : Singleton<LocalPlayerManager>
             // Grab the current head transform and broadcast it to all the other users in the session
             Transform headTransform = Camera.main.transform;
 
+            Vector3 headPosition = Camera.main.transform.position;
+            Quaternion headRotation = headTransform.rotation;
             // Transform the head position and rotation into local space
-            Vector3 headPosition = this.transform.InverseTransformPoint(headTransform.position);
-            Quaternion headRotation = Quaternion.Inverse(this.transform.rotation) * headTransform.rotation;
+            //Vector3 headPosition = this.transform.InverseTransformPoint(headTransform.position);
+            //Quaternion headRotation = Quaternion.Inverse(this.transform.rotation) * headTransform.rotation;
             int playerHealth = Player.Instance.getHealth();
-            CustomMessages.Instance.SendHeadTransform(headPosition, headRotation);
-            CustomMessages.Instance.UpdatePlayerHealth(headPosition, playerHealth);
+
+            Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
+            CustomMessages.Instance.SendHeadTransform(anchor.InverseTransformPoint(headPosition), 
+                                                      headRotation, 0x1);
+            CustomMessages.Instance.UpdatePlayerHealth(playerHealth);
         }
     }
 }
