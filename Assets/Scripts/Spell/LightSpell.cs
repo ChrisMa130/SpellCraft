@@ -25,6 +25,7 @@ public class LightSpell : MonoBehaviour, Spell
         {
             // reduce player health
             other.gameObject.GetComponent<Player>().modifyHealth(this.getDamage());
+            Destroy(this);
         }
     }
 }
