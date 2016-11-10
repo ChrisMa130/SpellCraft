@@ -12,6 +12,10 @@ namespace HoloToolkit.Unity
     /// </summary>
     public class BasicCursor : MonoBehaviour
     {
+
+		private Material cursorMat;
+		private int nbBalls;
+		private Material[] manaBalls;
         public struct RaycastResult
         {
             public bool Hit;
@@ -59,7 +63,43 @@ namespace HoloToolkit.Unity
                 Debug.LogError("The cursor has a layer that is checked in the GazeManager's Raycast Layer Mask.  Change the cursor layer (e.g.: to Ignore Raycast) or uncheck the layer in GazeManager: " +
                     LayerMask.LayerToName(gameObject.layer));
             }
-        }
+
+			cursorMat = gameObject.GetComponent<Renderer>().material;
+			nbBalls = gameObject.transform.childCount;
+			manaBalls = new Material[nbBalls];
+
+			for (int i = 0; i < nbBalls; i++) {
+				manaBalls [i] = gameObject.transform.GetChild (i).GetComponent<Renderer> ().material;
+			}
+		}
+
+
+		public void setColor(Material mat, float r, float g, float b){
+			Color c = mat.color;
+			c.r = r;
+			c.g = g;
+			c.b = b;
+			mat.color = c;
+		}
+
+		public void updateColor(float p){
+			if (cursorMat != null) {
+				setColor (cursorMat, 1-p, p, p/2);
+			}
+		}
+
+		public void updateManaBalls(int mp){
+
+			//if (mp > nbBalls) {mp = nbBalls;}
+
+			for (int i = 0; i < mp; i++) {
+				setColor (manaBalls[i], 0f, 0f, 1f);
+			}
+			for (int i = mp; i < nbBalls; i++) {
+				setColor (manaBalls[i], 0f, 0f, 0f);
+			}
+		}
+
 
         protected virtual RaycastResult CalculateRayIntersect()
         {

@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: fcb86078da5d38b4b9010f905416d334
-timeCreated: 1458942114
-licenseType: Pro
+guid: 1e91feac2888eb744aebf23dc6c7a71a
+timeCreated: 1478472952
+licenseType: Free
 PluginImporter:
   serializedVersion: 1
   iconMap: {}
@@ -9,14 +9,13 @@ PluginImporter:
   isPreloaded: 0
   platformData:
     Any:
-      enabled: 0
+      enabled: 1
       settings: {}
     Editor:
-      enabled: 1
+      enabled: 0
       settings:
         CPU: x86
         DefaultValueInitialized: true
-        OS: Windows
     Linux:
       enabled: 1
       settings:
@@ -26,7 +25,7 @@ PluginImporter:
       settings:
         CPU: None
     LinuxUniversal:
-      enabled: 0
+      enabled: 1
       settings:
         CPU: x86
     OSXIntel:
@@ -49,14 +48,6 @@ PluginImporter:
       enabled: 0
       settings:
         CPU: None
-    WindowsStoreApps:
-      enabled: 0
-      settings:
-        CPU: X86
-        DontProcess: False
-        PlaceholderPath: 
-        SDK: AnySDK
-        ScriptingBackend: AnyScriptingBackend
   userData: 
   assetBundleName: 
   assetBundleVariant: 
