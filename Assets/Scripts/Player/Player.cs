@@ -23,7 +23,7 @@ public class Player : Singleton<Player>
     void Start()
     {
         health = MAX_HEALTH;
-        magic = 3;
+        magic = 10;
         alive = true;
     }
 
