@@ -761,7 +761,7 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-  - Keyword: avada kedavra
+  - Keyword: fenix
     KeyCode: 0
     Response:
       m_PersistentCalls:
@@ -774,25 +774,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 2
             m_FloatArgument: 0
-            m_StringArgument: blue
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-  - Keyword: fenix
-    KeyCode: 0
-    Response:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1805257173}
-          m_MethodName: CastSpell
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 3
-            m_FloatArgument: 0
-            m_StringArgument: blue
+            m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
@@ -996,17 +978,15 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1805257171}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb908f8f20a97d1439ee15c9af5f4c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Spells:
-  - {fileID: 1000013552039728, guid: 25eca46e01ac61647a598de1e3ec81ab, type: 2}
+  - {fileID: 100010, guid: e29eca76bc2538f46a6da73086448575, type: 2}
   - {fileID: 100002, guid: 5bc38ce8b83624f4d94844c673c128c6, type: 2}
-  - {fileID: 145764, guid: 5fdbdd2d09143cb46b4b6cec4d5d0133, type: 2}
   - {fileID: 100000, guid: cb9128abf021b7c4e926849ff81c1ca7, type: 2}
-  spellWord: 
 --- !u!114 &1805257174
 MonoBehaviour:
   m_ObjectHideFlags: 0

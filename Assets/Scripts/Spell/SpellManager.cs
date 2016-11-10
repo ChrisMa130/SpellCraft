@@ -13,7 +13,6 @@ using HoloToolkit.Sharing;
 public class SpellManager : MonoBehaviour {
 
 	public GameObject[] Spells;
-    public string spellWord;
 
 	// Use this for initialization
 	void Start () {
@@ -26,7 +25,13 @@ public class SpellManager : MonoBehaviour {
 	}
 
 	public void CastSpell(int spellIndex) {
-        SpawnProjectile(0, spellIndex);
+        Player player = Player.Instance;
+        Spell newSpell = Spells[spellIndex].GetComponent<Spell>();
+        if (player.getMagic() >= newSpell.getMPCost())
+        {
+            player.modifyMagic(newSpell.getMPCost() * -1);
+            SpawnProjectile(0, spellIndex);
+        }
 		//GameObject spell = Instantiate (Spells [spellIndex], Camera.main.transform.position + offset, Camera.main.transform.rotation) as GameObject;
 		//spell.GetComponent<EffectSettings> ().Target = GameObject.Find ("BasicCursor");
         //Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
@@ -65,6 +70,7 @@ public class SpellManager : MonoBehaviour {
         {
             settings.Target = GameObject.Find("BasicCursor");
         } else {
+            spawnedProjectile.layer = 0;
             settings.UseMoveVector = true;
             settings.MoveVector = direction;
         }

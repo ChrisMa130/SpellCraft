@@ -27,8 +27,8 @@ GameObject:
   - 4: {fileID: 400002}
   - 114: {fileID: 11400000}
   - 114: {fileID: 114000010499239392}
-  - 114: {fileID: 114000013038815628}
   - 54: {fileID: 54000012343661642}
+  - 114: {fileID: 114000012409094402}
   m_Layer: 8
   m_Name: ElectricBall1
   m_TagString: Untagged
@@ -9163,7 +9163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particleScale: 0.6
   alsoScaleGameobject: 1
---- !u!114 &114000013038815628
+--- !u!114 &114000012409094402
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -9171,7 +9171,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100002}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a07cd6dee5e33a4fb5753f67adbc13c, type: 3}
+  m_Script: {fileID: 11500000, guid: 69073ec1a69424d458fbf04c8756c2e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114000013095188042

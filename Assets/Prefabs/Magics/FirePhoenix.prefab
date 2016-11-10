@@ -9,8 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
-  - 114: {fileID: 114000011599834316}
   - 54: {fileID: 54000010183064706}
+  - 114: {fileID: 114000014047924500}
   m_Layer: 8
   m_Name: FirePhoenix
   m_TagString: Untagged
@@ -6298,17 +6298,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particleScale: 0.6
   alsoScaleGameobject: 1
---- !u!114 &114000011599834316
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cbec09ebf9e8b94eb84fa83481e56ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114000013647455654
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6322,6 +6311,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particleScale: 0.6
   alsoScaleGameobject: 1
+--- !u!114 &114000014047924500
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03345c14e584a8244aad59c05cc6871a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000014143446660
 MonoBehaviour:
   m_ObjectHideFlags: 1
