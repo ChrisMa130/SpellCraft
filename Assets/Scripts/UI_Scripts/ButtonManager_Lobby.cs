@@ -3,6 +3,11 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
+/**
+ * This subclass of ButtonManager_Menu handles the listeners 
+ * of the buttons in the page "Play"
+ * */
 public class ButtonManager_Lobby : ButtonManager_Menu {
 
 
@@ -13,7 +18,6 @@ public class ButtonManager_Lobby : ButtonManager_Menu {
 	byte dots;
 	byte digitsInBlock;
 
-	// Use this for initialization
 	void Start () {
 		base.Start ();
 
@@ -138,7 +142,7 @@ public class ButtonManager_Lobby : ButtonManager_Menu {
 			textField.text = "Invalid IP";
 			error = true;
 		} else {
-			SceneManager.LoadScene ("Prototype");
+			SceneManager.LoadScene ("Prototype_Leo");
 		}
 
 	}

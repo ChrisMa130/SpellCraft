@@ -2,9 +2,12 @@
 using System.Collections;
 using UnityEngine.UI;
 
+    /**
+     * This subclass of ButtonManager_Menu handles the listeners 
+     * of the buttons in the page "Hot To Play"
+     * */
 public class ButtonManager_HowTo : ButtonManager_Menu {
 
-	// Use this for initialization
 	void Start () {
 		base.Start ();
 
