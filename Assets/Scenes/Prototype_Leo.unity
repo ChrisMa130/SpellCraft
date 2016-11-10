@@ -278,6 +278,14 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 4000011439271680, guid: ca6060b774bca114badaf2ca4f5d4bfd, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000011439271680, guid: ca6060b774bca114badaf2ca4f5d4bfd, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1.15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca6060b774bca114badaf2ca4f5d4bfd, type: 2}
   m_IsPrefabParent: 0
@@ -292,6 +300,7 @@ GameObject:
   - 33: {fileID: 229222683}
   - 135: {fileID: 229222682}
   - 23: {fileID: 229222681}
+  - 122: {fileID: 229222684}
   m_Layer: 2
   m_Name: Mana_5
   m_TagString: Untagged
@@ -360,6 +369,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 229222679}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!122 &229222684
+Halo:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 229222679}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4292004367
+  m_Size: 0.01
 --- !u!1 &302145037
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,6 +392,7 @@ GameObject:
   - 33: {fileID: 302145040}
   - 23: {fileID: 302145039}
   - 114: {fileID: 302145038}
+  - 114: {fileID: 302145042}
   m_Layer: 2
   m_Name: BasicCursor
   m_TagString: Cursor
@@ -454,6 +475,17 @@ Transform:
   - {fileID: 796262798}
   m_Father: {fileID: 0}
   m_RootOrder: 5
+--- !u!114 &302145042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 302145037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 692c254f1df9b1843b8536d4ec13bc40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &450385046
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,6 +638,7 @@ GameObject:
   - 33: {fileID: 574741366}
   - 135: {fileID: 574741365}
   - 23: {fileID: 574741364}
+  - 122: {fileID: 574741367}
   m_Layer: 2
   m_Name: Mana_1
   m_TagString: Untagged
@@ -674,6 +707,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 574741362}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!122 &574741367
+Halo:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 574741362}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4292004367
+  m_Size: 0.01
 --- !u!1 &584379645
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,6 +729,7 @@ GameObject:
   - 33: {fileID: 584379649}
   - 135: {fileID: 584379648}
   - 23: {fileID: 584379647}
+  - 122: {fileID: 584379650}
   m_Layer: 2
   m_Name: Mana_8
   m_TagString: Untagged
@@ -753,6 +798,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 584379645}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!122 &584379650
+Halo:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 584379645}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4292004367
+  m_Size: 0.01
 --- !u!1 &601306848
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,6 +1206,7 @@ GameObject:
   - 33: {fileID: 796262801}
   - 135: {fileID: 796262800}
   - 23: {fileID: 796262799}
+  - 122: {fileID: 796262802}
   m_Layer: 2
   m_Name: Mana_9
   m_TagString: Untagged
@@ -1218,6 +1275,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 796262797}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!122 &796262802
+Halo:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 796262797}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4292004367
+  m_Size: 0.01
 --- !u!1 &806022118
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,6 +1297,7 @@ GameObject:
   - 33: {fileID: 806022122}
   - 135: {fileID: 806022121}
   - 23: {fileID: 806022120}
+  - 122: {fileID: 806022123}
   m_Layer: 2
   m_Name: Mana_7
   m_TagString: Untagged
@@ -1297,6 +1366,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 806022118}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!122 &806022123
+Halo:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 806022118}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4292004367
+  m_Size: 0.01
 --- !u!1 &843181835
 GameObject:
   m_ObjectHideFlags: 0
@@ -1308,6 +1388,7 @@ GameObject:
   - 33: {fileID: 843181839}
   - 135: {fileID: 843181838}
   - 23: {fileID: 843181837}
+  - 122: {fileID: 843181840}
   m_Layer: 2
   m_Name: Mana_0
   m_TagString: Untagged
@@ -1376,6 +1457,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 843181835}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!122 &843181840
+Halo:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 843181835}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4292004367
+  m_Size: 0.01
 --- !u!1 &880479451
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,6 +1553,7 @@ GameObject:
   - 33: {fileID: 937768558}
   - 135: {fileID: 937768557}
   - 23: {fileID: 937768556}
+  - 122: {fileID: 937768559}
   m_Layer: 2
   m_Name: Mana_2
   m_TagString: Untagged
@@ -1529,6 +1622,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 937768554}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!122 &937768559
+Halo:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 937768554}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4292004367
+  m_Size: 0.01
 --- !u!1 &1039386997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1931,6 +2035,7 @@ GameObject:
   - 33: {fileID: 1250166192}
   - 135: {fileID: 1250166191}
   - 23: {fileID: 1250166190}
+  - 122: {fileID: 1250166193}
   m_Layer: 2
   m_Name: Mana_6
   m_TagString: Untagged
@@ -1999,6 +2104,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1250166188}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!122 &1250166193
+Halo:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1250166188}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4292004367
+  m_Size: 0.01
 --- !u!1 &1356313165
 GameObject:
   m_ObjectHideFlags: 0
@@ -2010,6 +2126,7 @@ GameObject:
   - 33: {fileID: 1356313169}
   - 135: {fileID: 1356313168}
   - 23: {fileID: 1356313167}
+  - 122: {fileID: 1356313170}
   m_Layer: 2
   m_Name: Mana_3
   m_TagString: Untagged
@@ -2078,6 +2195,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1356313165}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!122 &1356313170
+Halo:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1356313165}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4292004367
+  m_Size: 0.01
 --- !u!1 &1410975312
 GameObject:
   m_ObjectHideFlags: 0
@@ -2230,6 +2358,7 @@ GameObject:
   - 33: {fileID: 1432424220}
   - 135: {fileID: 1432424219}
   - 23: {fileID: 1432424218}
+  - 122: {fileID: 1432424221}
   m_Layer: 2
   m_Name: Mana_4
   m_TagString: Untagged
@@ -2298,6 +2427,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1432424216}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!122 &1432424221
+Halo:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1432424216}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4292004367
+  m_Size: 0.01
 --- !u!1 &1571224671
 GameObject:
   m_ObjectHideFlags: 0
@@ -2854,10 +2994,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Spells:
-  - {fileID: 1000013552039728, guid: 25eca46e01ac61647a598de1e3ec81ab, type: 2}
+  - {fileID: 0}
   - {fileID: 100002, guid: 5bc38ce8b83624f4d94844c673c128c6, type: 2}
   - {fileID: 145764, guid: 5fdbdd2d09143cb46b4b6cec4d5d0133, type: 2}
   - {fileID: 100000, guid: cb9128abf021b7c4e926849ff81c1ca7, type: 2}
+  spellWord: 
 --- !u!114 &1805257174
 MonoBehaviour:
   m_ObjectHideFlags: 0

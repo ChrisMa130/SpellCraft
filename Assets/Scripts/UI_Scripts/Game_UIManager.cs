@@ -7,6 +7,7 @@ public class Game_UIManager : MonoBehaviour {
 	GameObject cursor;
 	GameObject mainCam;
 	HoloToolkit.Unity.BasicCursor basicCursor;
+    CursorColor cursorColor;
 	Player player;
 
 
@@ -15,6 +16,7 @@ public class Game_UIManager : MonoBehaviour {
 	void Start(){
 		cursor = GameObject.FindWithTag ("Cursor");
 		basicCursor = cursor.GetComponent<HoloToolkit.Unity.BasicCursor> ();
+        cursorColor = cursor.GetComponent<CursorColor>();
 
 		mainCam = GameObject.FindWithTag ("MainCamera");
 		player = Player.Instance;
@@ -46,13 +48,13 @@ public class Game_UIManager : MonoBehaviour {
 
 	public void updateCursorColor(){
 		float p = player.getHealthPercentage();
-		basicCursor.updateColor(p);
+        cursorColor.set_hp(p);
 
 	}
 
 	public void updateCursorManaBalls(){
 		int mp = player.getMagic ();
-		basicCursor.updateManaBalls (mp);
+        cursorColor.set_mp(mp);
 	}
 
 
