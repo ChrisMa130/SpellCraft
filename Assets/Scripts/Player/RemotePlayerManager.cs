@@ -20,6 +20,7 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
         public bool Anchored;
     }
 
+    public GameObject HealthIcon;
     /// <summary>
     /// Keep a list of the remote heads
     /// </summary>
@@ -38,7 +39,6 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
     void Start()
     {
         customMessages = CustomMessages.Instance;
-
         customMessages.MessageHandlers[CustomMessages.TestMessageID.HeadTransform] = this.UpdateHeadTransform;
         customMessages.MessageHandlers[CustomMessages.TestMessageID.PlayerHealth] = this.UpdatePlayerHealth;
         SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
@@ -84,9 +84,14 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
             headInfo = new RemoteHeadInfo();
             headInfo.UserID = userID;
 
+            headInfo.HeadObject = Instantiate(HealthIcon);
+            headInfo.HeadObject.GetComponent<HealthDisplayBehavior>().setHealth(headInfo.playerHealth);
+            headInfo.headObjectPositionOffset = headInfo.HeadObject.transform.localPosition;
+            headInfo.HeadObject.transform.parent = this.transform;
+            headInfo.Active = true;
+
             this.remoteHeads.Add(userID, headInfo);
         }
-
         return headInfo;
     }
 
@@ -103,9 +108,10 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
 
         Quaternion headRot = customMessages.ReadQuaternion(msg);
 
+        // If head info does not exist for this userID, a new one will be created
+        // with the call to GetRemoteHeadInfo.
         RemoteHeadInfo headInfo = GetRemoteHeadInfo(userID);
         
-
         if (headInfo.HeadObject != null)
         {
             // If we don't have our anchor established, don't draw the remote head.
@@ -115,33 +121,32 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
 
             headInfo.HeadObject.transform.localRotation = headRot;
 
+            /* Our code for testing */
+            Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
+            Vector3 remoteHealthDisplayPos = anchor.TransformPoint(headPos);
+
+            GameObject healthDisplay = headInfo.HeadObject;
+            healthDisplay.transform.parent = this.transform;
+            healthDisplay.transform.position = remoteHealthDisplayPos;
+
         }
 
         headInfo.Anchored = (msg.ReadByte() > 0);
     }
 
+    /*
+     * Updates other players' health in the game world.
+     */
     void UpdatePlayerHealth(NetworkInMessage msg)
     {
         // Parse the message
         long userID = msg.ReadInt64();
 
         RemoteHeadInfo headInfo = GetRemoteHeadInfo(userID);
-        
-        Vector3 remoteHeadPosition = customMessages.ReadVector3(msg);
 
         headInfo.playerHealth = msg.ReadInt32();
         // Configure the remote user's head sprite
-        if (headInfo.HeadObject != null)
-        {
-            Destroy(headInfo.HeadObject);
-        }
-
-        headInfo.HeadObject = Instantiate(GameObject.FindGameObjectWithTag("HealthDisplay"));
         headInfo.HeadObject.GetComponent<HealthDisplayBehavior>().setHealth(headInfo.playerHealth);
-        headInfo.headObjectPositionOffset = headInfo.HeadObject.transform.localPosition;
-        headInfo.HeadObject.transform.parent = this.transform;
-        headInfo.HeadObject.GetComponent<SpriteRenderer>().enabled = true;
-        headInfo.Active = true;
     }
 
     /// <summary>

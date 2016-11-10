@@ -42,7 +42,7 @@ public class RemoteHeadManager : Singleton<RemoteHeadManager>
         Vector3 headPosition = this.transform.InverseTransformPoint(headTransform.position);
         Quaternion headRotation = Quaternion.Inverse(this.transform.rotation) * headTransform.rotation;
 
-        CustomMessages.Instance.SendHeadTransform(headPosition, headRotation);
+        CustomMessages.Instance.SendHeadTransform(headPosition, headRotation, 0x1);
     }
 
     /// <summary>

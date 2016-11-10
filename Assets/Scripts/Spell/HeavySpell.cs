@@ -1,9 +1,8 @@
 using UnityEngine;
-
 public class HeavySpell : MonoBehaviour, Spell
 {
     // stats of the heavy spell
-    private string spellName = "confringo";
+    //private string spellName = "confringo";
     private int damage = 50;
     private int mpCost = 10;
 
@@ -22,8 +21,11 @@ public class HeavySpell : MonoBehaviour, Spell
     // reduce Player health on collision, and destroy spell instance
     public void OnCollisionEnter(Collision other)
     {
-        if (other.collider.tag.Equals("MainCamera")) { }
-        // reduce player health
-        other.gameObject.GetComponent<Player>().modifyHealth(this.getDamage());
+        if (other.collider.tag.Equals("MainCamera"))
+        {
+            // reduce player health
+            other.gameObject.GetComponent<Player>().modifyHealth(this.getDamage());
+            Destroy(this);
+        }
     }
 }

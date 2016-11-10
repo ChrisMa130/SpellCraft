@@ -6,13 +6,13 @@ public class DebugScript : MonoBehaviour {
 
     Text anchorPos;
     Text anchorState;
-    Text Join_Count;
+    Text Health;
     GameObject manager;
 
     void Start() {
         anchorPos = gameObject.transform.FindChild("AnchorPos").GetComponent<Text>();
         anchorState = gameObject.transform.FindChild("AnchorState").GetComponent<Text>();
-        Join_Count = gameObject.transform.FindChild("Join_Count").GetComponent<Text>();
+        Health = gameObject.transform.FindChild("Health").GetComponent<Text>();
         manager = GameObject.Find("Anchor");
     }
 
@@ -29,6 +29,6 @@ public class DebugScript : MonoBehaviour {
 
         anchorState.text = "State : " + anchorMgr.StateName;
 
-        Join_Count.text = "Join_Count : " + anchorMgr.join_count;
+        Health.text = "Health: " + Player.Instance.getHealth();
     }
 }

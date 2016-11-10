@@ -118,7 +118,6 @@ public class CustomMessages : Singleton<CustomMessages> {
         SharingStage.Instance.SharingManagerConnected += SharingManagerConnected;
         ctime = CurrentTimeMillis();
         timer1 = ctime += TIMEOUT;
-        //SharingStage.Instance.
     }
 
     // Update is called once per frame
@@ -319,7 +318,7 @@ public class CustomMessages : Singleton<CustomMessages> {
 
     }
 
-    public void SendHeadTransform(Vector3 position, Quaternion rotation)
+    public void SendHeadTransform(Vector3 position, Quaternion rotation, byte HasAnchor)
     {
         // If we are connected to a session, broadcast our head info
         if (this.serverConnection != null && this.serverConnection.IsConnected())
@@ -328,6 +327,8 @@ public class CustomMessages : Singleton<CustomMessages> {
             NetworkOutMessage msg = CreateMessage((byte)TestMessageID.HeadTransform);
 
             AppendTransform(msg, position, rotation);
+
+            msg.Write(HasAnchor);
 
             // Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
             this.serverConnection.Broadcast(
@@ -338,20 +339,19 @@ public class CustomMessages : Singleton<CustomMessages> {
         }
     }
 
-    public void UpdatePlayerHealth(Vector3 headPosition, int playerHealth)
+    public void UpdatePlayerHealth(int playerHealth)
     {
         if (this.serverConnection != null && this.serverConnection.IsConnected())
         {
             // Create an outgoin network message to contain all the info we want to send
             NetworkOutMessage msg = CreateMessage((byte)TestMessageID.PlayerHealth);
-            AppendVector3(msg, headPosition);
             msg.Write(playerHealth);
 
             // Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
             this.serverConnection.Broadcast(
                 msg,
                 MessagePriority.Immediate,
-                MessageReliability.Reliable,
+                MessageReliability.UnreliableSequenced,
                 MessageChannel.Avatar);
         }
     }
