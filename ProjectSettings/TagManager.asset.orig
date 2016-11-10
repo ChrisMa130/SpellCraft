@@ -3,14 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - UIManager
-  - IP_Field
-  - HealthDisplay
-  - Pick Up
-  - Cursor
-  - GameUI
-  - Anchor
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -20,8 +13,8 @@ TagManager:
   - UI
   - 
   - 
-  - Projectiles
-  - Player
+  - 
+  - 
   - 
   - 
   - 
