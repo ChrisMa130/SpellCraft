@@ -7,10 +7,6 @@ public class Player : Singleton<Player>
     public int MIN_HEALTH = 0;
     public int MAX_MAGIC = 10;
 
-    // Looks like these are no longer needed. Review with team.
-    //private bool gameStarted = false;  
-    //private bool singlePlayer = false;
-
     private int health;
     private int magic;
     public bool alive;
@@ -27,6 +23,8 @@ public class Player : Singleton<Player>
         alive = true;
     }
 
+
+    // Class ctor used for testing purposes. Not called by the game itself.
     public Player()
     {
         health = MAX_HEALTH;
@@ -62,25 +60,11 @@ public class Player : Singleton<Player>
 
 
 
-	//TO REMOVE
-	public void hitMe(){
-		modifyHealth (5);
-	}
-	public void healMe(){
-		modifyHealth (-5);
-	}
-
-	public void useMana(){
-		if (magic > 0) {magic--;}
-	}
-
-	public void rechargeMana(){
-		if (magic < MAX_MAGIC) {magic++;}
-	}
+	
 
     // Modify mana by orbs or casting of spells. If the mana is being
-    // increased, the argument is negative.
-    // Parameters- magicPoints: the amount by which magic is changing. Negative
+    // increased, the argument is positive.
+    // Parameters- magicPoints: the amount by which magic is changing. Positive
     //                          for orbs, indicating an increase
     // Returns- current magic as an integer. If for some reason this is called
     //          and the player does not have sufficient magic points to cast
@@ -116,6 +100,26 @@ public class Player : Singleton<Player>
     public int getMagic()
     {
         return this.magic;
+    }
+
+    //These are used for UI testing purposes ONLY
+    public void hitMe()
+    {
+        modifyHealth(5);
+    }
+    public void healMe()
+    {
+        modifyHealth(-5);
+    }
+
+    public void useMana()
+    {
+        if (magic > 0) { magic--; }
+    }
+
+    public void rechargeMana()
+    {
+        if (magic < MAX_MAGIC) { magic++; }
     }
 
 }
