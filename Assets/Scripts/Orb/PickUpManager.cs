@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using HoloToolkit.Sharing;
-using UnityEngine.Assertions;
-using System;
+using HoloToolkit.Unity;
 
-public class PickUpManager : MonoBehaviour
+
+public class PickUpManager : Singleton<PickUpManager>
 {
 
     public List<GameObject> Orbs;
@@ -41,7 +40,8 @@ public class PickUpManager : MonoBehaviour
                 Vector3 orbLocation = calculateOrbLocation();
                 // broadcast orb to others
                 GenerateOrb(orbLocation, nextIndex);
-                CustomMessages.Instance.SendOrb(orbLocation, nextIndex);
+                Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
+                CustomMessages.Instance.SendOrb(anchor.InverseTransformPoint(orbLocation), nextIndex);
                 nextIndex++;
                 //create orb for primary
                 tillOrbSpawnTime = SPAWN_TIME;
