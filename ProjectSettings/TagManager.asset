@@ -4,12 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - UIManager
-  - IP_Field
-  - HealthDisplay
-  - Pick Up
-  - Cursor
-  - GameUI
   - Anchor
   layers:
   - Default
@@ -20,8 +14,8 @@ TagManager:
   - UI
   - 
   - 
-  - Projectiles
-  - Player
+  - 
+  - 
   - 
   - 
   - 
