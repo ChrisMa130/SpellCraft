@@ -63,8 +63,19 @@ public class Player : Singleton<Player>
 
 
 	//TO REMOVE
-	public void hitme(){
+	public void hitMe(){
 		modifyHealth (5);
+	}
+	public void healMe(){
+		modifyHealth (-5);
+	}
+
+	public void useMana(){
+		if (magic > 0) {magic--;}
+	}
+
+	public void rechargeMana(){
+		if (magic < MAX_MAGIC) {magic++;}
 	}
 
     // Modify mana by orbs or casting of spells. If the mana is being
