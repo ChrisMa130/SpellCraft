@@ -53,7 +53,7 @@ public class PickUpManager : Singleton<PickUpManager>
     //TODO
     private Vector3 calculateOrbLocation()
     {
-        return new Vector3(0,0,nextIndex);
+        return new Vector3(0,0, nextIndex);
     }
 
     // todo fix and and adapt from ProcessRemoteSpell

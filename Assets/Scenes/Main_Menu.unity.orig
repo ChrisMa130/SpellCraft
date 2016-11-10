@@ -182,6 +182,8 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b84b73491ac53a34095000876132a211, type: 2}
   m_IsPrefabParent: 0
+<<<<<<< HEAD
+=======
 --- !u!1001 &814405504
 Prefab:
   m_ObjectHideFlags: 0
@@ -307,6 +309,7 @@ Camera:
   m_PrefabParentObject: {fileID: 2035550, guid: b84b73491ac53a34095000876132a211,
     type: 2}
   m_PrefabInternal: {fileID: 705362262}
+>>>>>>> 16464e24e722bb16c8e8531af5c81d249504e09e
 --- !u!1 &1704961348
 GameObject:
   m_ObjectHideFlags: 0

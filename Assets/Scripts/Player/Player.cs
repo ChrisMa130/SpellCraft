@@ -56,8 +56,27 @@ public class Player : Singleton<Player>
         {
             this.health = MAX_HEALTH;
         }
+			
         return this.health;
     }
+
+
+
+	//TO REMOVE
+	public void hitMe(){
+		modifyHealth (5);
+	}
+	public void healMe(){
+		modifyHealth (-5);
+	}
+
+	public void useMana(){
+		if (magic > 0) {magic--;}
+	}
+
+	public void rechargeMana(){
+		if (magic < MAX_MAGIC) {magic++;}
+	}
 
     // Modify mana by orbs or casting of spells. If the mana is being
     // increased, the argument is negative.
@@ -87,6 +106,10 @@ public class Player : Singleton<Player>
     {
         return this.health;
     }
+
+	public float getHealthPercentage(){
+		return (1.0f * health) / MAX_HEALTH;
+	}
 
     // Returns the current magic points of the player.
     // Returns: magic points as an integer
