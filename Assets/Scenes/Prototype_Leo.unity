@@ -393,6 +393,7 @@ GameObject:
   - 23: {fileID: 302145039}
   - 114: {fileID: 302145038}
   - 114: {fileID: 302145042}
+  - 114: {fileID: 302145043}
   m_Layer: 2
   m_Name: BasicCursor
   m_TagString: Cursor
@@ -484,6 +485,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 692c254f1df9b1843b8536d4ec13bc40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &302145043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 302145037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11d7166130ae7cd46b1d80656d9682fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &450385046
@@ -1180,6 +1192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 893994d95b70cd149863e276601e8f9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthIcon: {fileID: 0}
 --- !u!54 &779350293
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2998,7 +3011,6 @@ MonoBehaviour:
   - {fileID: 100002, guid: 5bc38ce8b83624f4d94844c673c128c6, type: 2}
   - {fileID: 145764, guid: 5fdbdd2d09143cb46b4b6cec4d5d0133, type: 2}
   - {fileID: 100000, guid: cb9128abf021b7c4e926849ff81c1ca7, type: 2}
-  spellWord: 
 --- !u!114 &1805257174
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -129,6 +129,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1000011615027238, guid: ca6060b774bca114badaf2ca4f5d4bfd, type: 2}
+      propertyPath: m_TagString
+      value: Cursor
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca6060b774bca114badaf2ca4f5d4bfd, type: 2}
   m_IsPrefabParent: 0
@@ -195,7 +199,7 @@ GameObject:
   - 114: {fileID: 302145038}
   m_Layer: 2
   m_Name: BasicCursor
-  m_TagString: Untagged
+  m_TagString: Cursor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
