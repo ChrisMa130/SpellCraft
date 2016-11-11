@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+/** The GameStateManager Script handles each of the five game states: 
+    'start', 'waiting', 'playing', 'loses', and 'end'. Game states for
+    different players are updated simultaneouly with CustomMessages as 
+    game progress. When a game state changes, the manager will enable 
+    UIManager to handle the switching of scenes and UI for the game.
+**/
+
+using UnityEngine;
 using System.Collections.Generic;
 using HoloToolkit.Sharing;
 using HoloToolkit.Unity;
