@@ -69,7 +69,7 @@ public class PlayerTest {
     {
         Player player = new Player();
         int magic = player.getMagic();
-        magic = player.modifyMagic(10);
+        magic = player.modifyMagic(-10);
         Assert.AreEqual(magic, 0);
         Assert.AreEqual(player.getMagic(), 0);
         magic = player.modifyMagic(2);
@@ -82,7 +82,7 @@ public class PlayerTest {
     {
         Player player = new Player();
         int magic = player.getMagic();
-        magic = player.modifyMagic(-1);
+        magic = player.modifyMagic(1);
         Assert.AreEqual(magic, 10);
         Assert.AreEqual(player.getMagic(), 10);
     }
@@ -92,7 +92,7 @@ public class PlayerTest {
     {
         Player player = new Player();
         int magic = player.getMagic();
-        player.modifyMagic(1);
+        player.modifyMagic(-1);
         magic = player.getMagic();
         Assert.AreEqual(magic, 9);
     }
@@ -102,8 +102,8 @@ public class PlayerTest {
     {
         Player player = new Player();
         int magic = player.getMagic();
-        player.modifyMagic(1);
-        player.modifyMagic(1);
+        player.modifyMagic(-1);
+        player.modifyMagic(-1);
         magic = player.getMagic();
         Assert.AreEqual(magic, 8);
     }
