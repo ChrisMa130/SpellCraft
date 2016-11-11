@@ -11,6 +11,7 @@ TagManager:
   - Cursor
   - GameUI
   - Anchor
+  - GameSettings
   layers:
   - Default
   - TransparentFX

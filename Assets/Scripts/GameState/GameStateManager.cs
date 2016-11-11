@@ -24,7 +24,13 @@ namespace HoloToolkit.Sharing
 
         private Session currentSession;
 
-        private bool sharingServiceReady = false;
+        public bool sharingServiceReady = false;
+
+        void Awake()
+        {
+            SetSettings();
+            SharingStage.Instance.enabled = true;
+        }
 
         void Start()
         {
@@ -32,6 +38,18 @@ namespace HoloToolkit.Sharing
             CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.AnchorRequest] = this.ProcessAnchorComplete;
             SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
 
+        }
+
+        private void SetSettings()
+        {
+            GameObject settings = GameObject.FindWithTag("GameSettings");
+            if (settings != null)
+            {
+                SharingStage.Instance.ServerAddress = settings.GetComponent<GameSettings>().IPAddress;
+
+            }
+            else
+                Debug.Log("Could not find GameSettings");
         }
 
         private void Instance_SessionJoined(object sender, SharingSessionTracker.SessionJoinedEventArgs e)
@@ -46,6 +64,7 @@ namespace HoloToolkit.Sharing
         private void MarkSharingServiceReady()
         {
             sharingServiceReady = true;
+            //ImportExportAnchorManager.Instance.sharingServiceReady = true;
             currentSession = SharingStage.Instance.Manager.GetSessionManager().GetCurrentSession();
         }
 
@@ -115,7 +134,7 @@ namespace HoloToolkit.Sharing
                     break;
 
                 case GameStatus.Loses:
-
+                    break;
                 case GameStatus.End:
 
                     break;

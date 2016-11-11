@@ -142,10 +142,20 @@ public class ButtonManager_Lobby : ButtonManager_Menu {
 			textField.text = "Invalid IP";
 			error = true;
 		} else {
-			SceneManager.LoadScene ("Prototype_Leo");
+            setGameSettings();
+			SceneManager.LoadScene ("Prototype");
 		}
 
 	}
+
+    private void setGameSettings()
+    {
+        GameSettings settings = GameObject.FindWithTag("GameSettings").GetComponent<GameSettings>();
+        if (settings != null)
+        {
+            settings.IPAddress = GameObject.FindWithTag("UIManager").GetComponent<MainMenu_UIManager>().get_IP_string();
+        }
+    }
 
 	public void onBtn1Click()
 	{

@@ -121,7 +121,7 @@ PlayerSettings:
     serializedVersion: 2
     m_Bits: 238
   iPhoneSdkVersion: 988
-  iPhoneTargetOSVersion: 22
+  iPhoneTargetOSVersion: 24
   tvOSSdkVersion: 0
   tvOSTargetOSVersion: 900
   uIPrerenderedIcon: 0
@@ -374,7 +374,8 @@ PlayerSettings:
       CodeGeneration: False
       EnterpriseAuthentication: False
       HumanInterfaceDevice: False
-      InternetClient: False
+      InputInjectionBrokered: False
+      InternetClient: True
       InternetClientServer: True
       Location: False
       Microphone: True
@@ -438,10 +439,8 @@ PlayerSettings:
   intPropertyNames:
   - Metro::ScriptingBackend
   - Standalone::ScriptingBackend
-  - WebPlayer::ScriptingBackend
   Metro::ScriptingBackend: 2
   Standalone::ScriptingBackend: 0
-  WebPlayer::ScriptingBackend: 0
   boolPropertyNames:
   - Android::VR::enable
   - Metro::VR::enable
@@ -458,7 +457,6 @@ PlayerSettings:
   - WiiU::VR::enable
   - Xbox360::VR::enable
   - XboxOne::VR::enable
-  - XboxOne::enus
   - iOS::VR::enable
   - tvOS::VR::enable
   Android::VR::enable: 0
@@ -476,7 +474,6 @@ PlayerSettings:
   WiiU::VR::enable: 0
   Xbox360::VR::enable: 0
   XboxOne::VR::enable: 0
-  XboxOne::enus: 1
   iOS::VR::enable: 0
   tvOS::VR::enable: 0
   stringPropertyNames:

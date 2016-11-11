@@ -6,12 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Prototype_Matthew.unity
-  - enabled: 1
     path: Assets/Scenes/Main_Menu_Prototype_Leo.unity
-  - enabled: 1
-    path: Assets/Scenes/Prototype_Leo.unity
-  - enabled: 1
-    path: Assets/Scenes/Main_Menu.unity
   - enabled: 1
     path: Assets/Scenes/Prototype.unity

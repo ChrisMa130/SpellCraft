@@ -226,7 +226,7 @@ GameObject:
   - 224: {fileID: 759291352}
   - 222: {fileID: 759291354}
   - 114: {fileID: 759291353}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: AnchorPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ GameObject:
   - 136: {fileID: 779350290}
   - 114: {fileID: 779350289}
   - 54: {fileID: 779350293}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -394,7 +394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MAX_HEALTH: 100
   MIN_HEALTH: 0
-  MAX_MAGIC: 10
+  MAX_MAGIC: 100
   alive: 1
 --- !u!136 &779350290
 CapsuleCollider:
@@ -405,8 +405,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.4
-  m_Height: 1.85
+  m_Radius: 0.15
+  m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: -0.925, z: 0}
 --- !u!54 &779350293
@@ -434,7 +434,7 @@ GameObject:
   - 224: {fileID: 880479452}
   - 222: {fileID: 880479454}
   - 114: {fileID: 880479453}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Join_Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -513,7 +513,7 @@ GameObject:
   - 65: {fileID: 1039387001}
   - 114: {fileID: 1039387000}
   - 114: {fileID: 1039387006}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Main_Menu_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -679,7 +679,7 @@ MonoBehaviour:
   RecognizerStart: 0
   KeywordsAndResponses:
   - Keyword: incendio
-    KeyCode: 0
+    KeyCode: 32
     Response:
       m_PersistentCalls:
         m_Calls:
@@ -697,7 +697,7 @@ MonoBehaviour:
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
   - Keyword: expelliarmus
-    KeyCode: 0
+    KeyCode: 9
     Response:
       m_PersistentCalls:
         m_Calls:
@@ -714,7 +714,7 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-  - Keyword: avada kedavra
+  - Keyword: fenix
     KeyCode: 32
     Response:
       m_PersistentCalls:
@@ -726,24 +726,6 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 2
-            m_FloatArgument: 0
-            m_StringArgument: blue
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-  - Keyword: fenix
-    KeyCode: 0
-    Response:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1805257173}
-          m_MethodName: CastSpell
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 3
             m_FloatArgument: 0
             m_StringArgument: blue
             m_BoolArgument: 0
@@ -801,12 +783,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1130733693}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 06883db29213624408e99867e7a42e6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  sharingServiceReady: 0
 --- !u!1001 &1210235350
 Prefab:
   m_ObjectHideFlags: 0
@@ -930,7 +913,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 1547450313}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1000,9 +983,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Spells:
-  - {fileID: 1000013552039728, guid: 25eca46e01ac61647a598de1e3ec81ab, type: 2}
+  - {fileID: 100010, guid: e29eca76bc2538f46a6da73086448575, type: 2}
   - {fileID: 100002, guid: 5bc38ce8b83624f4d94844c673c128c6, type: 2}
-  - {fileID: 145764, guid: 5fdbdd2d09143cb46b4b6cec4d5d0133, type: 2}
   - {fileID: 100000, guid: cb9128abf021b7c4e926849ff81c1ca7, type: 2}
 --- !u!114 &1805257174
 MonoBehaviour:
@@ -1010,12 +992,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1805257171}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa48b8a3119f2b24896e22f864cf43ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   join_count: 0
+  sharingServiceReady: 0
 --- !u!114 &1805257175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1095,7 +1078,7 @@ Prefab:
     - target: {fileID: 114000012667812730, guid: 8aaf37823b26ee449bb3b3d7775965c3,
         type: 2}
       propertyPath: ServerAddress
-      value: 108.179.185.17
+      value: 140.142.30.51
       objectReference: {fileID: 0}
     - target: {fileID: 114000012667812730, guid: 8aaf37823b26ee449bb3b3d7775965c3,
         type: 2}
@@ -1115,6 +1098,10 @@ Prefab:
     - target: {fileID: 114000012667812730, guid: 8aaf37823b26ee449bb3b3d7775965c3,
         type: 2}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 163528, guid: 8aaf37823b26ee449bb3b3d7775965c3, type: 2}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1145,7 +1132,7 @@ GameObject:
   - 224: {fileID: 2098535127}
   - 222: {fileID: 2098535129}
   - 114: {fileID: 2098535128}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: AnchorState
   m_TagString: Untagged
   m_Icon: {fileID: 0}

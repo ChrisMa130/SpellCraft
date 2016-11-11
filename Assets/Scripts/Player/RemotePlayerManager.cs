@@ -66,7 +66,10 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
     /// <param name="e"></param>
     private void Instance_SessionJoined(object sender, SharingSessionTracker.SessionJoinedEventArgs e)
     {
-        GetRemoteHeadInfo(e.joiningUser.GetID());
+        if (e.joiningUser.GetID() != SharingStage.Instance.Manager.GetLocalUser().GetID())
+        {
+            GetRemoteHeadInfo(e.joiningUser.GetID());
+        }
     }
 
     /// <summary>
@@ -85,7 +88,8 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
             headInfo.UserID = userID;
 
             headInfo.HeadObject = Instantiate(HealthIcon);
-            headInfo.HeadObject.GetComponent<HealthDisplayBehavior>().setHealth(headInfo.playerHealth);
+            HealthDisplayBehavior remote = headInfo.HeadObject.transform.FindChild("Sprite").GetComponent<HealthDisplayBehavior>();
+            remote.setHealth(headInfo.playerHealth);
             headInfo.headObjectPositionOffset = headInfo.HeadObject.transform.localPosition;
             headInfo.HeadObject.transform.parent = this.transform;
             headInfo.Active = true;
@@ -117,9 +121,9 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
             // If we don't have our anchor established, don't draw the remote head.
             headInfo.HeadObject.SetActive(headInfo.Anchored);
 
-            headInfo.HeadObject.transform.localPosition = headPos + headRot * headInfo.headObjectPositionOffset;
+            headInfo.HeadObject.transform.localPosition = headPos;
 
-            headInfo.HeadObject.transform.localRotation = headRot;
+            //headInfo.HeadObject.transform.localRotation = headRot;
 
             /* Our code for testing */
             Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
@@ -146,7 +150,8 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
 
         headInfo.playerHealth = msg.ReadInt32();
         // Configure the remote user's head sprite
-        headInfo.HeadObject.GetComponent<HealthDisplayBehavior>().setHealth(headInfo.playerHealth);
+        HealthDisplayBehavior remote = headInfo.HeadObject.transform.FindChild("Sprite").GetComponent<HealthDisplayBehavior>();
+        remote.setHealth(headInfo.playerHealth);
     }
 
     /// <summary>
