@@ -47,6 +47,8 @@ public class CustomMessages : Singleton<CustomMessages> {
         OrbPickedUp,
         PlayerStatus,
         DeathMessage,
+        AnchorRequest,
+        AnchorComplete,
         /*
         Stuff like: PlayerHit, OrbPickedUp, PlayerStatus(send's hp and mana?) etc..          
           
@@ -118,19 +120,12 @@ public class CustomMessages : Singleton<CustomMessages> {
         SharingStage.Instance.SharingManagerConnected += SharingManagerConnected;
         ctime = CurrentTimeMillis();
         timer1 = ctime += TIMEOUT;
+        //SharingStage.Instance.
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (LocalUserHasLowestUserId())
-        {
-            SharingStage.Instance.ClientRole = HoloToolkit.Sharing.ClientRole.Primary;
-        }
-        else
-        {
-            SharingStage.Instance.ClientRole = HoloToolkit.Sharing.ClientRole.Secondary;
-        }
 
         /*if (ctime == 0)
         {
@@ -241,6 +236,32 @@ public class CustomMessages : Singleton<CustomMessages> {
 
             msg.Write(index);
             // Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
+            this.serverConnection.Broadcast(
+                msg,
+                MessagePriority.Immediate,
+                MessageReliability.Reliable,
+                MessageChannel.Avatar);
+        }
+    }
+
+    public void SendAnchorRequest()
+    {
+        if (this.serverConnection != null && this.serverConnection.IsConnected())
+        {
+            NetworkOutMessage msg = CreateMessage((byte)TestMessageID.AnchorRequest);
+            this.serverConnection.Broadcast(
+                msg,
+                MessagePriority.Immediate,
+                MessageReliability.Reliable,
+                MessageChannel.Avatar);
+        }
+    }
+
+    public void SendAnchorComplete()
+    {
+        if (this.serverConnection != null && this.serverConnection.IsConnected())
+        {
+            NetworkOutMessage msg = CreateMessage((byte)TestMessageID.AnchorComplete);
             this.serverConnection.Broadcast(
                 msg,
                 MessagePriority.Immediate,

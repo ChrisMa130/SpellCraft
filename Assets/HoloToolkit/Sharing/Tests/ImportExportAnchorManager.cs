@@ -121,6 +121,13 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
     private void Awake()
     {
         Debug.Log("Import Export Manager starting");
+        //Wait for a notification that the sharing manager has been initialized (connected to sever)
+        SharingStage.Instance.SharingManagerConnected += SharingManagerConnected;
+
+        // We will register for session joined to indicate when the sharing service
+        // is ready for us to make room related requests.
+        SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
+
         // We need to get our local anchor store started up.
         currentState = ImportExportState.AnchorStore_Initializing;
         WorldAnchorStore.GetAsync(AnchorStoreReady);
@@ -129,11 +136,12 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
     private void Start()
     {
         //Wait for a notification that the sharing manager has been initialized (connected to sever)
-        SharingStage.Instance.SharingManagerConnected += SharingManagerConnected;
+        //SharingStage.Instance.SharingManagerConnected += SharingManagerConnected;
 
         // We will register for session joined to indicate when the sharing service
         // is ready for us to make room related requests.
-        SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
+        //SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
+
     }
 
     private void OnDestroy()

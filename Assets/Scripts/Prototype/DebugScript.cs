@@ -10,16 +10,21 @@ public class DebugScript : MonoBehaviour {
     GameObject manager;
 
     void Start() {
+        manager = GameObject.FindWithTag("Anchor");
         anchorPos = gameObject.transform.FindChild("AnchorPos").GetComponent<Text>();
         anchorState = gameObject.transform.FindChild("AnchorState").GetComponent<Text>();
-        Health = gameObject.transform.FindChild("Health").GetComponent<Text>();
-        manager = GameObject.Find("Anchor");
+        //Health = gameObject.transform.FindChild("Health").GetComponent<Text>();
     }
 
 	// Update is called once per frame
 	void Update () {
-        WorldAnchor anchor = manager.GetComponent<WorldAnchor>();
-        ImportExportAnchorManager anchorMgr = manager.GetComponent<ImportExportAnchorManager>();
+        WorldAnchor anchor = null;
+        ImportExportAnchorManager anchorMgr = null;
+        if (manager != null)
+        {
+            anchor = manager.GetComponent<WorldAnchor>();
+            anchorMgr = manager.GetComponent<ImportExportAnchorManager>();
+        }
         if (anchor == null)
             anchorPos.text = "Anchor is null";
         else if (!anchor.isLocated)
@@ -29,6 +34,6 @@ public class DebugScript : MonoBehaviour {
 
         anchorState.text = "State : " + anchorMgr.StateName;
 
-        Health.text = "Health: " + Player.Instance.getHealth();
+        //Health.text = "Health: " + Player.Instance.getHealth();
     }
 }
