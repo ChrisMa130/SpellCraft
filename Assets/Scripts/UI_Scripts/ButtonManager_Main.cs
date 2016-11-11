@@ -4,7 +4,10 @@ using System.Collections;
 
 
 
-
+/**
+ * This subclass of ButtonManager_Menu handles
+ * the buttons of the first loading page of the main menu
+ * */
 public class ButtonManager_Main : ButtonManager_Menu
     {
 
@@ -28,23 +31,38 @@ public class ButtonManager_Main : ButtonManager_Menu
         }
     }   
 
-	public void onBtnPlayClick()
+    /**
+     * This listener listens to the button Play
+     * and opens the corresponding Canvas
+     * */
+	private void onBtnPlayClick()
 	{
 		bool flag = menuMgr.openUI (6);
 	}
-
-    public void onBtnSpellbookClick()
+    /**
+     * This listener listens to the button Spellbook
+     * and opens the corresponding Canvas
+     * */
+    private void onBtnSpellbookClick()
     {
 		bool flag = menuMgr.openUI(1);
         
     }
-		
-	public void onBtnHowToPlayClick()
+
+    /**
+     * This listener listens to the button How to Play
+     * and opens the corresponding Canvas
+     * */
+    private void onBtnHowToPlayClick()
 	{
 		bool flag = menuMgr.openUI (2);
 	}
 
-	public void onBtnRescanClick()
+    /**
+     * This listener listens to the button Rescan
+     * and opens the corresponding Canvas
+     * */
+    private void onBtnRescanClick()
 	{
 		bool flag = menuMgr.openUI (5);
 	}

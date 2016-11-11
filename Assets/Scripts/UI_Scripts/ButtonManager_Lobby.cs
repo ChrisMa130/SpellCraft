@@ -7,6 +7,10 @@ using UnityEngine.SceneManagement;
 /**
  * This subclass of ButtonManager_Menu handles the listeners 
  * of the buttons in the page "Play"
+ * 
+ * The IP address has to be inputed in this page,
+ * so some simple checks on the number of digits and dots written
+ * have to be done
  * */
 public class ButtonManager_Lobby : ButtonManager_Menu {
 
@@ -135,7 +139,12 @@ public class ButtonManager_Lobby : ButtonManager_Menu {
 		
 	}
 
-	public void onBtnReadyClick()
+    /**
+     * This listener listens to the button Ready
+     * checks with the Manager if the IP is valid
+     * if yes launch the game
+     * */
+    private void onBtnReadyClick()
 	{
 		if (dots < 3 || !menuMgr.set_IP (text)) {
 			clear ();
@@ -147,58 +156,58 @@ public class ButtonManager_Lobby : ButtonManager_Menu {
 
 	}
 
-	public void onBtn1Click()
+    private void onBtn1Click()
 	{
 		addDigit ('1');
 	}
-	public void onBtn2Click()
+    private void onBtn2Click()
 	{	
 		addDigit ('2');
 	}
-	public void onBtn3Click()
+    private void onBtn3Click()
 	{
 		addDigit ('3');
 
 	}
-	public void onBtn4Click()
+    private void onBtn4Click()
 	{
 		addDigit ('4');
 
 	}
-	public void onBtn5Click()
+    private void onBtn5Click()
 	{
 		addDigit ('5');
 	}
-	public void onBtn6Click()
+    private void onBtn6Click()
 	{
 		addDigit ('6');
 	}
-	public void onBtn7Click()
+    private void onBtn7Click()
 	{
 		addDigit ('7');
 
 	}
-	public void onBtn8Click()
+    private void onBtn8Click()
 	{
 		addDigit ('8');
 
 	}
-	public void onBtn9Click()
+    private void onBtn9Click()
 	{
 		addDigit ('9');
 
 	}
-	public void onBtn0Click()
+    private void onBtn0Click()
 	{
 		addDigit ('0');
 
 	}
-	public void onBtnDotClick()
+    private void onBtnDotClick()
 	{
 		addDigit ('.');
 
 	}
-	public void onBtnBSClick()
+    private void onBtnBSClick()
 	{
 		erase ();
 	}

@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * This class represents the color of the cursor
+ * and the manaballs around the cursor
+ * */
 public class CursorColor : MonoBehaviour {
 
     private Material cursorMat;
@@ -21,12 +25,20 @@ public class CursorColor : MonoBehaviour {
     }
 	
 	// Update is called once per frame
+    /**
+     * each frame, the color of the cursor has to be updated
+     * and the number of lit mana balls should be reevaluated
+     * */
 	void Update () {
         updateColor();
         updateManaBalls();
     }
 
-    public void setColor(Material mat, float r, float g, float b)
+    /**
+     * helper method that sets a meaterial's color's 
+     * r,g,b to the ones given
+     * */
+    private void setColor(Material mat, float r, float g, float b)
     {
         Color c = mat.color;
         c.r = r;
@@ -35,16 +47,28 @@ public class CursorColor : MonoBehaviour {
         mat.color = c;
     }
 
+
+    /**
+     * setter which modifies the value of 
+     * the percentage of health left
+     * */
     public void set_hp(float p) {
         hpPercentage = p;
     }
 
+    /**
+     * setter which modifies the value of 
+     * the mana points left
+     * */
     public void set_mp(int mp) {
         if (mp > nbBalls) { mp = nbBalls; }
         manaPoints = mp;
     }
 
-    public void updateColor()
+    /**
+     * reset the color of the cursor depending on the hp
+     * */
+    private void updateColor()
     {
         if (cursorMat != null)
         {
@@ -52,10 +76,13 @@ public class CursorColor : MonoBehaviour {
         }
     }
 
-    public void updateManaBalls()
+
+    /**
+     * recolors the mana balls depending on the mana points
+     * */
+    private void updateManaBalls()
     {
 
-        //if (mp > nbBalls) {mp = nbBalls;}
 
         for (int i = 0; i < manaPoints; i++)
         {
