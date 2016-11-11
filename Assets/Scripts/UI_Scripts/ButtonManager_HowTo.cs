@@ -25,11 +25,11 @@ public class ButtonManager_HowTo : ButtonManager_Menu {
 		}
 	}
 
-	public void onBtnBattleClick(){
+	private void onBtnBattleClick(){
 		bool flag = menuMgr.openUI (3);
 	}
 
-	public void onBtnStartPlayingClick(){
+	private void onBtnStartPlayingClick(){
 		bool flag = menuMgr.openUI (4);
 	}
 	
