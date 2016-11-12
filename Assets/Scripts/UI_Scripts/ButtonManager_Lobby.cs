@@ -157,9 +157,6 @@ public class ButtonManager_Lobby : ButtonManager_Menu {
 
 	}
 
-<<<<<<< HEAD
-    private void onBtn1Click()
-=======
     private void setGameSettings()
     {
         GameSettings settings = GameObject.FindWithTag("GameSettings").GetComponent<GameSettings>();
@@ -170,7 +167,6 @@ public class ButtonManager_Lobby : ButtonManager_Menu {
     }
 
 	public void onBtn1Click()
->>>>>>> ChrisMa130-3
 	{
 		addDigit ('1');
 	}
