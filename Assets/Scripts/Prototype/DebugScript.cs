@@ -6,20 +6,29 @@ public class DebugScript : MonoBehaviour {
 
     Text anchorPos;
     Text anchorState;
+    Text joinCount;
     Text Health;
+    Text Mana;
     GameObject manager;
 
     void Start() {
+        manager = GameObject.FindWithTag("Anchor");
         anchorPos = gameObject.transform.FindChild("AnchorPos").GetComponent<Text>();
         anchorState = gameObject.transform.FindChild("AnchorState").GetComponent<Text>();
-        Health = gameObject.transform.FindChild("Health").GetComponent<Text>();
-        manager = GameObject.Find("Anchor");
+        joinCount = gameObject.transform.FindChild("Join_Count").GetComponent<Text>();
+        //Mana = gameObject.transform.FindChild("Mana").GetComponent<Text>();
+        //Health = gameObject.transform.FindChild("Health").GetComponent<Text>();
     }
 
 	// Update is called once per frame
 	void Update () {
-        WorldAnchor anchor = manager.GetComponent<WorldAnchor>();
-        ImportExportAnchorManager anchorMgr = manager.GetComponent<ImportExportAnchorManager>();
+        WorldAnchor anchor = null;
+        ImportExportAnchorManager anchorMgr = null;
+        if (manager != null)
+        {
+            anchor = manager.GetComponent<WorldAnchor>();
+            anchorMgr = manager.GetComponent<ImportExportAnchorManager>();
+        }
         if (anchor == null)
             anchorPos.text = "Anchor is null";
         else if (!anchor.isLocated)
@@ -29,6 +38,10 @@ public class DebugScript : MonoBehaviour {
 
         anchorState.text = "State : " + anchorMgr.StateName;
 
-        Health.text = "Health: " + Player.Instance.getHealth();
+        joinCount.text = "Joined Count : " + anchorMgr.join_count;
+
+        //if (anchorMgr.StateName.Equals("Ready"))
+            //gameObject.SetActive(false);
+        //Health.text = "Health: " + Player.Instance.getHealth();
     }
 }

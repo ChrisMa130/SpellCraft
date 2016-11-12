@@ -1,11 +1,4 @@
-/** The GameStateManager Script handles each of the five game states: 
-    'start', 'waiting', 'playing', 'loses', and 'end'. Game states for
-    different players are updated simultaneouly with CustomMessages as 
-    game progress. When a game state changes, the manager will enable 
-    UIManager to handle the switching of scenes and UI for the game.
-**/
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using HoloToolkit.Sharing;
 using HoloToolkit.Unity;
@@ -15,10 +8,6 @@ namespace HoloToolkit.Sharing
 {
     public class GameStateManager : Singleton<GameStateManager>
     {
-
-        public GameObject player;
-        public GameObject Anchor;
-        public bool gameStarted;
         private int numPlayerAlive;
 
         // define possible game states
@@ -33,104 +22,149 @@ namespace HoloToolkit.Sharing
 
         public GameStatus currentState = GameStatus.Start;
 
+        private Session currentSession;
+
+        public bool sharingServiceReady = false;
+
+        void Awake()
+        {
+            SetSettings();
+            SharingStage.Instance.enabled = true;
+        }
 
         void Start()
         {
-            CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.DeathMessage] = this.ProcessDeathMessage;
+            CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.AnchorRequest] = this.ProcessAnchorRequest;
+            CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.AnchorRequest] = this.ProcessAnchorComplete;
+            SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
 
-            gameStarted = false;
-
-            // Anchor need to have tag "Anchor"
-            if (Anchor == null)
-                Anchor = GameObject.FindWithTag("Anchor");
-
-            // Player is the "Main Camera"
-            if (player == null)
-                player = GameObject.FindWithTag("MainCamera");
-            
-            // Disable Orb and Spell activities before game starts
-            Anchor.GetComponent<PickUpManager>().enabled = false;
-            Anchor.GetComponent<SpellManager>().enabled = false;
         }
 
-
-        void Update()
+        private void SetSettings()
         {
-            switch (currentState)
+            GameObject settings = GameObject.FindWithTag("GameSettings");
+            if (settings != null)
             {
-                // Start: do nothing
-                case GameStatus.Start:
-                    break;
+                SharingStage.Instance.ServerAddress = settings.GetComponent<GameSettings>().IPAddress;
 
-                /* Waiting: waiting for one of more players to connect. 
-                   Player should click "Start" button to switch state to playing
-                 */
-                case GameStatus.Waiting:
-                    Debug.Log("State: Waiting");
-                    if (gameStarted)
-                    {
-                        numPlayerAlive = SharingStage.Instance.Manager.GetSessionManager().GetCurrentSession().GetUserCount();
-                        Debug.Log(numPlayerAlive);
-                    }
-                    break;
+            }
+            else
+                Debug.Log("Could not find GameSettings");
+        }
 
-                /* Playing: game started. While player is alive, simultaneously 
-                   check on all players' life status. If player is not alive,
-                   swtich game state to Loses. If all other player died ahead of 
-                   time, then this player won.
-                 */
-                case GameStatus.Playing:
-                    Debug.Log("State: Playing");
+        private void Instance_SessionJoined(object sender, SharingSessionTracker.SessionJoinedEventArgs e)
+        {
+            // We don't need to get this event anymore.
+            SharingSessionTracker.Instance.SessionJoined -= Instance_SessionJoined;
 
-                    // Activate PickUpManager to enable spawning of orbs
-                    Anchor.GetComponent<PickUpManager>().enabled = true;
-                    Anchor.GetComponent<SpellManager>().enabled = true;
+            // We still wait to wait a few seconds for everything to settle.
+            Invoke("MarkSharingServiceReady", 5);
+        }
 
-                    // Player is alive
-                    if (player.GetComponent<Player>().alive)
-                    {
-                        // all other player died
-                        if (numPlayerAlive == 1) {
-                            currentState = GameStatus.End;
-                            /* UI_GameManager.handleWin() */
-                        }
-                    }
-                    // Player is dead
-                    else
-                    {
-                        CustomMessages.Instance.SendDeathMessage();
-                        numPlayerAlive--;
-                        currentState = GameStatus.Loses;
-                        /* UI_GameManager.handleLose() */
-                    }
-                    break;
+        private void MarkSharingServiceReady()
+        {
+            sharingServiceReady = true;
+            //ImportExportAnchorManager.Instance.sharingServiceReady = true;
+            currentSession = SharingStage.Instance.Manager.GetSessionManager().GetCurrentSession();
+        }
 
-                // Player lost and waiting for other players to finish.
-                case GameStatus.Loses:
-                    Debug.Log("State: Loses");
-
-                    // Disable Spell and Pick up Manager
-                    Anchor.GetComponent<PickUpManager>().enabled = false;
-                    Anchor.GetComponent<SpellManager>().enabled = false;
-
-                    // all other players loses besides one winner
-                    if (numPlayerAlive == 1) {  
-                        currentState = GameStatus.End;
-                    }
-                    break;
-
-                // All players are finished. Prompt for restart.
-                case GameStatus.End:
-                    Debug.Log("State: End");
-                    break;
+        private void SetRole()
+        {
+            if (currentSession.GetUserCount() == 1)
+            {
+                SharingStage.Instance.ClientRole = ClientRole.Primary;
+            }
+            else
+            {
+                SharingStage.Instance.ClientRole = ClientRole.Secondary;
             }
         }
 
-        // update number of players still alive/playing
-        private void ProcessDeathMessage(NetworkInMessage msg)
+        private void InitAnchor()
+        {
+            if (SharingStage.Instance.ClientRole == ClientRole.Primary)
+            {
+                TurnOnAnchorManager();
+            }
+        }
+
+        void Update() {
+            switch (currentState)
+            {
+                // Start: set the correct role for players.
+                // Only SetRole when we are connected to the Server.
+                case GameStatus.Start:
+                    if (sharingServiceReady)
+                    {
+                        // check if local player is the only player, if so the local player 
+                        // becomes the Primary Plyaer, 
+                        // else Secondary.
+                        SetRole();
+                        currentState = GameStatus.Waiting;
+                    }
+                break;
+                case GameStatus.Waiting:
+                    // if local player is a primary player, 
+                    // then initialize the Anchor, and upload it.
+                    if (SharingStage.Instance.ClientRole == ClientRole.Primary)
+                    {
+                        InitAnchor();
+                    }
+                    // if local player is a secondary player, then keep sending requests for an anchor
+                    // until recives one.
+                    else {
+                        CustomMessages.Instance.SendAnchorRequest();
+                    }
+
+                    // TO CHANGE: WAIT FOR EVERYONE TO READY BEFORE PLAYING
+                    if (ImportExportAnchorManager.Instance.AnchorEstablished)
+                    {
+                        currentState = GameStatus.Playing;
+                    }
+                    break;
+                /* handles play logics : 
+                    1. Turn on the orbManager for The Primary Player.
+                    2. Checks if local player is dead, if so, call the proper method WITHIN 
+                       the player to model to handle death logic.
+                    3. Constantly (or not) check if the Primary player leaves or not, then change the role accordingly.
+                 if Primary player:
+                */
+                case GameStatus.Playing:
+
+                    break;
+
+                case GameStatus.Loses:
+                    break;
+                case GameStatus.End:
+
+                    break;
+
+            }
+        }
+
+        private void ProcessAnchorRequest (NetworkInMessage msg)
         {
             long userID = msg.ReadInt64();
-            numPlayerAlive -= 1;
+            if (SharingStage.Instance.ClientRole == ClientRole.Primary)
+            {
+                if (ImportExportAnchorManager.Instance.AnchorEstablished)
+                    CustomMessages.Instance.SendAnchorComplete();
+            }
+        }
+
+        private void ProcessAnchorComplete (NetworkInMessage msg)
+        {
+            long userID = msg.ReadInt64();
+            if (SharingStage.Instance.ClientRole == ClientRole.Secondary)
+            {
+                TurnOnAnchorManager();
+            }
+        }
+
+        private void TurnOnAnchorManager()
+        {
+            if (ImportExportAnchorManager.Instance.enabled == false)
+                ImportExportAnchorManager.Instance.enabled = true;
         }
     }
 }

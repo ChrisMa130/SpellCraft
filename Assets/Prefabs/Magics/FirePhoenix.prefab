@@ -9,8 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
-  - 54: {fileID: 54000010183064706}
-  - 114: {fileID: 114000014047924500}
+  - 114: {fileID: 114000013448403344}
   m_Layer: 8
   m_Name: FirePhoenix
   m_TagString: Untagged
@@ -6270,21 +6269,6 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
   m_IsPrefabParent: 1
---- !u!54 &54000010183064706
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!114 &114000011595393244
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6298,6 +6282,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particleScale: 0.6
   alsoScaleGameobject: 1
+--- !u!114 &114000013448403344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa40f6ad1b7e543429c7985ee0ccba85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 50
+  mpCost: 10
 --- !u!114 &114000013647455654
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6311,17 +6308,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particleScale: 0.6
   alsoScaleGameobject: 1
---- !u!114 &114000014047924500
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03345c14e584a8244aad59c05cc6871a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114000014143446660
 MonoBehaviour:
   m_ObjectHideFlags: 1

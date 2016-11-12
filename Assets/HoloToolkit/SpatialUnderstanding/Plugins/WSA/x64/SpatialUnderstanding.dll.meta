@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: 78fe7540c5817204a9c3d1272b943327
-timeCreated: 1478472952
-licenseType: Free
+guid: d81078f911cb18b43805ec050f749447
+timeCreated: 1468965049
+licenseType: Pro
 PluginImporter:
   serializedVersion: 1
   iconMap: {}
@@ -14,39 +14,31 @@ PluginImporter:
     Editor:
       enabled: 0
       settings:
-        CPU: x86_64
+        CPU: AnyCPU
         DefaultValueInitialized: true
         OS: AnyOS
     Linux:
       enabled: 0
       settings:
-        CPU: None
+        CPU: x86
     Linux64:
-      enabled: 1
-      settings:
-        CPU: x86_64
-    LinuxUniversal:
-      enabled: 1
+      enabled: 0
       settings:
         CPU: x86_64
     OSXIntel:
       enabled: 0
       settings:
-        CPU: None
-    OSXIntel64:
-      enabled: 1
-      settings:
         CPU: AnyCPU
-    OSXUniversal:
+    OSXIntel64:
       enabled: 0
       settings:
-        CPU: x86_64
+        CPU: AnyCPU
     Win:
       enabled: 0
       settings:
-        CPU: None
+        CPU: AnyCPU
     Win64:
-      enabled: 1
+      enabled: 0
       settings:
         CPU: AnyCPU
     WindowsStoreApps:
@@ -55,7 +47,7 @@ PluginImporter:
         CPU: X64
         DontProcess: False
         PlaceholderPath: 
-        SDK: AnySDK
+        SDK: UWP
         ScriptingBackend: AnyScriptingBackend
   userData: 
   assetBundleName: 

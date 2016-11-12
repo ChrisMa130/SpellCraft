@@ -109,7 +109,7 @@ public class RemoteHeadManager : Singleton<RemoteHeadManager>
 
         RemoteHeadInfo headInfo = GetRemoteHeadInfo(userID);
         headInfo.HeadObject.transform.localPosition = headPos;
-        headInfo.HeadObject.transform.localRotation = headRot;
+        //headInfo.HeadObject.transform.localRotation = headRot;
     }
 
     /// <summary>
