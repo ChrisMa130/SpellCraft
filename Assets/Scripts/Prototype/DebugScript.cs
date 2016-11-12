@@ -8,6 +8,7 @@ public class DebugScript : MonoBehaviour {
     Text anchorState;
     Text joinCount;
     Text Health;
+    Text Mana;
     GameObject manager;
 
     void Start() {
@@ -15,6 +16,7 @@ public class DebugScript : MonoBehaviour {
         anchorPos = gameObject.transform.FindChild("AnchorPos").GetComponent<Text>();
         anchorState = gameObject.transform.FindChild("AnchorState").GetComponent<Text>();
         joinCount = gameObject.transform.FindChild("Join_Count").GetComponent<Text>();
+        //Mana = gameObject.transform.FindChild("Mana").GetComponent<Text>();
         //Health = gameObject.transform.FindChild("Health").GetComponent<Text>();
     }
 
@@ -38,6 +40,8 @@ public class DebugScript : MonoBehaviour {
 
         joinCount.text = "Joined Count : " + anchorMgr.join_count;
 
+        //if (anchorMgr.StateName.Equals("Ready"))
+            //gameObject.SetActive(false);
         //Health.text = "Health: " + Player.Instance.getHealth();
     }
 }

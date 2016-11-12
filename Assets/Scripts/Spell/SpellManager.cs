@@ -26,10 +26,10 @@ public class SpellManager : MonoBehaviour {
 
 	public void CastSpell(int spellIndex) {
         Player player = Player.Instance;
-        Spell newSpell = Spells[spellIndex].GetComponent<Spell>();
-        if (player.getMagic() >= newSpell.getMPCost())
+        Projectile newSpell = Spells[spellIndex].GetComponent<Projectile>();
+        if (player.getMagic() >= newSpell.mpCost)
         {
-            player.modifyMagic(newSpell.getMPCost() * -1);
+            player.modifyMagic(newSpell.mpCost * -1);
             SpawnProjectile(0, spellIndex);
         }
 		//GameObject spell = Instantiate (Spells [spellIndex], Camera.main.transform.position + offset, Camera.main.transform.rotation) as GameObject;
