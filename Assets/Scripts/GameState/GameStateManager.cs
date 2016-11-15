@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+/** The GameStateManager Script handles each of the five game states: 
+            'start', 'waiting', 'playing', 'loses', and 'end'. 
+     Game states for different players are updated simultaneouly with CustomMessages as 
+     game progress. When a game state changes, the manager will enable UIManager to handle
+     the switching of scenes and UI for the game.
+ **/
+
+using UnityEngine;
 using System.Collections.Generic;
 using HoloToolkit.Sharing;
 using HoloToolkit.Unity;
@@ -10,7 +17,7 @@ namespace HoloToolkit.Sharing
     {
         private int numPlayerAlive;
 
-        // define possible game states
+        // define the five possible game states
         public enum GameStatus
         {
             Start,
@@ -37,7 +44,6 @@ namespace HoloToolkit.Sharing
             CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.AnchorRequest] = this.ProcessAnchorRequest;
             CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.AnchorRequest] = this.ProcessAnchorComplete;
             SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
-
         }
 
         private void SetSettings()
@@ -130,13 +136,14 @@ namespace HoloToolkit.Sharing
                  if Primary player:
                 */
                 case GameStatus.Playing:
-
+                
                     break;
 
                 case GameStatus.Loses:
                     break;
+                    
                 case GameStatus.End:
-
+                
                     break;
 
             }
