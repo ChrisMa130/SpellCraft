@@ -118,9 +118,12 @@ public class MainMenu_UIManager : MonoBehaviour {
         var o = Resources.Load("Prefabs/Prototype/UI/" + ui.name);
 
         if(o == null) { return false; }
-
-        var obj = Instantiate(o);
-        if(obj == null) { return false; }
+        GameObject obj = null;
+        if (currentUI == null)
+            obj = (GameObject)Instantiate(o);
+        else
+            obj = (GameObject)Instantiate(o, currentUI.UIObj.transform.position, currentUI.UIObj.transform.rotation);
+        if (obj == null) { return false; }
 
 
         currentUI = ui;
