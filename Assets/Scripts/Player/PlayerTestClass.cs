@@ -1,13 +1,5 @@
-﻿using HoloToolkit.Unity;
-using UnityEngine;
-
-/*
- * Model to represent the Player during a game. Tracks health and magic points
- * of the player. Health is an integer from 0 to 100, with game over occuring
- * for this player at 0. Magic points is an integer from 0 to 10.
- */
-public class Player : Singleton<Player>
-{
+﻿public class PlayerTestClass{
+    // Class ctor used for testing purposes. Not called by the game itself.
     public int MAX_HEALTH = 100;
     public int MIN_HEALTH = 0;
     public int MAX_MAGIC = 10;
@@ -15,20 +7,12 @@ public class Player : Singleton<Player>
     private int health;
     private int magic;
     public bool alive;
-    // Instantiates an object of type Player.
-    // This is the data model that represents the current state of a player
-    // within the game world. It tracks the health and magic points of the
-    // player and reports those as requested to the appropriate game objects.
-    // Representation invariant: A player must always have 0 < health <= 100
-    //                           A player must always have 0 <= magic <= 10
-    void Start()
-    {
+
+    public PlayerTestClass() {
         health = MAX_HEALTH;
         magic = MAX_MAGIC;
         alive = true;
     }
-
-    void Update() { }
 
     // Modify health by spell. If a spell is of the healing type, then the
     // argument passed to this will be a negative value, resulting in a
@@ -50,13 +34,9 @@ public class Player : Singleton<Player>
         {
             this.health = MAX_HEALTH;
         }
-			
+
         return this.health;
     }
-
-
-
-	
 
     // Modify mana by orbs or casting of spells. If the mana is being
     // increased, the argument is positive.
@@ -67,7 +47,7 @@ public class Player : Singleton<Player>
     //          the requested spell, this will instead return -1.
     public int modifyMagic(int magicPoints)
     {
-        
+
         if (magicPoints > magic)
         {
             return -1;
@@ -87,9 +67,12 @@ public class Player : Singleton<Player>
         return this.health;
     }
 
-	public float getHealthPercentage(){
-		return (1.0f * health) / MAX_HEALTH;
-	}
+    // Returns current health of the player.
+    // Returns: percentage of health as a float
+    public float getHealthPercentage()
+    {
+        return (1.0f * health) / MAX_HEALTH;
+    }
 
     // Returns the current magic points of the player.
     // Returns: magic points as an integer
@@ -97,25 +80,4 @@ public class Player : Singleton<Player>
     {
         return this.magic;
     }
-
-    //These are used for UI testing purposes ONLY
-    public void hitMe()
-    {
-        modifyHealth(5);
-    }
-    public void healMe()
-    {
-        modifyHealth(-5);
-    }
-
-    public void useMana()
-    {
-        if (magic > 0) { magic--; }
-    }
-
-    public void rechargeMana()
-    {
-        if (magic < MAX_MAGIC) { magic++; }
-    }
-
 }
