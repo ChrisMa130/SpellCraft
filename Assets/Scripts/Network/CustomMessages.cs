@@ -6,62 +6,55 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// This class handles networking for users.
+/// This class has two purposes. The first purpose is that it contains functions
+/// that lets other classes broadcast out network messages to clients in our system.
+/// The second purpose is that it provides a MessageHandler dictionary. This dictionary
+/// allows these classes to register their own functions with a certain MessageID.
+/// When the network has an in-message, it will automatically call back these functions.
 /// </summary>
 public class CustomMessages : Singleton<CustomMessages> {
 
-    // TIMEOUT default value = 5000 milliseconds
-    private const long TIMEOUT = 5000;
-
-    private bool isSinglePlayer = false;
-    private bool gameStarted = false;
-    private IPAddress IPPlayer1 = null;
-    private IPAddress IPPlayer2 = null; // should be the same as player1
-    private long timer1 = 0; // timeouts, are they needed?
-    private long timer2 = 0;
-    private float playTimer = 0;
-
-    // Timing stuff:
-    private static long ctime = 0; // ctime will represent the current time.
-    private static readonly DateTime Jan1st1970 = new DateTime
-        (1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-    // For timeouts: just calculate time in milliseconds.
-    private static long CurrentTimeMillis()
-    {
-        return (long)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
-    }
-
-
-    // MessageType (first byte of message received: describes that kind of message we have).
+    /* MessageType (first byte of message sent/received: describes that kind of message we have).
+     * Current messages includes
+     * 1. SpellMessage: Indicates a spell being casted 
+     * 2. PlayerHealth: Health of player.
+     * 3. HeadTransform: Location of player's head.
+     * 4. StageTransform: Related to transferring anchors.
+     * 5. SendOrb: When the Primary Player spawns an orb.
+     * 6. PlayerHit: When a player is hit by a spell.
+     * 7. OrbPickedUp: When a player picks up an orb.
+     * 8. PlayerStatus: Not used at the moment.
+     * 9. DeathMessage: When a player dies.
+     * 10. AnchorRequest: When a secondary client requests to download an anchor.
+     * 11. AnchorComplete: When the primary client is ready to send an anchor.
+     * 12. Max: Just a placeholder to mark end of message types. Ignore.
+     */
     public enum TestMessageID : byte
 	{
-		HeadTransform = MessageID.UserMessageIDStart,
-		SpellMessage,
-		LocationMessage,
+		SpellMessage = MessageID.UserMessageIDStart,
         PlayerHealth,
-        SendHeadTransform,
+        HeadTransform,
         StageTransform,
-        SendOrb, // or spawned up
+        SendOrb,
         PlayerHit,
         OrbPickedUp,
         PlayerStatus,
         DeathMessage,
         AnchorRequest,
         AnchorComplete,
-        /*
-        Stuff like: PlayerHit, OrbPickedUp, PlayerStatus(send's hp and mana?) etc..          
-          
-         
-         */
         Max
     }
 
+    /// <summary>
+    /// Retrieve ClientRole of the current user.
+    /// </summary>
+    /// <returns>ClientRole.Primary or ClientRole.Secondary</returns>
     public ClientRole isPrimary()
     {
         return SharingStage.Instance.ClientRole;
     }
 
+    // Unused at the moment.
     public enum UserMessageChannels
     {
         Anchors = MessageChannel.UserMessageChannelStart,
@@ -76,19 +69,14 @@ public class CustomMessages : Singleton<CustomMessages> {
     }
 
 
-    /// <summary>
-    /// FOR SHARING LOCATION: EITHER CALL IN UPDATE OF HEADLOCATION OR
-    /// HERE IN UPDATE FOR REQUEST LOCATION.
-    /// </summary>
-
-    // The SharingStage ? 
-    //private static SharingStage ss = SharingStage.Instance;
-    //private static NetworkConnection network = ss.Manager.GetServerConnection();
-
-    /// <summary>
-    /// See projectilelauncher.cs in academy 240 start function.
-    /// </summary>
-    /// <param name="msg"></param>
+    /*
+     * Below contains the Dictionary that lets other classes register their functions with this class
+     * so that their functions will be called back automatically when there is a message from the network.
+     * Users will have to add to the MessageHandlers dictionary via the following syntax:
+     * CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.USER_MESSAGE_ID] = this.USER_FUNCTION;
+     * Where USER_MESSAGE_ID refers to what message they want to register with, and USER_FUNCTION referring to the
+     * function in their class that they want called back.
+     */
     public delegate void MessageCallback(NetworkInMessage msg);
     private Dictionary<TestMessageID, MessageCallback> _MessageHandlers = new Dictionary<TestMessageID, MessageCallback>();
     public Dictionary<TestMessageID, MessageCallback> MessageHandlers
@@ -97,11 +85,6 @@ public class CustomMessages : Singleton<CustomMessages> {
         {
             return _MessageHandlers;
         }
-    }
-
-    public void addCallBack(TestMessageID mid, MessageCallback callback)
-    {
-        _MessageHandlers[mid] = callback;
     }
 
     /// <summary>
@@ -115,42 +98,23 @@ public class CustomMessages : Singleton<CustomMessages> {
     /// </summary>
     NetworkConnection serverConnection;
 
-    // Use this for initialization
+    // Called initially. Will register the SharingManagerConnected function below
+    // to be called when SharingStage prefab detects that we have connected.
     void Start() {
         SharingStage.Instance.SharingManagerConnected += SharingManagerConnected;
-        ctime = CurrentTimeMillis();
-        timer1 = ctime += TIMEOUT;
-        //SharingStage.Instance.
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        /*if (ctime == 0)
-        {
-            // initiliaze ctime, then set timers to be ctime + timeout.
-            ctime = CurrentTimeMillis();
-            timeoutTimer = ctime += TIMEOUT;
-            timeoutTimer = ctime += TIMEOUT;
-            return;
-        }*/
-        // ctime not zero: we check timeout.
-        // first update ctime.
-        ctime = CurrentTimeMillis();
-        if (ctime > timer1)
-        {
-            // We timed out.
-            // Do stuff:
-        }
-        /* if (ctime > timer2)
-         {
-             // player two timed out.
-             // Do stuff:
-         }*/
+        // Unused at the moment
     }
 
-    // IMPORTANT FUNCTION!!!
+    /// <summary>
+    /// Returns whether we have the lowest user id.
+    /// Unused at the moment.
+    /// </summary>
+    /// <returns>true, if the user has the lowest user id</returns>
     bool LocalUserHasLowestUserId()
     {
         long localUserId = CustomMessages.Instance.localUserID;
@@ -165,11 +129,15 @@ public class CustomMessages : Singleton<CustomMessages> {
         return true;
     }
 
+    // Called when connected to a sharing service.
     private void SharingManagerConnected(object sender, System.EventArgs e)
     {
         InitializeMessageHandlers();
     }
 
+    /// <summary>
+    /// Sets up our dictionary and registers various callbacks.
+    /// </summary>
     void InitializeMessageHandlers()
     {
         SharingStage sharingStage = SharingStage.Instance;
@@ -178,23 +146,27 @@ public class CustomMessages : Singleton<CustomMessages> {
             serverConnection = sharingStage.Manager.GetServerConnection();
             connectionAdapter = new NetworkConnectionAdapter();
         }
-
+        // Register our OnMessageReceived function below with connection adapter,
+        // so we can dispatch messages received on the network to classes that register
+        // with our dictionary.
         connectionAdapter.MessageReceivedCallback += OnMessageReceived;
 
         // Cache the local user ID
         this.localUserID = SharingStage.Instance.Manager.GetLocalUser().GetID();
 
-        for (byte index = (byte)TestMessageID.HeadTransform; index < (byte)TestMessageID.Max; index++)
+        for (byte index = (byte)TestMessageID.SpellMessage; index < (byte)TestMessageID.Max; index++)
         {
             if (MessageHandlers.ContainsKey((TestMessageID)index) == false)
             {
+                // Just set up the dictionary.
                 MessageHandlers.Add((TestMessageID)index, null);
             }
-
+            // Add listeners for each possible message with its index.
             serverConnection.AddListener(index, connectionAdapter);
         }
     }
 
+    // Helper function. Just creates a message with type and id.
     private NetworkOutMessage CreateMessage(byte MessageType)
     {
         NetworkOutMessage msg = serverConnection.CreateMessage(MessageType);
@@ -204,16 +176,24 @@ public class CustomMessages : Singleton<CustomMessages> {
         return msg;
     }
 
+    // Below contains functions for broadcasting out information related to our game.
+    // All vectors and directions should be relative to the anchor that we have established. Users are
+    // responsible for this.
+
+    /// <summary>
+    /// Broadcasts out that we have casted a spell of a certain spellIndex type, at the specified position and direction.
+    /// </summary>
+    /// <param name="position">Position of the spell</param>
+    /// <param name="direction">Direction of the spell</param>
+    /// <param name="spellIndex">Index into the GameObject arrays of spells. Used to indentify which spell was casted</param>
     public void SendSpell(Vector3 position, Vector3 direction, int spellIndex)
     {
-        // If we are connected to a session, broadcast our head info
         if (this.serverConnection != null && this.serverConnection.IsConnected())
         {
             // Create an outgoing network message to contain all the info we want to send
             NetworkOutMessage msg = CreateMessage((byte)TestMessageID.SpellMessage);
 
-            // HAVE HERE SPELL ID? OR AFTER APPENDTRANSFORM. OR SPELLMESSAGE = incendio, SPELLMESSAGE + 1 = icebeam etc etc.
-
+            // Want to send: position, direction, and spell index in our message
             AppendVector3(msg, position);
             AppendVector3(msg, direction);
             msg.Write(spellIndex);
@@ -227,6 +207,10 @@ public class CustomMessages : Singleton<CustomMessages> {
         }
     }
 
+    /// <summary>
+    /// Broadcasts out that we have picked up an orb, indentified by the orb index
+    /// </summary>
+    /// <param name="index">Index of the orb that we have picked up</param>
     public void SendOrbPickedUpMessage(int index)
     {
         if (this.serverConnection != null && this.serverConnection.IsConnected())
@@ -244,6 +228,9 @@ public class CustomMessages : Singleton<CustomMessages> {
         }
     }
 
+    /// <summary>
+    /// Broadcasts out that we request a response if the primary player is ready to export their anchor.
+    /// </summary>
     public void SendAnchorRequest()
     {
         if (this.serverConnection != null && this.serverConnection.IsConnected())
@@ -257,6 +244,9 @@ public class CustomMessages : Singleton<CustomMessages> {
         }
     }
 
+    /// <summary>
+    /// Broadcasts out if primary player is ready to export their anchor.
+    /// </summary>
     public void SendAnchorComplete()
     {
         if (this.serverConnection != null && this.serverConnection.IsConnected())
@@ -270,6 +260,9 @@ public class CustomMessages : Singleton<CustomMessages> {
         }
     }
 
+    /// <summary>
+    /// Broadcasts out that we have died.
+    /// </summary>
     public void SendDeathMessage()
     {
         if (this.serverConnection != null && this.serverConnection.IsConnected())
@@ -283,15 +276,18 @@ public class CustomMessages : Singleton<CustomMessages> {
         }
     }
 
+    /// <summary>
+    /// Broadcasts out that we have spawned an orb at a certain position with the index identifying the orb.
+    /// Should only be called by the user with the "Primary" client role.
+    /// </summary>
+    /// <param name="position">Position of the orb spawned</param>
+    /// <param name="index">Index of the spawned orb</param>
     public void SendOrb(Vector3 position, int index)
     {
-        // If we are connected to a session, broadcast our head info
         if (this.serverConnection != null && this.serverConnection.IsConnected())
         {
             // Create an outgoing network message to contain all the info we want to send
             NetworkOutMessage msg = CreateMessage((byte)TestMessageID.SendOrb);
-
-            // HAVE HERE SPELL ID? OR AFTER APPENDTRANSFORM. OR SPELLMESSAGE = incendio, SPELLMESSAGE + 1 = icebeam etc etc.
 
             AppendVector3(msg, position);
             msg.Write(index);
@@ -304,44 +300,14 @@ public class CustomMessages : Singleton<CustomMessages> {
         }
     }
 
-    public void setSinglePlayer(bool sp)
-    {
-        this.isSinglePlayer = sp;
-    }
-
-    public void setGameStarted(bool gs)
-    {
-        this.gameStarted = gs;
-    }
-
-
-    /*
-	public void resetTimerPlayerOne(){
-		timer1 = ctime += TIMEOUT;
-	}
-
-	public void resetTimerPlayerTwo(){
-		timer2 = ctime += TIMEOUT;
-	}*/
-
-    public void requestLocation()
-    {
-
-    }
-
-    void timeOut()
-    {
-
-    }
-
-    void gameOver()
-    {
-
-    }
-
+    /// <summary>
+    /// Broadcasts out our head position and rotation to other users.
+    /// </summary>
+    /// <param name="position">Position of the user's head</param>
+    /// <param name="rotation">Rotation of the user's head</param>
+    /// <param name="HasAnchor">unused, user should send as 0x1</param>
     public void SendHeadTransform(Vector3 position, Quaternion rotation, byte HasAnchor)
     {
-        // If we are connected to a session, broadcast our head info
         if (this.serverConnection != null && this.serverConnection.IsConnected())
         {
             // Create an outgoing network message to contain all the info we want to send
@@ -360,11 +326,15 @@ public class CustomMessages : Singleton<CustomMessages> {
         }
     }
 
+    /// <summary>
+    /// Broadcasts out the health of the user.
+    /// </summary>
+    /// <param name="playerHealth">The health of the user</param>
     public void UpdatePlayerHealth(int playerHealth)
     {
         if (this.serverConnection != null && this.serverConnection.IsConnected())
         {
-            // Create an outgoin network message to contain all the info we want to send
+            // Create an outgoing network message to contain all the info we want to send
             NetworkOutMessage msg = CreateMessage((byte)TestMessageID.PlayerHealth);
             msg.Write(playerHealth);
 
@@ -378,11 +348,12 @@ public class CustomMessages : Singleton<CustomMessages> {
     }
 
 
+    // Unused at the moment, but basically if we do not wish to continue receiving messages.
     void OnDestroy()
     {
         if (this.serverConnection != null)
         {
-            for (byte index = (byte)TestMessageID.HeadTransform; index < (byte)TestMessageID.Max; index++)
+            for (byte index = (byte)TestMessageID.SpellMessage; index < (byte)TestMessageID.Max; index++)
             {
                 this.serverConnection.RemoveListener(index, this.connectionAdapter);
             }
@@ -390,11 +361,16 @@ public class CustomMessages : Singleton<CustomMessages> {
         }
     }
 
+    /// <summary>
+    /// Called whenever we receive a message from the network connection.
+    /// </summary>
+    /// <param name="connection">Current connection</param>
+    /// <param name="msg">Message that we have received</param>
     void OnMessageReceived(NetworkConnection connection, NetworkInMessage msg)
     {
-        timer1 = ctime += TIMEOUT;
-
+        // Read the message type.
         byte messageType = msg.ReadByte();
+        // Get the function that the user has registered to this message type.
         MessageCallback messageHandler = MessageHandlers[(TestMessageID)messageType];
 
         if ((TestMessageID)messageType == TestMessageID.StageTransform)
@@ -402,16 +378,19 @@ public class CustomMessages : Singleton<CustomMessages> {
 
         if (messageHandler != null)
         {
+            // Call function corresponding to message type.
             messageHandler(msg);
         }
     }
 
+    // Helper function: just write a vector3 and rotation to a message
     void AppendTransform(NetworkOutMessage msg, Vector3 position, Quaternion rotation)
     {
         AppendVector3(msg, position);
         AppendQuaternion(msg, rotation);
     }
 
+    // Helper function: write a vector3 to a message
     void AppendVector3(NetworkOutMessage msg, Vector3 vector)
     {
         msg.Write(vector.x);
@@ -419,6 +398,7 @@ public class CustomMessages : Singleton<CustomMessages> {
         msg.Write(vector.z);
     }
 
+   // Helper function: write a rotation to a message.
     void AppendQuaternion(NetworkOutMessage msg, Quaternion rotation)
     {
         msg.Write(rotation.x);
@@ -427,11 +407,21 @@ public class CustomMessages : Singleton<CustomMessages> {
         msg.Write(rotation.w);
     }
 
+    /// <summary>
+    /// Reads a vector3 from a network message.
+    /// </summary>
+    /// <param name="msg">Message to read from</param>
+    /// <returns>A vector3 that corresponds to the next 12 bytes</returns>
     public Vector3 ReadVector3(NetworkInMessage msg)
     {
         return new Vector3(msg.ReadFloat(), msg.ReadFloat(), msg.ReadFloat());
     }
 
+    /// <summary>
+    /// Read a Quaternion from a network message.
+    /// </summary>
+    /// <param name="msg">Message to read from</param>
+    /// <returns>A Quaternion, corresponding to the next 16 bytes</returns>
     public Quaternion ReadQuaternion(NetworkInMessage msg)
     {
         return new Quaternion(msg.ReadFloat(), msg.ReadFloat(), msg.ReadFloat(), msg.ReadFloat());
