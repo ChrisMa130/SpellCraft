@@ -3,18 +3,25 @@ using UnityEngine;
 
 public class PlayerTest {
 
+    /*
+     * Ensure the constructor is working properly.
+     */
     [Test]
     public void TestPlayerCtor()
     {
-        Player player = new Player();
+        PlayerTestClass player = new PlayerTestClass();
         Assert.AreEqual(100, player.getHealth());
         Assert.AreEqual(10, player.getMagic());
         Assert.IsTrue(player.alive);
     }
 
+    /*
+     * Ensure that the RI cannot be violated and health cannot be less
+     * than zero.
+     */
     [Test]
     public void HealthCanNotGoBelowZero() {
-        Player player = new Player();
+        PlayerTestClass player = new PlayerTestClass();
         int health = player.getHealth();
         health = player.modifyHealth(100);
         Assert.AreEqual(health, 0);
@@ -23,51 +30,78 @@ public class PlayerTest {
         Assert.AreEqual(player.getHealth(), 0);
     }
 
+    /*
+     * Ensure that the RI cannot be violated and health cannot be more
+     * than 100.
+     */
     [Test]
     public void HealthCanNotGoOverHundred()
     {
-        Player player = new Player();    
+        PlayerTestClass player = new PlayerTestClass();    
         int health = player.getHealth();
         health = player.modifyHealth(-1);
         Assert.AreEqual(health, 100);
         Assert.AreEqual(player.getHealth(), 100);
     }
-
+    
+    /*
+     * Make sure zero damage works properly (none is dealt).
+     */
     [Test]
     public void TestNoDamage()
     {
-        Player player = new Player();
+        PlayerTestClass player = new PlayerTestClass();
         int health = player.getHealth();
         health = player.modifyHealth(0);
         Assert.AreEqual(health, 100);
         Assert.AreEqual(player.getHealth(), 100);
     }
 
+    /*
+     * Make sure > 0 damage works properly.
+     */
     [Test]
     public void TestNormalDamage()
     {
-        Player player = new Player();
+        PlayerTestClass player = new PlayerTestClass();
         int health = player.getHealth();
         health = player.modifyHealth(20);
         Assert.AreEqual(health, 80);
         Assert.AreEqual(player.getHealth(), 80);
     }
 
+    /*
+     * Test two hits in a row.
+     */
     [Test]
     public void TestDamageTwice()
     {
-        Player player = new Player();
+        PlayerTestClass player = new PlayerTestClass();
         int health = player.getHealth();
         player.modifyHealth(20);
         player.modifyHealth(30);
         health = player.getHealth();
         Assert.AreEqual(health, 50);
     }
+    /*
+     * Test health percentage
+     */
+     [Test]
+     public void TestHealthPercentage()
+    {
+        PlayerTestClass player = new PlayerTestClass();
+        player.modifyHealth(50);
+        Assert.AreEqual(.5f, player.getHealthPercentage());
+    }
 
+    /*
+     * Ensure that RI can not be violated and magic can not go below
+     * zero.
+     */
     [Test]
     public void TestMagicCanNotGoBelowZero()
     {
-        Player player = new Player();
+        PlayerTestClass player = new PlayerTestClass();
         int magic = player.getMagic();
         magic = player.modifyMagic(-10);
         Assert.AreEqual(magic, 0);
@@ -77,30 +111,40 @@ public class PlayerTest {
         Assert.AreEqual(player.getMagic(), 0);
     }
 
+    /*
+     * Ensure that RI cannot be violated and magic can not go above
+     * 100.
+     */
     [Test]
     public void TestMagicCanNotGoOverTen()
     {
-        Player player = new Player();
+        PlayerTestClass player = new PlayerTestClass();
         int magic = player.getMagic();
         magic = player.modifyMagic(1);
         Assert.AreEqual(magic, 10);
         Assert.AreEqual(player.getMagic(), 10);
     }
 
+    /*
+     * Make sure magic decrements properly when a spell would be cast.
+     */
     [Test]
     public void TestMagicNormalCast()
     {
-        Player player = new Player();
+        PlayerTestClass player = new PlayerTestClass();
         int magic = player.getMagic();
         player.modifyMagic(-1);
         magic = player.getMagic();
         Assert.AreEqual(magic, 9);
     }
 
+    /*
+     * Cast two spells.
+     */
     [Test]
     public void TestMagicCastTwo()
     {
-        Player player = new Player();
+        PlayerTestClass player = new PlayerTestClass();
         int magic = player.getMagic();
         player.modifyMagic(-1);
         player.modifyMagic(-1);
