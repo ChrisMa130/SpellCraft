@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Linq;
 using System;
+using UnityEngine.SceneManagement;
+
 
 
 /**
@@ -97,6 +99,25 @@ public class MainMenu_UIManager : MonoBehaviour {
 		return true;
 
 	}
+
+
+    /**
+     * Change the IP address in the settings and load the game scene
+     * @returns true iff everything goes well
+     * */
+    public bool startGame() {
+        GameSettings settings = GameObject.FindWithTag("GameSettings").GetComponent<GameSettings>();
+        if (settings != null)
+        {
+            settings.IPAddress = get_IP_string();
+            SceneManager.LoadScene("Prototype_Leo");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     /**
      * @param id: the id of the UISystem that needs to be opened
