@@ -17,12 +17,18 @@ public class ButtonManager_Rescan : ButtonManager_Menu {
 
 			switch (btn.name)
 			{
-			case "Back": btn.onClick.AddListener(onBtnBackClick);  break;
+			case "Menu": btn.onClick.AddListener(onBtnMenuClick);  break;
 
 			default: break;
 			}
 		}
 	}
+
+
+    private void onBtnMenuClick() {
+        menuMgr.turnOffScanning();
+        menuMgr.openUI(0);
+    }
 	
 
 }

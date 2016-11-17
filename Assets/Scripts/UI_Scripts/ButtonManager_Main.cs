@@ -64,7 +64,8 @@ public class ButtonManager_Main : ButtonManager_Menu
      * */
     private void onBtnRescanClick()
 	{
-		bool flag = menuMgr.openUI (5);
-	}
+        bool flag = menuMgr.back();
+        menuMgr.turnOnScanning();
+    }
 		
     }

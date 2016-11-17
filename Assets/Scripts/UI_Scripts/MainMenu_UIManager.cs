@@ -40,6 +40,7 @@ public class MainMenu_UIManager : MonoBehaviour {
     private UISystem currentUI;
 	private int[] IP_address;
 	private string IP_String;
+    private HoloToolkit.Unity.SpatialMappingManager scanner;
 
     void Start () {
         UISystems = new List<UISystem>();
@@ -52,8 +53,9 @@ public class MainMenu_UIManager : MonoBehaviour {
 		UISystems.Add(new UISystem() { id = 6, name = "LobbyCanvas", lastUI = false });
 
         UIStack = new Stack<UISystem>();
+        scanner = GameObject.FindWithTag("Scanner").GetComponent<HoloToolkit.Unity.SpatialMappingManager>();
 
-        openUI(0);
+        openUI(5);
     }
 
     void Awake()
@@ -62,6 +64,27 @@ public class MainMenu_UIManager : MonoBehaviour {
         currentUI = null;
 		IP_address = new int[4];
 		IP_String = "...";
+    }
+
+    /**
+     * turns on the spatial mapping scanner,
+     * will mainly be used when the rescan button is clicked
+     * and when opening the app
+     * */
+    public void turnOnScanning() {
+        scanner.StartObserver();
+        scanner.autoStartObserver = true;
+        scanner.drawVisualMeshes = true;
+    }
+
+    /**
+     * turns off the spatial mapping scanner,
+     * remember to do this before starting the game
+     * */
+    public void turnOffScanning() {
+        scanner.StopObserver();
+        scanner.autoStartObserver = false;
+        scanner.drawVisualMeshes = false;
     }
 
 
@@ -110,7 +133,7 @@ public class MainMenu_UIManager : MonoBehaviour {
         if (settings != null)
         {
             settings.IPAddress = get_IP_string();
-            SceneManager.LoadScene("Prototype_Leo");
+            SceneManager.LoadScene("Prototype");
             return true;
         }
         else
