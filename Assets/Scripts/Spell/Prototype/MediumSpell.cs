@@ -13,13 +13,17 @@ public class MediumSpell : MonoBehaviour {
         GetComponent<EffectSettings>().CollisionEnter += Instance_OnCollisionEnter;
     }
 
-    // get damage of spell
+    // Get the damage of spell
+    // Parameters- none
+    // Returns- number of health points the spell removes from its target as an int
     public int getDamage()
     {
         return this.damage;
     }
 
-    // get damage of spell
+    // Get the cost of spell
+    // Parameters- none
+    // Returns- number of magic points the spell removes from its caster as an int
     public int getMPCost()
     {
         return this.mpCost;
