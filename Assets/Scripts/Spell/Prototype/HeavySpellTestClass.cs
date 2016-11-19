@@ -6,7 +6,7 @@ public class HeavySpellTestClass {
     private int damage;
     private int mpCost;
 
-    public HeavySpellTestClass {
+    public HeavySpellTestClass() {
         damage = 50;
         mpCost = 10;
     }

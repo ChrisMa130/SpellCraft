@@ -8,8 +8,8 @@ public class LightSpellTest {
      */
     [Test]
     public void TestLightSpell() {
-        LightSpellTestClass light = new LightTestClass();
-        Assert.isInstanceOf(light, LightTestClass);
+        LightSpellTestClass light = new LightSpellTestClass();
+        Assert.IsNotNull(light);
     }
 
     /*
@@ -17,8 +17,8 @@ public class LightSpellTest {
      */
     [Test]
     public void getDamageReturnsCorrect() {
-        LightSpellTestClass light = new LightTestClass();
-        Assert.AreEqual(20, player.getHealth());
+        LightSpellTestClass light = new LightSpellTestClass();
+        Assert.AreEqual(20, light.getDamage());
     }
 
     /*
@@ -26,7 +26,7 @@ public class LightSpellTest {
      */
     [Test]
     public void getCostReturnsCorrect() {
-        LightSpellTestClass light = new LightTestClass();
-        Assert.AreEqual(2, player.getHealth());
+        LightSpellTestClass light = new LightSpellTestClass();
+        Assert.AreEqual(2, light.getMPCost());
     }
 }

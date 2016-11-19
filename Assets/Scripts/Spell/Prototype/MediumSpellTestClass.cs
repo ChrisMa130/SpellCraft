@@ -6,7 +6,7 @@ public class MediumSpellTestClass {
     private int damage;
     private int mpCost;
 
-    public MediumSpellTestClass {
+    public MediumSpellTestClass() {
         damage = 34;
         mpCost = 5;
     }

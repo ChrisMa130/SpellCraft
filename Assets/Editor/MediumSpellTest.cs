@@ -8,8 +8,8 @@ public class MediumSpellTest {
      */
     [Test]
     public void TestMediumSpell() {
-        MediumSpellTestClass medium = new MediumTestClass();
-        Assert.isInstanceOf(medium, MediumTestClass);
+        MediumSpellTestClass medium = new MediumSpellTestClass();
+        Assert.IsNotNull(medium);
     }
 
     /*
@@ -17,8 +17,8 @@ public class MediumSpellTest {
      */
     [Test]
     public void getDamageReturnsCorrect() {
-        MediumSpellTestClass medium = new MediumTestClass();
-        Assert.AreEqual(34, player.getHealth());
+        MediumSpellTestClass medium = new MediumSpellTestClass();
+        Assert.AreEqual(34, medium.getDamage());
     }
 
     /*
@@ -26,7 +26,7 @@ public class MediumSpellTest {
      */
     [Test]
     public void getCostReturnsCorrect() {
-        MediumSpellTestClass medium = new MediumTestClass();
-        Assert.AreEqual(5, player.getHealth());
+        MediumSpellTestClass medium = new MediumSpellTestClass();
+        Assert.AreEqual(5, medium.getMPCost());
     }
 }

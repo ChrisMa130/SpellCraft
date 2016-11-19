@@ -6,9 +6,9 @@ public class LightSpellTestClass {
     private int damage;
     private int mpCost;
 
-    public LightSpellTestClass {
+    public LightSpellTestClass() {
         damage = 20;
-        mpCost = 0;
+        mpCost = 2;
     }
 
     // Get the damage of spell
