@@ -67,11 +67,14 @@ public class Player : Singleton<Player>
     //          the requested spell, this will instead return -1.
     public int modifyMagic(int magicPoints)
     {
-        
-        if (magicPoints > magic)
+        if (magicPoints < 0)
         {
-            return -1;
+            if (Mathf.Abs(magicPoints) > magic)
+            {
+                return -1;
+            }
         }
+
         magic += magicPoints;
         if (magic > MAX_MAGIC)
         {

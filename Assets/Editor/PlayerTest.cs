@@ -106,9 +106,20 @@ public class PlayerTest {
         magic = player.modifyMagic(-10);
         Assert.AreEqual(magic, 0);
         Assert.AreEqual(player.getMagic(), 0);
-        magic = player.modifyMagic(2);
+        magic = player.modifyMagic(-2);
         Assert.AreEqual(magic, -1);
         Assert.AreEqual(player.getMagic(), 0);
+    }
+
+    [Test]
+    public void TestOrbPickupAtZeroMagic()
+    {
+        PlayerTestClass player = new PlayerTestClass();
+        int magic = player.getMagic();
+        magic = player.modifyMagic(-10);
+        Assert.AreEqual(player.getMagic(), 0);
+        player.modifyMagic(1);
+        Assert.AreEqual(player.getMagic(), 1);
     }
 
     /*

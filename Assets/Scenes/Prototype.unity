@@ -393,7 +393,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MAX_HEALTH: 100
   MIN_HEALTH: 0
-  MAX_MAGIC: 100
+  MAX_MAGIC: 10
   alive: 1
 --- !u!136 &779350290
 CapsuleCollider:
@@ -767,7 +767,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1130733693}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 06883db29213624408e99867e7a42e6a, type: 3}
   m_Name: 
@@ -1087,7 +1087,7 @@ Prefab:
     - target: {fileID: 114000012667812730, guid: 8aaf37823b26ee449bb3b3d7775965c3,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 163528, guid: 8aaf37823b26ee449bb3b3d7775965c3, type: 2}
       propertyPath: m_IsActive
