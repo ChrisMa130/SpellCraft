@@ -111,6 +111,10 @@ public class PlayerTest {
         Assert.AreEqual(player.getMagic(), 0);
     }
 
+    /*
+     * Regression test. Make sure that at zero magic, the player
+     * can still get orbs/regenerate spell points.
+     */
     [Test]
     public void TestOrbPickupAtZeroMagic()
     {
