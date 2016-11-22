@@ -43,6 +43,8 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
 
     public int join_count;
 
+    public bool anchor_ready = false;
+
     public string StateName
     {
         get
@@ -120,13 +122,6 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
 
     private void Awake()
     {
-        //Wait for a notification that the sharing manager has been initialized (connected to sever)
-        SharingStage.Instance.SharingManagerConnected += SharingManagerConnected;
-
-        // We will register for session joined to indicate when the sharing service
-        // is ready for us to make room related requests.
-        SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
-
         Debug.Log("Import Export Manager starting");
         // We need to get our local anchor store started up.
         currentState = ImportExportState.AnchorStore_Initializing;
@@ -138,11 +133,11 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
     private void Start()
     {
         //Wait for a notification that the sharing manager has been initialized (connected to sever)
-        //SharingStage.Instance.SharingManagerConnected += SharingManagerConnected;
+        SharingStage.Instance.SharingManagerConnected += SharingManagerConnected;
 
         // We will register for session joined to indicate when the sharing service
         // is ready for us to make room related requests.
-        //SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
+        SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
 
     }
 
@@ -188,7 +183,8 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
         else
         {
             Debug.Log("Upload failed " + failureReason);
-            currentState = ImportExportState.Failed;
+            // if it fails, retry uploading.
+            currentState = ImportExportState.ReadyToExportInitialAnchor;
         }
     }
 
@@ -247,9 +243,9 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
     {
         sharingServiceReady = true;
 
-#if UNITY_EDITOR
-        InitRoomApi();
-#endif
+//#if UNITY_EDITOR
+//        InitRoomApi();
+//#endif
     }
 
     /// <summary>
@@ -340,14 +336,27 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
         }
     }
 
+    private void deleteAnchors()
+    {
+        string[] ids = anchorStore.GetAllIds();
+        for (int index = 0; index < ids.Length; index++)
+        {
+            Debug.Log(ids[index]);
+            bool deleted = anchorStore.Delete(ids[index]);
+            Debug.Log("deleted: " + deleted);
+        }
+    }
+
     private void Update()
     {
         switch (currentState)
         {
             // If the local anchor store is initialized.
             case ImportExportState.AnchorStore_Initialized:
-                if (sharingServiceReady)
+                if (sharingServiceReady && anchor_ready)
                 {
+                    Debug.Log("Anchor script ready to run");
+                    deleteAnchors();
                     InitRoomApi();
                 }
                 break;
@@ -512,7 +521,7 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
         }
         else
         {
-            Debug.Log("This anchor didn't work, trying again");
+            Debug.Log("This anchor didn't work, trying again.(Export)");
             currentState = ImportExportState.InitialAnchorRequired;
         }
     }
@@ -543,7 +552,7 @@ public class ImportExportAnchorManager : Singleton<ImportExportAnchorManager>
         }
         else
         {
-            Debug.Log("This anchor didn't work, trying again");
+            Debug.Log("This anchor didn't work, trying again(ExportComplete)");
             currentState = ImportExportState.InitialAnchorRequired;
         }
     }

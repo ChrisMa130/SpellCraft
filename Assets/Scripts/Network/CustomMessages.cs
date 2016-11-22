@@ -239,7 +239,7 @@ public class CustomMessages : Singleton<CustomMessages> {
             this.serverConnection.Broadcast(
                 msg,
                 MessagePriority.Immediate,
-                MessageReliability.Reliable,
+                MessageReliability.UnreliableSequenced,
                 MessageChannel.Avatar);
         }
     }

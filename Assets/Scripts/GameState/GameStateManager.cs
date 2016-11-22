@@ -42,7 +42,7 @@ namespace HoloToolkit.Sharing
         void Start()
         {
             CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.AnchorRequest] = this.ProcessAnchorRequest;
-            CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.AnchorRequest] = this.ProcessAnchorComplete;
+            CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.AnchorComplete] = this.ProcessAnchorComplete;
             SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
         }
 
@@ -78,10 +78,12 @@ namespace HoloToolkit.Sharing
         {
             if (currentSession.GetUserCount() == 1)
             {
+                Debug.Log("We're primary");
                 SharingStage.Instance.ClientRole = ClientRole.Primary;
             }
             else
             {
+                Debug.Log("We're secondary");
                 SharingStage.Instance.ClientRole = ClientRole.Secondary;
             }
         }
@@ -90,7 +92,7 @@ namespace HoloToolkit.Sharing
         {
             if (SharingStage.Instance.ClientRole == ClientRole.Primary)
             {
-                TurnOnAnchorManager();
+                ImportExportAnchorManager.Instance.anchor_ready = true;
             }
         }
 
@@ -118,7 +120,7 @@ namespace HoloToolkit.Sharing
                     }
                     // if local player is a secondary player, then keep sending requests for an anchor
                     // until recives one.
-                    else {
+                    else if (SharingStage.Instance.ClientRole == ClientRole.Secondary && !ImportExportAnchorManager.Instance.anchor_ready) {
                         CustomMessages.Instance.SendAnchorRequest();
                     }
 
@@ -161,17 +163,13 @@ namespace HoloToolkit.Sharing
 
         private void ProcessAnchorComplete (NetworkInMessage msg)
         {
+            Debug.Log("start");
             long userID = msg.ReadInt64();
             if (SharingStage.Instance.ClientRole == ClientRole.Secondary)
             {
-                TurnOnAnchorManager();
+                Debug.Log("Called process anchorcomplete"); 
+                ImportExportAnchorManager.Instance.anchor_ready = true;
             }
-        }
-
-        private void TurnOnAnchorManager()
-        {
-            if (ImportExportAnchorManager.Instance.enabled == false)
-                ImportExportAnchorManager.Instance.enabled = true;
         }
     }
 }
