@@ -22,7 +22,9 @@ public class ButtonManager_Rescan : ButtonManager_Menu {
 			default: break;
 			}
 		}
+        menuMgr.turnOnScanning();
 	}
+
 
 
     private void onBtnMenuClick() {

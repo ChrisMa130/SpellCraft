@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System.Linq;
 using System;
 using UnityEngine.SceneManagement;
+ 
 
 
 
@@ -62,7 +63,7 @@ public class MainMenu_UIManager : MonoBehaviour {
     {
         checkEventSystem();
         currentUI = null;
-		IP_address = new int[4];
+        IP_address = new int[4];
 		IP_String = "...";
     }
 
@@ -73,7 +74,6 @@ public class MainMenu_UIManager : MonoBehaviour {
      * */
     public void turnOnScanning() {
         scanner.StartObserver();
-        scanner.autoStartObserver = true;
         scanner.drawVisualMeshes = true;
     }
 
@@ -83,7 +83,6 @@ public class MainMenu_UIManager : MonoBehaviour {
      * */
     public void turnOffScanning() {
         scanner.StopObserver();
-        scanner.autoStartObserver = false;
         scanner.drawVisualMeshes = false;
     }
 
