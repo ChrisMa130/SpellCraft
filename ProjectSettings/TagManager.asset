@@ -12,6 +12,7 @@ TagManager:
   - GameUI
   - Anchor
   - GameSettings
+  - Scanner
   layers:
   - Default
   - TransparentFX

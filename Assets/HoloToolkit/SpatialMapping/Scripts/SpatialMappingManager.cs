@@ -55,6 +55,7 @@ namespace HoloToolkit.Unity
         {
             surfaceObserver = gameObject.GetComponent<SpatialMappingObserver>();
             Source = surfaceObserver;
+            DontDestroyOnLoad(transform.gameObject);
         }
 
         // Use for initialization.

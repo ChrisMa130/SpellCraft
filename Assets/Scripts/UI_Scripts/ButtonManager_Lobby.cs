@@ -139,6 +139,12 @@ public class ButtonManager_Lobby : ButtonManager_Menu {
 		
 	}
 
+    private void errorMsg(string msg) {
+        clear();
+        textField.text = msg;
+        error = true;
+    }
+
     /**
      * This listener listens to the button Ready
      * checks with the Manager if the IP is valid
@@ -146,25 +152,15 @@ public class ButtonManager_Lobby : ButtonManager_Menu {
      * */
     private void onBtnReadyClick()
 	{
+
 		if (dots < 3 || !menuMgr.set_IP (text)) {
-			clear ();
-			textField.text = "Invalid IP";
-			error = true;
-		} else {
-            setGameSettings();
-			SceneManager.LoadScene ("Prototype");
-		}
+            errorMsg("Invalid IP");
+		} else if (!menuMgr.startGame()) {
+            errorMsg("Settings Error");
+        }
 
 	}
 
-    private void setGameSettings()
-    {
-        GameSettings settings = GameObject.FindWithTag("GameSettings").GetComponent<GameSettings>();
-        if (settings != null)
-        {
-            settings.IPAddress = GameObject.FindWithTag("UIManager").GetComponent<MainMenu_UIManager>().get_IP_string();
-        }
-    }
 
 	public void onBtn1Click()
 	{
