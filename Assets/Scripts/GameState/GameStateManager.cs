@@ -97,6 +97,7 @@ namespace HoloToolkit.Sharing
         }
 
         void Update() {
+            PickUpManager pickup = PickUpManager.Instance;
             switch (currentState)
             {
                 // Start: set the correct role for players.
@@ -138,14 +139,21 @@ namespace HoloToolkit.Sharing
                  if Primary player:
                 */
                 case GameStatus.Playing:
-                
+                    if (SharingStage.Instance.ClientRole == ClientRole.Primary)
+                    {
+                        if (pickup.enabled == false)
+                        {
+                            pickup.enabled = true;
+                        }
+                    }                
                     break;
 
                 case GameStatus.Loses:
+                    pickup.enabled = false;
                     break;
                     
                 case GameStatus.End:
-                
+                    pickup.enabled = false;
                     break;
 
             }
