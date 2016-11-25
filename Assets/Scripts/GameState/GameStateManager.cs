@@ -140,13 +140,10 @@ namespace HoloToolkit.Sharing
                  if Primary player:
                 */
                 case GameStatus.Playing:
-                    if (SharingStage.Instance.ClientRole == ClientRole.Primary)
+                    if (pickup.enabled == false)
                     {
-                        if (pickup.enabled == false)
-                        {
-                            pickup.enabled = true;
-                        }
-                    }                
+                        pickup.enabled = true;
+                    }             
                     break;
 
                 case GameStatus.Loses:
