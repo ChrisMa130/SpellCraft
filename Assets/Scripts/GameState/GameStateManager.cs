@@ -16,6 +16,7 @@ namespace HoloToolkit.Sharing
     public class GameStateManager : Singleton<GameStateManager>
     {
         private int numPlayerAlive;
+        private PickUpManager pickup;
 
         // define the five possible game states
         public enum GameStatus
@@ -44,6 +45,7 @@ namespace HoloToolkit.Sharing
             CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.AnchorRequest] = this.ProcessAnchorRequest;
             CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.AnchorComplete] = this.ProcessAnchorComplete;
             SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
+            pickup = PickUpManager.Instance;
         }
 
         private void SetSettings()
@@ -138,14 +140,18 @@ namespace HoloToolkit.Sharing
                  if Primary player:
                 */
                 case GameStatus.Playing:
-                
+                    if (pickup.enabled == false)
+                    {
+                        pickup.enabled = true;
+                    }             
                     break;
 
                 case GameStatus.Loses:
+                    pickup.enabled = false;
                     break;
                     
                 case GameStatus.End:
-                
+                    pickup.enabled = false;
                     break;
 
             }
