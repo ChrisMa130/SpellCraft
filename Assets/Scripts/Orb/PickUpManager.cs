@@ -18,7 +18,7 @@ public class PickUpManager : Singleton<PickUpManager>
 
     private bool isPrimary;
 
-    private const float RADIUS = 4.0f;
+    private const float RADIUS = 2.5f;
 
     private const float SPAWN_TIME = 5.0f; // 5 seconds
     private static float tillOrbSpawnTime;
