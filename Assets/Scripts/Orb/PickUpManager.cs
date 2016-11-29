@@ -63,7 +63,8 @@ public class PickUpManager : Singleton<PickUpManager>
     //      somewhere within a RADIUS meter circle around the anchor on that plane
     private Vector3 calculateOrbLocation()
     {
-        Vector3 r = new Vector3(Random.Range(-RADIUS, RADIUS), Camera.main.transform.position.y,
+
+        Vector3 r = new Vector3(Random.Range(-RADIUS, RADIUS), Camera.main.transform.position.y - 0.5f,
             Random.Range(-RADIUS, RADIUS));
         return r;
     }
