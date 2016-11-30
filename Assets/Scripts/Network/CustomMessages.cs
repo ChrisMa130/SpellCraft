@@ -27,7 +27,8 @@ public class CustomMessages : Singleton<CustomMessages> {
      * 9. DeathMessage: When a player dies.
      * 10. AnchorRequest: When a secondary client requests to download an anchor.
      * 11. AnchorComplete: When the primary client is ready to send an anchor.
-     * 12. Max: Just a placeholder to mark end of message types. Ignore.
+     * 12. PlayerReady: When secondary player is done downloading the anchor.
+     * 13. Max: Just a placeholder to mark end of message types. Ignore.
      */
     public enum TestMessageID : byte
 	{
@@ -42,6 +43,7 @@ public class CustomMessages : Singleton<CustomMessages> {
         DeathMessage,
         AnchorRequest,
         AnchorComplete,
+        PlayerReady,
         Max
     }
 
@@ -343,6 +345,25 @@ public class CustomMessages : Singleton<CustomMessages> {
                 msg,
                 MessagePriority.Immediate,
                 MessageReliability.UnreliableSequenced,
+                MessageChannel.Avatar);
+        }
+    }
+
+    /// <summary>
+    /// Broadcast that secondary player is ready
+    /// </summary>
+    public void PlayerReady()
+    {
+        if (this.serverConnection != null && this.serverConnection.IsConnected())
+        {
+            // Create an outgoing network message to contain all the info we want to send
+            NetworkOutMessage msg = CreateMessage((byte)TestMessageID.PlayerReady);
+
+            // Send the message as a broadcast, which will cause the server to forward it to all other users in the session.
+            this.serverConnection.Broadcast(
+                msg,
+                MessagePriority.Immediate,
+                MessageReliability.Reliable,
                 MessageChannel.Avatar);
         }
     }

@@ -16,6 +16,7 @@ namespace HoloToolkit.Sharing
     public class GameStateManager : Singleton<GameStateManager>
     {
         private int numPlayerAlive;
+        private PickUpManager pickup;
 
         // define the five possible game states
         public enum GameStatus
@@ -32,6 +33,7 @@ namespace HoloToolkit.Sharing
         private Session currentSession;
 
         public bool sharingServiceReady = false;
+        private bool secondPlayerReady = false;
 
         void Awake()
         {
@@ -43,7 +45,9 @@ namespace HoloToolkit.Sharing
         {
             CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.AnchorRequest] = this.ProcessAnchorRequest;
             CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.AnchorComplete] = this.ProcessAnchorComplete;
+            CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.PlayerReady] = this.SecondPlayerReadyCheck;
             SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
+            pickup = PickUpManager.Instance;
         }
 
         private void SetSettings()
@@ -125,9 +129,18 @@ namespace HoloToolkit.Sharing
                     }
 
                     // TO CHANGE: WAIT FOR EVERYONE TO READY BEFORE PLAYING
+                    // 
                     if (ImportExportAnchorManager.Instance.AnchorEstablished)
                     {
-                        currentState = GameStatus.Playing;
+                        if (SharingStage.Instance.ClientRole == ClientRole.Secondary)
+                        {
+                            CustomMessages.Instance.PlayerReady();
+                            currentState = GameStatus.Playing;
+                        }
+                        else if (secondPlayerReady)
+                        {
+                            currentState = GameStatus.Playing;
+                        }
                     }
                     break;
                 /* handles play logics : 
@@ -138,14 +151,19 @@ namespace HoloToolkit.Sharing
                  if Primary player:
                 */
                 case GameStatus.Playing:
-                
+
+                    if (pickup.enabled == false)
+                    {
+                        pickup.enabled = true;
+                    }             
                     break;
 
                 case GameStatus.Loses:
+                    pickup.enabled = false;
                     break;
                     
                 case GameStatus.End:
-                
+                    pickup.enabled = false;
                     break;
 
             }
@@ -170,6 +188,11 @@ namespace HoloToolkit.Sharing
                 Debug.Log("Called process anchorcomplete"); 
                 ImportExportAnchorManager.Instance.anchor_ready = true;
             }
+        }
+
+        private void SecondPlayerReadyCheck (NetworkInMessage msg)
+        {
+            secondPlayerReady = true;
         }
     }
 }

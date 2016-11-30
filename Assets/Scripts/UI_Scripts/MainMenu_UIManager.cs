@@ -74,7 +74,7 @@ public class MainMenu_UIManager : MonoBehaviour {
      * */
     public void turnOnScanning() {
         scanner.StartObserver();
-        scanner.drawVisualMeshes = true;
+        //scanner.drawVisualMeshes = true;
     }
 
     /**
@@ -83,7 +83,7 @@ public class MainMenu_UIManager : MonoBehaviour {
      * */
     public void turnOffScanning() {
         scanner.StopObserver();
-        scanner.drawVisualMeshes = false;
+        //scanner.drawVisualMeshes = false;
     }
 
 
