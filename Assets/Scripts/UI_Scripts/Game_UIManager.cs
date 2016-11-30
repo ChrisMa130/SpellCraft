@@ -9,6 +9,7 @@ public class Game_UIManager : MonoBehaviour {
 	HoloToolkit.Unity.BasicCursor basicCursor;
     CursorColor cursorColor;
 	Player player;
+    GameObject canvas;
 
 
 
@@ -56,6 +57,26 @@ public class Game_UIManager : MonoBehaviour {
 		int mp = player.getMagic ();
         cursorColor.set_mp(mp);
 	}
+
+    public bool GameEnded(bool win) {
+        if (canvas != null) { return false; }
+        string canvasName = win ? "VictoryCanvas" : "DefeatCanvas";
+
+        var o = Resources.Load("Prefabs/Prototype/UI/" + canvasName);
+        if (o == null) { return false; }
+        canvas = (GameObject)Instantiate(o);
+        return true;
+    }
+
+    public bool DestroyCanvas() {
+        if (canvas != null) {
+            Destroy(canvas);
+        }
+
+        return true;
+    }
+
+    
 
 
 }

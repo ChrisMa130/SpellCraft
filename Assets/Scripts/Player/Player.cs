@@ -15,6 +15,7 @@ public class Player : Singleton<Player>
     private int health;
     private int magic;
     public bool alive;
+    private Game_UIManager uiMgr;
     // Instantiates an object of type Player.
     // This is the data model that represents the current state of a player
     // within the game world. It tracks the health and magic points of the
@@ -26,6 +27,7 @@ public class Player : Singleton<Player>
         health = MAX_HEALTH;
         magic = MAX_MAGIC;
         alive = true;
+        uiMgr = GameObject.FindWithTag("GameUI").GetComponent<Game_UIManager>();
     }
 
     void Update() { }
@@ -105,6 +107,9 @@ public class Player : Singleton<Player>
     public void hitMe()
     {
         modifyHealth(5);
+        if (!alive) {
+            uiMgr.GameEnded(false);
+        }
     }
     public void healMe()
     {
@@ -114,11 +119,17 @@ public class Player : Singleton<Player>
     public void useMana()
     {
         if (magic > 0) { magic--; }
+        else { uiMgr.GameEnded(true); }
     }
 
     public void rechargeMana()
     {
         if (magic < MAX_MAGIC) { magic++; }
     }
+    public void destroyCanvas() {
+        uiMgr.DestroyCanvas();
+    }
+
+
 
 }
