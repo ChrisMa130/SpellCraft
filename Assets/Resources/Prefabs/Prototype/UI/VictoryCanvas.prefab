@@ -625,7 +625,6 @@ GameObject:
   - 114: {fileID: 114000010681574768}
   - 114: {fileID: 114000011219907218}
   - 114: {fileID: 114000011984844338}
-  - 114: {fileID: 114000010800604384}
   m_Layer: 5
   m_Name: VictoryCanvas
   m_TagString: Untagged
@@ -2223,17 +2222,6 @@ MonoBehaviour:
   SmoothPositionLerpRatio: 0.5
   SmoothRotationLerpRatio: 0.5
   SmoothScaleLerpRatio: 0.5
---- !u!114 &114000010800604384
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012663240756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a44c476eecf49254c82560a5280fcf1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114000010854719474
 MonoBehaviour:
   m_ObjectHideFlags: 1
