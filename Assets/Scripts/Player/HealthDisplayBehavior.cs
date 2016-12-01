@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using HoloToolkit.Unity;
 
-public class HealthDisplayBehavior : MonoBehaviour {
+public class HealthDisplayBehavior : Singleton<HealthDisplayBehavior> {
 
     public int health;
 	
@@ -17,7 +18,8 @@ public class HealthDisplayBehavior : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        SpriteRenderer sprite = GetComponentInParent<SpriteRenderer>();
+        //SpriteRenderer sprite = GetComponentInParent<SpriteRenderer>();
+        Light light = GetComponentInParent<Light>();
 
         // When health is at 1, should be R255 G0
         // When health is exactly at 50 should be R255 G255
@@ -34,6 +36,6 @@ public class HealthDisplayBehavior : MonoBehaviour {
             float greenModifier = health / 50f;
             color = new Color(1f, greenModifier, 0);
         }
-        sprite.color = color;
+        light.color = color;
 	}
 }
