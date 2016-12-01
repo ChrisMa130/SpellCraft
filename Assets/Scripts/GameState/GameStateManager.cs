@@ -18,6 +18,7 @@ namespace HoloToolkit.Sharing
         private int numPlayerAlive;
         private PickUpManager pickup;
         private HealthDisplayBehavior healthDisplay;
+        private Game_UIManager uiMgr;
 
         // define the five possible game states
         public enum GameStatus
@@ -50,6 +51,7 @@ namespace HoloToolkit.Sharing
             SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
             pickup = PickUpManager.Instance;
             healthDisplay = HealthDisplayBehavior.Instance;
+            uiMgr = GameObject.FindWithTag("GameUI").GetComponent<Game_UIManager>();
         }
 
         private void SetSettings()
@@ -158,15 +160,27 @@ namespace HoloToolkit.Sharing
                     {
                         pickup.enabled = true;
                     }
+
+                    if (!Player.Instance.alive)
+                    {
+                        currentState = GameStatus.Loses;
+                    }
+
+                    if (!RemotePlayerManager.Instance.alive)
+                    {
+                        currentState = GameStatus.End;
+                    }
                             
                     break;
 
                 case GameStatus.Loses:
                     pickup.enabled = false;
+                    uiMgr.GameEnded(false);
                     break;
                     
                 case GameStatus.End:
                     pickup.enabled = false;
+                    uiMgr.GameEnded(true);
                     break;
 
             }

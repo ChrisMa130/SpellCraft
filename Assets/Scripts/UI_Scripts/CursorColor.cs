@@ -90,7 +90,7 @@ public class CursorColor : MonoBehaviour {
         }
         for (int i = manaPoints; i < nbBalls; i++)
         {
-            setColor(manaBalls[i], 0f, 0f, 0f);
+            setColor(manaBalls[i], .5f, 0f, 0f);
         }
     }
 
