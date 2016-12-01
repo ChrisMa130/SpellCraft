@@ -17,6 +17,7 @@ namespace HoloToolkit.Sharing
     {
         private int numPlayerAlive;
         private PickUpManager pickup;
+        private HealthDisplayBehavior healthDisplay;
 
         // define the five possible game states
         public enum GameStatus
@@ -48,6 +49,7 @@ namespace HoloToolkit.Sharing
             CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.PlayerReady] = this.SecondPlayerReadyCheck;
             SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
             pickup = PickUpManager.Instance;
+            healthDisplay = HealthDisplayBehavior.Instance;
         }
 
         private void SetSettings()
@@ -155,7 +157,8 @@ namespace HoloToolkit.Sharing
                     if (pickup.enabled == false)
                     {
                         pickup.enabled = true;
-                    }             
+                    }
+                            
                     break;
 
                 case GameStatus.Loses:

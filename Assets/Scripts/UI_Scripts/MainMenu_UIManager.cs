@@ -132,7 +132,7 @@ public class MainMenu_UIManager : MonoBehaviour {
         if (settings != null)
         {
             settings.IPAddress = get_IP_string();
-            SceneManager.LoadScene("Prototype_Leo");
+            SceneManager.LoadScene("Prototype");
             return true;
         }
         else
