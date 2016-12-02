@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using HoloToolkit.Sharing;
 using HoloToolkit.Unity;
 using System;
+using UnityEngine.SceneManagement;
 
 namespace HoloToolkit.Sharing
 {
@@ -19,6 +20,7 @@ namespace HoloToolkit.Sharing
         private PickUpManager pickup;
         private HealthDisplayBehavior healthDisplay;
         private Game_UIManager uiMgr;
+        private Boolean gameEnded;
 
         // define the five possible game states
         public enum GameStatus
@@ -52,6 +54,7 @@ namespace HoloToolkit.Sharing
             pickup = PickUpManager.Instance;
             healthDisplay = HealthDisplayBehavior.Instance;
             uiMgr = GameObject.FindWithTag("GameUI").GetComponent<Game_UIManager>();
+            gameEnded = false;
         }
 
         private void SetSettings()
@@ -164,11 +167,13 @@ namespace HoloToolkit.Sharing
                     if (!Player.Instance.alive)
                     {
                         currentState = GameStatus.Loses;
+                        gameEnded = true;
                     }
 
                     if (!RemotePlayerManager.Instance.alive)
                     {
                         currentState = GameStatus.End;
+                        gameEnded = true;
                     }
                             
                     break;
@@ -176,11 +181,21 @@ namespace HoloToolkit.Sharing
                 case GameStatus.Loses:
                     pickup.enabled = false;
                     uiMgr.GameEnded(false);
+                    if (gameEnded)
+                    {
+                        Invoke("LoadMainMenu", 5);
+                        gameEnded = false;
+                    }
                     break;
                     
                 case GameStatus.End:
                     pickup.enabled = false;
                     uiMgr.GameEnded(true);
+                    if (gameEnded)
+                    {
+                        Invoke("LoadMainMenu", 5);
+                        gameEnded = false;
+                    }
                     break;
 
             }
@@ -210,6 +225,11 @@ namespace HoloToolkit.Sharing
         private void SecondPlayerReadyCheck (NetworkInMessage msg)
         {
             secondPlayerReady = true;
+        }
+
+        private void LoadMainMenu()
+        {
+            SceneManager.LoadScene("MainCanvas");
         }
     }
 }

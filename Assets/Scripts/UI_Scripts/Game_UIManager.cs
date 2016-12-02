@@ -12,8 +12,6 @@ public class Game_UIManager : MonoBehaviour {
     GameObject canvas;
 
 
-
-
 	void Start(){
 		cursor = GameObject.FindWithTag ("Cursor");
 		basicCursor = cursor.GetComponent<HoloToolkit.Unity.BasicCursor> ();
@@ -21,9 +19,6 @@ public class Game_UIManager : MonoBehaviour {
 
 		mainCam = GameObject.FindWithTag ("MainCamera");
 		player = Player.Instance;
-
-
-
 	}
 
 	void Awake()
@@ -46,11 +41,9 @@ public class Game_UIManager : MonoBehaviour {
 		
 	}
 
-
 	public void updateCursorColor(){
 		float p = player.getHealthPercentage();
         cursorColor.set_hp(p);
-
 	}
 
 	public void updateCursorManaBalls(){
@@ -72,11 +65,6 @@ public class Game_UIManager : MonoBehaviour {
         if (canvas != null) {
             Destroy(canvas);
         }
-
         return true;
     }
-
-    
-
-
 }
