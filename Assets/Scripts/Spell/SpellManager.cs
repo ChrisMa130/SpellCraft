@@ -1,17 +1,14 @@
-﻿/*
- * 0:Firebolt1 medium spell
- * 1:ElectricBall1 light spell
- * 2:DarknessMissile
- * 3:FirePhoenix heavy spell
- */
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using HoloToolkit.Sharing;
 
+/**
+ * This class is used to manage the casting of the game's spells.
+ **/
 public class SpellManager : MonoBehaviour {
 
+    // 0 = fire bolt, 1 = electric bolt, 2 = fire phoenix
 	public GameObject[] Spells;
 
 	// Use this for initialization
@@ -19,11 +16,18 @@ public class SpellManager : MonoBehaviour {
 		CustomMessages.Instance.MessageHandlers[CustomMessages.TestMessageID.SpellMessage] = this.ProcessRemoteProjectile;
     }
 	
-	// Update is called once per frame
+	// Update is called once per frame. Currently does nothing.
 	void Update () {
 	
 	}
 
+    /*
+     * Specifies which spell is being cast. Also performs a check against the player model to ensure that
+     * the casting player has enough magic points to be able to cast the spell. If the player has insufficient
+     * magic points, this does nothing.
+     * 
+     * @param spellIndex the index of the spell being cast
+     */
 	public void CastSpell(int spellIndex) {
         Player player = Player.Instance;
         Projectile newSpell = Spells[spellIndex].GetComponent<Projectile>();
@@ -36,6 +40,14 @@ public class SpellManager : MonoBehaviour {
 		//spell.GetComponent<EffectSettings> ().Target = GameObject.Find ("BasicCursor");
         //Transform anchor = ImportExportAnchorManager.Instance.gameObject.transform;
     }
+
+    /*
+     * Spawns the projectile of the spell which has been cast. This is used both locally (for the player's own
+     * spells).
+     * 
+     * @param UserID - the id of the casting user (0 if local)
+     * @param spellIndex - the index of the spell being cast
+     */
 
     void SpawnProjectile(long UserId, int spellIndex)
     {
@@ -82,6 +94,9 @@ public class SpellManager : MonoBehaviour {
         pc.OwningUserId = OwningUser;*/
     }
 
+    /*
+     * Used to process a spell cast from another player
+     */
     public void ProcessRemoteProjectile(NetworkInMessage msg)
     {
         long userID = msg.ReadInt64();

@@ -175,12 +175,14 @@ namespace HoloToolkit.Sharing
                     {
                         currentState = GameStatus.Loses;
                         gameEnded = true;
+                        break;
                     }
 
                     if (!RemotePlayerManager.Instance.alive)
                     {
                         currentState = GameStatus.End;
                         gameEnded = true;
+                        break;
                     }
                             
                     break;
