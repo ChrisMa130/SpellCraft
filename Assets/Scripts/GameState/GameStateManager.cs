@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using HoloToolkit.Sharing;
 using HoloToolkit.Unity;
 using System;
+using UnityEngine.SceneManagement;
 
 namespace HoloToolkit.Sharing
 {
@@ -17,7 +18,10 @@ namespace HoloToolkit.Sharing
     {
         private int numPlayerAlive;
         private PickUpManager pickup;
+        private KeywordManager keyword;
         private HealthDisplayBehavior healthDisplay;
+        private Game_UIManager uiMgr;
+        private Boolean gameEnded;
 
         // define the five possible game states
         public enum GameStatus
@@ -50,6 +54,9 @@ namespace HoloToolkit.Sharing
             SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
             pickup = PickUpManager.Instance;
             healthDisplay = HealthDisplayBehavior.Instance;
+            keyword = KeywordManager.Instance;
+            uiMgr = GameObject.FindWithTag("GameUI").GetComponent<Game_UIManager>();
+            gameEnded = false;
         }
 
         private void SetSettings()
@@ -158,15 +165,48 @@ namespace HoloToolkit.Sharing
                     {
                         pickup.enabled = true;
                     }
+
+                    if (keyword.enabled == false)
+                    {
+                        keyword.enabled = true;
+                    }
+
+                    if (!Player.Instance.alive)
+                    {
+                        currentState = GameStatus.Loses;
+                        gameEnded = true;
+                        break;
+                    }
+
+                    if (!RemotePlayerManager.Instance.alive)
+                    {
+                        currentState = GameStatus.End;
+                        gameEnded = true;
+                        break;
+                    }
                             
                     break;
 
                 case GameStatus.Loses:
                     pickup.enabled = false;
+                    keyword.enabled = false;
+                    uiMgr.GameEnded(false);
+                    if (gameEnded)
+                    {
+                        Invoke("LoadMainMenu", 5);
+                        gameEnded = false;
+                    }
                     break;
                     
                 case GameStatus.End:
                     pickup.enabled = false;
+                    keyword.enabled = false;
+                    uiMgr.GameEnded(true);
+                    if (gameEnded)
+                    {
+                        Invoke("LoadMainMenu", 5);
+                        gameEnded = false;
+                    }
                     break;
 
             }
@@ -196,6 +236,11 @@ namespace HoloToolkit.Sharing
         private void SecondPlayerReadyCheck (NetworkInMessage msg)
         {
             secondPlayerReady = true;
+        }
+
+        private void LoadMainMenu()
+        {
+            SceneManager.LoadScene("MainCanvas");
         }
     }
 }

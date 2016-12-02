@@ -40,7 +40,7 @@ public class Player : Singleton<Player>
     public int modifyHealth(int damage)
     {
         this.health -= damage;
-        if (this.health < MIN_HEALTH)
+        if (this.health <= MIN_HEALTH)
         {
             this.health = MIN_HEALTH;
             this.alive = false;

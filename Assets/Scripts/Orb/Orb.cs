@@ -7,7 +7,7 @@ using System.Collections;
  */
 public class Orb : MonoBehaviour {
 
-    private const int MAGIC_STORED = 1;
+    private const int MAGIC_STORED = 3;
     private int index;
 
     public int GetIndex()

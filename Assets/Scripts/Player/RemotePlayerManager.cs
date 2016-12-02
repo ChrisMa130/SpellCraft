@@ -20,6 +20,7 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
         public bool Anchored;
     }
 
+    public bool alive;
     public GameObject HealthIcon;
     /// <summary>
     /// Keep a list of the remote heads
@@ -43,6 +44,7 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
         customMessages.MessageHandlers[CustomMessages.TestMessageID.PlayerHealth] = this.UpdatePlayerHealth;
         SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
         SharingSessionTracker.Instance.SessionLeft += Instance_SessionLeft;
+        alive = true;
     }
 
     /// <summary>
@@ -152,6 +154,9 @@ public class RemotePlayerManager : Singleton<RemotePlayerManager>
         // Configure the remote user's head sprite
         HealthDisplayBehavior remote = headInfo.HeadObject.transform.FindChild("Sprite").GetComponent<HealthDisplayBehavior>();
         remote.setHealth(headInfo.playerHealth);
+        if (headInfo.playerHealth <= 0) {
+            alive = false;
+        }
     }
 
     /// <summary>
