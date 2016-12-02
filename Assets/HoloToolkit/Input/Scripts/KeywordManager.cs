@@ -19,7 +19,7 @@ namespace HoloToolkit.Unity
     /// Edit -> Project Settings -> Player -> Settings for Windows Store -> Publishing Settings -> Capabilities
     /// or in your Visual Studio Package.appxmanifest capabilities.
     /// </summary>
-    public partial class KeywordManager : MonoBehaviour
+    public partial class KeywordManager : Singleton<KeywordManager>
     {
         [System.Serializable]
         public struct KeywordAndResponse

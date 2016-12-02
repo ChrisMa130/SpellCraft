@@ -18,6 +18,7 @@ namespace HoloToolkit.Sharing
     {
         private int numPlayerAlive;
         private PickUpManager pickup;
+        private KeywordManager keyword;
         private HealthDisplayBehavior healthDisplay;
         private Game_UIManager uiMgr;
         private Boolean gameEnded;
@@ -53,6 +54,7 @@ namespace HoloToolkit.Sharing
             SharingSessionTracker.Instance.SessionJoined += Instance_SessionJoined;
             pickup = PickUpManager.Instance;
             healthDisplay = HealthDisplayBehavior.Instance;
+            keyword = KeywordManager.Instance;
             uiMgr = GameObject.FindWithTag("GameUI").GetComponent<Game_UIManager>();
             gameEnded = false;
         }
@@ -164,6 +166,11 @@ namespace HoloToolkit.Sharing
                         pickup.enabled = true;
                     }
 
+                    if (keyword.enabled == false)
+                    {
+                        keyword.enabled = true;
+                    }
+
                     if (!Player.Instance.alive)
                     {
                         currentState = GameStatus.Loses;
@@ -180,6 +187,7 @@ namespace HoloToolkit.Sharing
 
                 case GameStatus.Loses:
                     pickup.enabled = false;
+                    keyword.enabled = false;
                     uiMgr.GameEnded(false);
                     if (gameEnded)
                     {
@@ -190,6 +198,7 @@ namespace HoloToolkit.Sharing
                     
                 case GameStatus.End:
                     pickup.enabled = false;
+                    keyword.enabled = false;
                     uiMgr.GameEnded(true);
                     if (gameEnded)
                     {
