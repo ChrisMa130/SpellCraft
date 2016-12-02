@@ -238,9 +238,9 @@ namespace HoloToolkit.Sharing
             secondPlayerReady = true;
         }
 
-        private void LoadMainMenu()
+        void LoadMainMenu()
         {
-            SceneManager.LoadScene("MainCanvas");
+            SceneManager.LoadScene("Main_Menu");
         }
     }
 }

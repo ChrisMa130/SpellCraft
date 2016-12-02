@@ -1076,7 +1076,6 @@ GameObject:
   - 114: {fileID: 1130733695}
   - 114: {fileID: 1130733694}
   - 114: {fileID: 1130733697}
-  - 114: {fileID: 1130733698}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -1196,19 +1195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyboardSelectKey: 32
   MouseSelectButton: 1
---- !u!114 &1130733698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1130733693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06883db29213624408e99867e7a42e6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: 0
-  sharingServiceReady: 0
 --- !u!1 &1316693839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1682,6 +1668,7 @@ GameObject:
   - 114: {fileID: 1805257175}
   - 114: {fileID: 1805257177}
   - 114: {fileID: 1805257176}
+  - 114: {fileID: 1805257178}
   m_Layer: 0
   m_Name: Anchor
   m_TagString: Anchor
@@ -1769,6 +1756,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc456ee6d625274792e05bd51e069f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1805257178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1805257171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06883db29213624408e99867e7a42e6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
+  sharingServiceReady: 0
 --- !u!1 &1917272684
 GameObject:
   m_ObjectHideFlags: 0
