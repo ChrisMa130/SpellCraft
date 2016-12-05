@@ -20,7 +20,8 @@ public class PickUpManager : Singleton<PickUpManager>
 
     private const float RADIUS = 2.5f;
 
-    private const float SPAWN_TIME = 2.0f; // 2 seconds
+    //private const float SPAWN_TIME = 2.0f; // 2 seconds
+    private const float SPAWN_TIME = 30.0f;
     private static float tillOrbSpawnTime;
 
     // Use this for initialization
