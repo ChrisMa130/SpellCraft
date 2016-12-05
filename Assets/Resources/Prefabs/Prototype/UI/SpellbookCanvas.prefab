@@ -1532,7 +1532,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012456611260}
-  m_LocalRotation: {x: 0.71390766, y: 0.69887996, z: 0.031169983, w: -0.030513855}
+  m_LocalRotation: {x: 0.7139077, y: 0.69888, z: 0.031169984, w: -0.030513857}
   m_LocalPosition: {x: 0.010526294, y: 0.5545821, z: -0.0009503749}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2193,7 +2193,7 @@ MonoBehaviour:
   EffectType: 0
   ColliderRadius: 0.03
   EffectRadius: 0
-  UseMoveVector: 1
+  UseMoveVector: 0
   Target: {fileID: 0}
   MoveVector: {x: 1, y: 0, z: 0}
   MoveSpeed: 0
@@ -2324,7 +2324,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: phoenix
+  m_Text: phoenix/firebird
 --- !u!114 &114000011902281086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2764,7 +2764,7 @@ MonoBehaviour:
   EffectType: 0
   ColliderRadius: 0.06
   EffectRadius: 0
-  UseMoveVector: 1
+  UseMoveVector: 0
   Target: {fileID: 0}
   MoveVector: {x: 1, y: 0, z: 0}
   MoveSpeed: 0
